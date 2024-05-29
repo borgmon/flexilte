@@ -2,14 +2,14 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "dev": "turbo run dev -F web",
     "lint": "turbo run lint",
     "format": "prettier --write ."
   },
   "devDependencies": {
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
-    "prettier-plugin-svelte": "^3.2.2",
+    "prettier-plugin-svelte": "^3.2.3",
     "turbo": "latest"
   },
   "packageManager": "pnpm@8.9.0",
