@@ -1,5 +1,5 @@
 {
-  "name": "docs",
+	"name": "docs",
 	"version": "0.0.1",
 	"private": true,
 	"type": "module",
@@ -15,6 +15,8 @@
 		"test:unit": "vitest"
 	},
 	"dependencies": {
+		"@flexilte/core": "workspace:^",
+		"@flexilte/skeleton": "workspace:^",
 		"@repo/ui": "workspace:*"
 	},
 	"devDependencies": {
@@ -25,7 +27,6 @@
 		"@typescript-eslint/eslint-plugin": "^7.1.0",
 		"@typescript-eslint/parser": "^7.1.0",
 		"eslint": "^8.57.0",
-		"@repo/eslint-config": "workspace:*",
 		"prettier": "^3.2.5",
 		"prettier-plugin-svelte": "^3.2.2",
 		"svelte": "^4.2.12",
