@@ -8,7 +8,7 @@
 
 <div class="w-full">
 	<a href={link}
-		><div class="card bg-initial card-hover overflow-hidden">
+		><div class="card bg-initial card-hover overflow-hidden h-full">
 			{#if img}
 				<div class="w-full max-h-64 overflow-hidden">
 					<img class="w-full h-full object-cover object-center" src={img} alt="" />

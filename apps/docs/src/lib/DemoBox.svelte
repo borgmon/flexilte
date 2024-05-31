@@ -10,48 +10,46 @@
 	const components = { CodeBlock, Avatar, ProgressRadial, ProgressBar, TextBox };
 
 	const radialData: LayoutConfig<typeof components> = {
-		width: '1/2',
 		component: 'ProgressRadial',
 		props: {
 			value: '33'
 		},
-		// wrapperClass: '',
-		className: 'flex justify-center h-[24rem] items-center'
+		centerX: 'middle',
+		centerY: 'middle',
+		layoutClass: 'h-full my-12'
 	};
 
 	const avatarData: LayoutConfig<typeof components> = {
-		width: '1/2',
 		component: 'Avatar',
 		props: {
 			src: 'https://placedog.net/512/512',
 			width: 'w-32',
 			rounded: 'rounded-full'
 		},
-		// wrapperClass: 'w-full flex justify-center'
-		className: 'flex justify-center h-[24rem] items-center'
+		centerX: 'middle',
+		centerY: 'middle',
+		layoutClass: 'h-full my-12'
 	};
 
 	const loadingBarData: LayoutConfig<typeof components> = {
-		width: '1/2',
 		component: 'ProgressBar',
-		props: {
-			value: undefined
-		},
-		wrapperClass: 'w-96',
-		className: 'flex h-[24rem] justify-center items-center'
+		centerX: 'middle',
+		centerY: 'middle',
+		wrapperClass: 'w-48',
+		layoutClass: 'md:h-full my-12'
 	};
 	let demoJson: LayoutConfig<typeof components> = {
 		rows: [
 			{
+				alignHeight: true,
 				cols: [
 					{
-						width: '1/2',
 						component: 'CodeBlock',
 						props: {
 							language: 'ts',
 							code: '// Select a json to render'
-						},
-						wrapperClass: 'w-full flex justify-center'
+						}
+						// wrapperClass: 'w-full flex justify-center'
 					}
 				]
 			}
@@ -61,7 +59,7 @@
 	const buildExample = () => {
 		const copy = JSON.parse(JSON.stringify(demoJson));
 		copy.rows![0].cols = copy.rows![0].cols.slice(1);
-		return `const components = { Avatar, ProgressRadial, ProgressBar };
+		return `const components = { ProgressRadial, Avatar, ProgressBar };
 const layoutConfig: LayoutConfig<typeof components> = ${JSON.stringify(copy, null, 2)}
 <JsonLayout {layoutConfig} {components}></JsonLayout>`;
 	};
@@ -77,10 +75,8 @@ const layoutConfig: LayoutConfig<typeof components> = ${JSON.stringify(copy, nul
 		}
 		if (data) {
 			demoJson.rows![0].cols![1] = data;
-			console.log(demoJson.rows![0].cols![0].props!.code);
 			demoJson.rows![0].cols![0].props!.code = '';
 			demoJson.rows![0].cols![0].props!.code = buildExample();
-			console.log(demoJson.rows![0].cols![0].props!.code);
 		}
 	};
 

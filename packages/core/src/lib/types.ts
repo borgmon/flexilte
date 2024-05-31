@@ -1,12 +1,16 @@
 import type { ComponentType } from 'svelte';
 
-export interface LayoutConfig<C extends Record<string, ComponentType>> {
+export interface LayoutConfigT<C extends Record<string, ComponentType>> {
 	width?: string;
 	component?: keyof C & string;
 	props?: Record<string, any>;
 	isLoading?: boolean;
-	className?: string;
+	layoutClass?: string;
+	cols?: LayoutConfigT<C>[];
+	rows?: LayoutConfigT<C>[];
+	centerX?: 'left' | 'right' | 'middle';
+	centerY?: 'top' | 'bottom' | 'middle';
+	alignHeight?: boolean;
+	wrap?: 'wrap' | 'nowrap';
 	wrapperClass?: string;
-	cols?: LayoutConfig<C>[];
-	rows?: LayoutConfig<C>[];
 }

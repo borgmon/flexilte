@@ -1,34 +1,60 @@
-<script lang="ts" generics="C extends Record<string, ComponentType>  ">
+<script lang="ts" generics="C extends Record<string, ComponentType>">
+	import type { LayoutConfig } from './types';
 	import type { ComponentType } from 'svelte';
-	import type { LayoutConfig } from './types.ts';
 
 	export let layoutConfig: LayoutConfig<C>;
 	export let components: Record<string, ComponentType>;
-	function getWidthClass(size?: string | number) {
-		if (!size) return '';
-		if (typeof size === 'string' && size.includes('/')) {
-			const [numerator, denominator] = size.split('/');
-			return `md:w-${numerator}/${denominator}`;
-		} else {
-			return `md:w-[${size}rem]`;
+
+	const getAlignmentClass = (): string => {
+		let classList = '';
+		if (layoutConfig.centerX === 'middle') classList += ' justify-center';
+		else if (layoutConfig.centerX === 'left') classList += ' justify-start';
+		else if (layoutConfig.centerX === 'right') classList += ' justify-end';
+
+		if (layoutConfig.centerY === 'middle') classList += ' items-center';
+		else if (layoutConfig.centerY === 'top') classList += ' items-start';
+		else if (layoutConfig.centerY === 'bottom') classList += ' items-end';
+
+		if (layoutConfig.alignHeight) classList += ' flex-1';
+		return classList;
+	};
+
+	const getWrapClass = (row: LayoutConfig<C>): string => {
+		let classList = '';
+		if (row.wrap === 'wrap') classList += ' flex-wrap';
+		else if (row.wrap === 'nowrap') classList += ' flex-nowrap';
+		if (classList) {
+			classList += ' overflow-auto';
 		}
+
+		return classList;
+	};
+
+	if (layoutConfig.alignHeight) {
+		layoutConfig.cols?.forEach((col: LayoutConfig<C>) => {
+			col.alignHeight = true;
+		});
 	}
 </script>
 
 {#if layoutConfig.rows}
 	{#each layoutConfig.rows as row}
-		<div class={`flex flex-col md:flex-row w-full  ${layoutConfig.className || ''}`}>
+		<div
+			class={`flex flex-col md:flex-row w-full ${layoutConfig.layoutClass || ''} ${getAlignmentClass()} ${getWrapClass(row)}`}
+		>
 			<svelte:self {components} layoutConfig={row} />
 		</div>
 	{/each}
 {:else if layoutConfig.cols}
 	{#each layoutConfig.cols as col}
-		<div class={`flex flex-col w-full ${getWidthClass(col.width)} ${layoutConfig.className || ''}`}>
+		<div
+			class={`flex flex-col w-full   ${col.width || ''} ${layoutConfig.layoutClass || ''} ${getAlignmentClass()}`}
+		>
 			<svelte:self {components} layoutConfig={col} />
 		</div>
 	{/each}
 {:else}
-	<div class={`flex w-full ${layoutConfig.className || ''}`}>
+	<div class={`flex w-full ${getAlignmentClass()} ${layoutConfig.layoutClass || ''}`}>
 		{#if layoutConfig.component}
 			{#if layoutConfig.wrapperClass}
 				<div class={`${layoutConfig.wrapperClass}`}>
