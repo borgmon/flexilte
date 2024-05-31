@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	// you can get value from both slot or bind:res
 	export let url: string;
 	export let res: any;
@@ -6,18 +8,21 @@
 	let response: any;
 	let error: any;
 	isLoading = true;
-	fetch(url)
-		.then((r) => r.json())
-		.then((j) => {
-			isLoading = false;
-			response = j;
-			res = j;
-		})
-		.catch((e) => {
-			isLoading = false;
-			console.error(e);
-			error = e;
-		});
+
+	onMount(() => {
+		fetch(url)
+			.then((r) => r.json())
+			.then((j) => {
+				isLoading = false;
+				response = j;
+				res = j;
+			})
+			.catch((e) => {
+				isLoading = false;
+				console.error(e);
+				error = e;
+			});
+	});
 </script>
 
 {#if isLoading}

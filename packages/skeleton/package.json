@@ -16,7 +16,8 @@
 	"exports": {
 		".": {
 			"types": "./src/lib/index.ts",
-			"svelte": "./src/lib/index.ts"
+			"svelte": "./src/lib/index.ts",
+			"default": "./src/lib/index.ts"
 		}
 	},
 	"peerDependencies": {
@@ -24,6 +25,7 @@
 		"svelte": "^4.0.0"
 	},
 	"devDependencies": {
+		"@iconify/svelte": "^4.0.2",
 		"@skeletonlabs/skeleton": "2.10.0",
 		"@skeletonlabs/tw-plugin": "0.4.0",
 		"@sveltejs/adapter-auto": "^3.2.1",
@@ -52,5 +54,8 @@
 	},
 	"svelte": "./src/lib/index.ts",
 	"types": "./src/lib/index.ts",
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"highlight.js": "11.9.0"
+	}
 }

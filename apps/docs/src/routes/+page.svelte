@@ -1,23 +1,17 @@
 <script lang="ts">
 	import { JsonLayout } from '@flexilte/core';
-	import {
-		TitleBox,
-		type AsyncBoxProp,
-		type ImageBoxProp,
-		type TitleBoxProp
-	} from '@flexilte/skeleton';
-	import { ImageBox } from '@flexilte/skeleton';
-	import { AsyncBox } from '@flexilte/skeleton';
-	import { LoadingBox } from '@flexilte/skeleton';
+	import { ButtonBox, CardBox, TextBox } from '@flexilte/skeleton';
 	import type { LayoutConfig } from '@flexilte/core';
 	import { onMount } from 'svelte';
-	const components = { TitleBox, ImageBox, AsyncBox };
-	type compTypes = TitleBoxProp | ImageBoxProp | AsyncBoxProp;
+	import { CodeBlock } from '@skeletonlabs/skeleton';
+	import DemoBox from '$lib/DemoBox.svelte';
 
-	let layoutConfig: LayoutConfig<typeof components, compTypes> = {};
+	const components = { TextBox, CardBox, CodeBlock, DemoBox, ButtonBox };
+
+	let layoutConfig: LayoutConfig<typeof components> = {};
 
 	onMount(() => {
-		fetch('/api/ui')
+		fetch('frontpage.json')
 			.then((r) => r.json())
 			.then((j) => {
 				layoutConfig = j;
@@ -28,4 +22,6 @@
 	});
 </script>
 
-<JsonLayout {layoutConfig} {components}></JsonLayout>
+<div class="px-4 container mx-auto">
+	<JsonLayout {layoutConfig} {components}></JsonLayout>
+</div>

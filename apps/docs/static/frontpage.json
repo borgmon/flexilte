@@ -1,0 +1,102 @@
+{
+	"rows": [
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "flexilte",
+				"type": "title"
+			}
+		},
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "json generator for svelte pages",
+				"type": "subtitle"
+			}
+		},
+		{
+			"cols": [
+				{
+					"className": "my-1",
+					"rows": [
+						{
+							"component": "ButtonBox",
+							"props": {
+								"text": "Get Started",
+								"link": "/docs",
+								"variant": "variant-filled-primary"
+							}
+						},
+						{
+							"component": "ButtonBox",
+							"props": {
+								"text": "Generate using drag and drop editor",
+								"code": "npm install @flexilte/core @flexilte/skeleton",
+								"link": "/editor",
+								"variant": "variant-filled-secondary"
+							}
+						},
+						{
+							"component": "ButtonBox",
+							"props": {
+								"text": "Generate using LLM",
+								"link": "/ai",
+								"variant": "variant-filled-tertiary"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"className": "md:m-10",
+			"cols": [
+				{
+					"width": "1/3",
+					"rows": [
+						{
+							"component": "CardBox",
+							"props": {
+								"img": "https://placedog.net/480/360",
+								"title": "Drag And Drop",
+								"body": "You can create a page with a drag and drop editor! Just like those heavy wordpress apps but without the heavy part!",
+								"link": "/editor"
+							}
+						}
+					]
+				},
+				{
+					"width": "1/3",
+					"rows": [
+						{
+							"component": "CardBox",
+							"props": {
+								"img": "https://placedog.net/480/360",
+								"title": "AI Powered",
+								"body": "You can create a page with any LLM! No custom markup langrage. Just copy our standard prompt and you are good to go! OpenAI(ChatGPT) compatible apis are supported! Support offline LLMs like Ollama.",
+								"link": "/ai"
+							}
+						}
+					]
+				},
+				{
+					"width": "1/3",
+					"rows": [
+						{
+							"component": "CardBox",
+							"props": {
+								"img": "https://placedog.net/480/360",
+								"title": "Battery included",
+								"body": "We have skeleton adaptor included, but you can create a page with any graphic frame work you want!",
+								"link": "/docs"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"component": "DemoBox"
+		}
+	]
+}

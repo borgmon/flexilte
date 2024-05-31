@@ -8,7 +8,7 @@
 	export let data: TitleBoxProp | undefined;
 </script>
 
-<div class="h-40 box-bg w-full justify-center items-center flex">
+<div class="h-40 debug w-full justify-center items-center flex">
 	<slot />
 	{#if data?.content}
 		<div class="text-3xl">{data?.content}</div>
