@@ -39,6 +39,9 @@ importers:
       '@skeletonlabs/tw-plugin':
         specifier: 0.4.0
         version: 0.4.0(tailwindcss@3.4.3)
+      '@sonderbase/svelte-sortablejs':
+        specifier: ^2.0.2
+        version: 2.0.2(svelte@4.2.17)
       '@sveltejs/adapter-auto':
         specifier: ^3.2.1
         version: 3.2.1(@sveltejs/kit@2.5.10)
@@ -774,6 +777,15 @@ packages:
       tailwindcss: '>=3.0.0'
     dependencies:
       tailwindcss: 3.4.3
+    dev: true
+
+  /@sonderbase/svelte-sortablejs@2.0.2(svelte@4.2.17):
+    resolution: {integrity: sha512-ChPbN3Fx8vfpWutmgDfJ/DXXRu2mdWJbWT9ERJDjkl6hkOhn57PG6gttJgqSA5vWB4nV9XuYr2Uy40Z3EovQPw==}
+    peerDependencies:
+      svelte: ^4.0.0
+    dependencies:
+      sortablejs: 1.15.2
+      svelte: 4.2.17
     dev: true
 
   /@sveltejs/adapter-auto@3.2.1(@sveltejs/kit@2.5.10):
@@ -2767,6 +2779,10 @@ packages:
       buffer-crc32: 0.2.13
       minimist: 1.2.8
       sander: 0.5.1
+    dev: true
+
+  /sortablejs@1.15.2:
+    resolution: {integrity: sha512-FJF5jgdfvoKn1MAKSdGs33bIqLi3LmsgVTliuX6iITj834F+JRQZN90Z93yql8h0K2t0RwDPBmxwlbZfDcxNZA==}
     dev: true
 
   /source-map-js@1.2.0:

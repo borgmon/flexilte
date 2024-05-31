@@ -16,7 +16,7 @@
 			value: '33'
 		},
 		// wrapperClass: '',
-		className: 'flex justify-center h-[36rem] items-center'
+		className: 'flex justify-center h-[24rem] items-center'
 	};
 
 	const avatarData: LayoutConfig<typeof components> = {
@@ -28,7 +28,7 @@
 			rounded: 'rounded-full'
 		},
 		// wrapperClass: 'w-full flex justify-center'
-		className: 'flex justify-center h-[36rem] items-center'
+		className: 'flex justify-center h-[24rem] items-center'
 	};
 
 	const loadingBarData: LayoutConfig<typeof components> = {
@@ -38,7 +38,7 @@
 			value: undefined
 		},
 		wrapperClass: 'w-96',
-		className: 'flex h-[32rem] justify-center items-center'
+		className: 'flex h-[24rem] justify-center items-center'
 	};
 	let demoJson: LayoutConfig<typeof components> = {
 		rows: [
@@ -85,7 +85,7 @@ const layoutConfig: LayoutConfig<typeof components> = ${JSON.stringify(copy, nul
 	};
 
 	onMount(() => {
-		onDemoClick('radial');
+		onDemoClick('avatar');
 	});
 </script>
 

@@ -24,31 +24,16 @@
 		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">Skeleton</strong>
+				<strong class="text-xl uppercase"><a href="/" rel="noreferrer"> Flexilte </a></strong>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://discord.gg/EXqV7W8MtY"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Discord
+				<a class="btn btn-sm variant-ghost-surface" href="/docs" rel="noreferrer">
+					Documentation
 				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://twitter.com/SkeletonUI"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Twitter
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://github.com/skeletonlabs/skeleton"
-					target="_blank"
-					rel="noreferrer"
-				>
+				<a class="btn btn-sm variant-ghost-surface" href="/example" rel="noreferrer"> Example </a>
+				<a class="btn btn-sm variant-ghost-surface" href="/editor" rel="noreferrer"> Editor </a>
+				<a class="btn btn-sm variant-ghost-surface" href="/ai" rel="noreferrer"> AI </a>
+				<a class="btn btn-sm variant-ghost-surface" href="https://github.com/" rel="noreferrer">
 					GitHub
 				</a>
 			</svelte:fragment>

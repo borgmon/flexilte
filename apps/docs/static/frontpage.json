@@ -3,7 +3,7 @@
 		{
 			"component": "TextBox",
 			"props": {
-				"text": "flexilte",
+				"text": "Flexilte",
 				"type": "title"
 			}
 		},
