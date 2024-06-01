@@ -63,7 +63,7 @@
 					"props": {
 						"img": "https://placedog.net/480/360",
 						"title": "Drag And Drop",
-						"body": "You can create a page with a drag and drop editor! Just like those heavy wordpress apps but without the heavy part!",
+						"body": "You can create pages with a drag and drop editor! Just like those heavy wordpress apps but without the heavy part!",
 						"link": "./editor"
 					}
 				},
