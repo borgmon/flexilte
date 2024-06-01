@@ -29,7 +29,7 @@
 							"component": "ButtonBox",
 							"props": {
 								"text": "Get Started",
-								"link": "/docs",
+								"link": "./docs",
 								"variant": "variant-filled-primary"
 							}
 						},
@@ -38,7 +38,7 @@
 							"props": {
 								"text": "Generate using drag and drop editor",
 								"code": "npm install @flexilte/core @flexilte/skeleton",
-								"link": "/editor",
+								"link": "./editor",
 								"variant": "variant-filled-secondary"
 							}
 						},
@@ -46,7 +46,7 @@
 							"component": "ButtonBox",
 							"props": {
 								"text": "Generate using LLM",
-								"link": "/ai",
+								"link": "./ai",
 								"variant": "variant-filled-tertiary"
 							}
 						}
@@ -64,7 +64,7 @@
 						"img": "https://placedog.net/480/360",
 						"title": "Drag And Drop",
 						"body": "You can create a page with a drag and drop editor! Just like those heavy wordpress apps but without the heavy part!",
-						"link": "/editor"
+						"link": "./editor"
 					}
 				},
 				{
@@ -73,7 +73,7 @@
 						"img": "https://placedog.net/480/360",
 						"title": "AI Powered",
 						"body": "You can create a page with any LLM! No custom markup langrage. Just copy our standard prompt and you are good to go! OpenAI(ChatGPT) compatible apis are supported! Support offline LLMs like Ollama.",
-						"link": "/ai"
+						"link": "./ai"
 					}
 				},
 				{
@@ -82,7 +82,7 @@
 						"img": "https://placedog.net/480/360",
 						"title": "Battery included",
 						"body": "We have skeleton adaptor included, but you can create a page with any graphic frame work you want!",
-						"link": "/docs"
+						"link": "./docs"
 					}
 				}
 			]
