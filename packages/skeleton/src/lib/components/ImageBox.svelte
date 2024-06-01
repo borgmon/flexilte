@@ -3,6 +3,6 @@
 	export let alt = '';
 </script>
 
-<div class="max-w-full max-h-full mx-auto">
+<div class="max-w-full max-h-full">
 	<img src={url} {alt} class="w-full h-auto" />
 </div>

@@ -5,6 +5,10 @@
 	let sortableList: HTMLDivElement;
 
 	const onDelete = (event: SortableEvent) => {
+		if (event.item.id === 'placeholder') {
+			event.from.appendChild(event.item);
+			return;
+		}
 		try {
 			sortableList.children[0].removeChild(event.item);
 		} catch (e) {

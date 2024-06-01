@@ -6,19 +6,27 @@
 	const items = [
 		{
 			icon: 'mdi:format-text',
-			name: 'Text'
+			name: 'TextBox'
 		},
 		{
 			icon: 'mdi:image',
-			name: 'Image'
+			name: 'ImageBox'
 		},
 		{
 			icon: 'mdi:card-text',
-			name: 'Card'
+			name: 'CardBox'
 		},
 		{
 			icon: 'mdi:code',
-			name: 'Code'
+			name: 'CodeBlock'
+		},
+		{
+			icon: 'mdi:table-row-plus-after',
+			name: 'Add Row'
+		},
+		{
+			icon: 'mdi:table-column-plus-after',
+			name: 'Add Col'
 		}
 	];
 
@@ -30,6 +38,10 @@
 		//   list = list.filter((_, index) => index !== event.oldIndex);
 		// }
 	};
+
+	const onClone = (event: SortableEvent) => {
+		event.item.id = 'clone-' + Date.now().toString();
+	};
 </script>
 
 <div id="toolbox">
@@ -38,11 +50,11 @@
 		group={{ name: 'toolbox', pull: 'clone', put: false }}
 		animation={150}
 		sort={false}
-		onEnd={(e) => onDragEnd(e)}
+		{onClone}
 	>
 		{#each items as item}
-			<div class="max-h-24 max-w-24" id={Date.now().toString()}>
-				<CardBox icon={item.icon} body={item.name} style="variant-filled-surface" />
+			<div class="max-h-24 w-32">
+				<CardBox icon={item.icon} body={item.name} style="variant-filled-surface text-center" />
 			</div>
 		{/each}
 	</SortableList>

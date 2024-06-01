@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let type = '';
-	export let text: string;
+	export let text = '';
 </script>
 
 {#if type === 'title'}

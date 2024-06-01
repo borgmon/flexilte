@@ -1,6 +1,7 @@
 import type { ComponentType } from 'svelte';
 
 export interface LayoutConfig<C extends Record<string, ComponentType>> {
+	id?: string;
 	width?: string;
 	component?: keyof C & string;
 	props?: Record<string, any>;

@@ -1,5 +1,7 @@
-<script lang="ts"></script>
+<script lang="ts">
+	import { selectedComponentStore } from './editorStore';
 
-<div class="w-full debug">
-	<div class="h-96">inspector</div>
-</div>
+	selectedComponentStore.subscribe((id) => {
+		// get()?.save
+	});
+</script>

@@ -231,7 +231,7 @@
 						},
 						centerX: 'middle',
 						centerY: 'middle',
-						layoutClass: 'debug h-16 w-72'
+						layoutClass: 'debug h-16 w-96'
 					},
 					{
 						component: 'Text',
@@ -240,7 +240,7 @@
 						},
 						centerX: 'middle',
 						centerY: 'middle',
-						layoutClass: 'debug h-16 w-72'
+						layoutClass: 'debug h-16 w-96'
 					},
 					{
 						component: 'Text',
@@ -249,7 +249,7 @@
 						},
 						centerX: 'middle',
 						centerY: 'middle',
-						layoutClass: 'debug h-16 w-72'
+						layoutClass: 'debug h-16 w-96'
 					}
 				]
 			}

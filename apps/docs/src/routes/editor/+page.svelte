@@ -8,6 +8,8 @@
 	import ExportButton from '$lib/ExportButton.svelte';
 	import RemoveBox from '$lib/RemoveBox.svelte';
 	import DNDPreview from '$lib/DNDPreview.svelte';
+	import { componentStore } from '$lib/editorStore';
+	import AddBox from '$lib/AddBox.svelte';
 	const components = {
 		ExportButton,
 		TextBox,
@@ -16,7 +18,8 @@
 		Inspector,
 		ImageBox,
 		RemoveBox,
-		DNDPreview
+		DNDPreview,
+		AddBox
 	};
 
 	const editorLayout: LayoutConfig<typeof components> = {
@@ -52,11 +55,11 @@
 								component: 'TextBox',
 								props: {
 									type: 'h4',
-									text: 'Builder'
+									text: 'UI Components'
 								}
 							},
 							{
-								component: 'DNDBuilder',
+								component: 'DNDList',
 								nodeClass: 'flex-1'
 							},
 							{
@@ -101,27 +104,6 @@
 						]
 					}
 				]
-			},
-			{
-				// tool bar
-				cols: [
-					{
-						layoutClass: 'variant-ghost p-4',
-						rows: [
-							// sections
-							{
-								component: 'TextBox',
-								props: {
-									type: 'h4',
-									text: 'UI Components'
-								}
-							},
-							{
-								component: 'DNDList'
-							}
-						]
-					}
-				]
 			}
 		]
 	};
@@ -129,4 +111,5 @@
 
 <div class="container mx-auto mt-6">
 	<JsonLayout layoutConfig={editorLayout} {components}></JsonLayout>
+	<!-- <JsonLayout layoutConfig={$componentStore} {components} /> -->
 </div>

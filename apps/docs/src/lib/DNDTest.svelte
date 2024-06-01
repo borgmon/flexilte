@@ -1,9 +1,15 @@
 <script lang="ts" generics="C extends Record<string, ComponentType>">
-	import type { LayoutConfig } from './types.ts';
+	import type { LayoutConfig } from '@flexilte/core';
+	import { SortableList } from '@sonderbase/svelte-sortablejs';
 	import type { ComponentType } from 'svelte';
+	import type { SortableEvent } from 'sortablejs';
+	import Sortable from 'sortablejs';
 
 	export let layoutConfig: LayoutConfig<C>;
 	export let components: Record<string, ComponentType>;
+
+	export let onAdd: (event: SortableEvent) => void;
+	export let onRemove: (event: SortableEvent) => void;
 
 	const getAlignmentClass = (next?: LayoutConfig<C>): string => {
 		let classList = '';
@@ -17,7 +23,6 @@
 
 		if (layoutConfig.alignHeight) classList += ' flex-1';
 
-		if (classList) classList += ' flex';
 		if (next && layoutConfig.debug) {
 			classList += ' debug';
 			next.debug = true;
@@ -47,26 +52,38 @@
 
 {#if layoutConfig.rows}
 	{#each layoutConfig.rows as row}
-		<div
-			id={idToElId()}
-			class={`flex flex-col md:flex-row flexilte flexilte-row w-full ${layoutConfig.layoutClass || ''} ${getAlignmentClass(row)} ${getWrapClass(row)} ${row.nodeClass || ''}`}
+		<SortableList
+			class={`flex flex-col md:flex-row w-full ${layoutConfig.layoutClass || ''} ${getAlignmentClass(row)} ${getWrapClass(row)} ${row.nodeClass || ''}`}
+			group={{ name: 'toolbox' }}
+			animation={150}
+			multiDragClass="border-6"
+			{onAdd}
+			{onRemove}
 		>
-			<svelte:self {components} layoutConfig={row} />
-		</div>
+			<svelte:self {components} layoutConfig={row} {onAdd} {onRemove} />
+		</SortableList>
 	{/each}
 {:else if layoutConfig.cols}
 	{#each layoutConfig.cols as col}
-		<div
-			id={idToElId()}
-			class={`flex flex-col w-full flexilte flexilte-col ${col.width || ''} ${layoutConfig.layoutClass || ''} ${getAlignmentClass(col)} ${col.nodeClass || ''}`}
+		<SortableList
+			class={`flex flex-col w-full ${col.width || ''} ${layoutConfig.layoutClass || ''} ${getAlignmentClass(col)} ${col.nodeClass || ''}`}
+			group={{ name: 'toolbox' }}
+			animation={150}
+			multiDragClass="border-6"
+			{onAdd}
+			{onRemove}
 		>
-			<svelte:self {components} layoutConfig={col} />
-		</div>
+			<svelte:self {components} layoutConfig={col} {onAdd} {onRemove} />
+		</SortableList>
 	{/each}
 {:else}
-	<div
-		id={idToElId()}
-		class={`flexilte flexilte-item w-full ${getAlignmentClass()} ${layoutConfig.layoutClass || ''}`}
+	<SortableList
+		class={`flex w-full ${getAlignmentClass()} ${layoutConfig.layoutClass || ''}`}
+		group={{ name: 'toolbox' }}
+		animation={150}
+		multiDragClass="border-6"
+		{onAdd}
+		{onRemove}
 	>
 		{#if layoutConfig.component}
 			{#if layoutConfig.wrapperClass}
@@ -85,5 +102,5 @@
 				/>
 			{/if}
 		{/if}
-	</div>
+	</SortableList>
 {/if}
