@@ -50,6 +50,14 @@
 							code: '// Select a json to render'
 						}
 						// wrapperClass: 'w-full flex justify-center'
+					},
+					{
+						component: 'CodeBlock',
+						props: {
+							language: 'ts',
+							code: '// Select a json to render'
+						}
+						// wrapperClass: 'w-full flex justify-center'
 					}
 				]
 			}
@@ -58,7 +66,7 @@
 
 	const buildExample = () => {
 		const copy = JSON.parse(JSON.stringify(demoJson));
-		copy.rows![0].cols = copy.rows![0].cols.slice(1);
+		copy.rows![0].cols = copy.rows![0].cols.slice(0);
 		return `const components = { ProgressRadial, Avatar, ProgressBar };
 const layoutConfig: LayoutConfig<typeof components> = ${JSON.stringify(copy, null, 2)}
 <JsonLayout {layoutConfig} {components}></JsonLayout>`;
@@ -74,9 +82,9 @@ const layoutConfig: LayoutConfig<typeof components> = ${JSON.stringify(copy, nul
 			data = loadingBarData;
 		}
 		if (data) {
-			demoJson.rows![0].cols![1] = data;
-			demoJson.rows![0].cols![0].props!.code = '';
-			demoJson.rows![0].cols![0].props!.code = buildExample();
+			demoJson.rows![0].cols![0] = data;
+			demoJson.rows![0].cols![1].props!.code = '';
+			demoJson.rows![0].cols![1].props!.code = buildExample();
 		}
 	};
 
@@ -94,7 +102,7 @@ const layoutConfig: LayoutConfig<typeof components> = ${JSON.stringify(copy, nul
 		</div>
 	</div>
 
-	<div class="h-[36rem] mt-6">
+	<div class="md:h-[56rem] h-[74rem] mt-6">
 		<JsonLayout layoutConfig={demoJson} {components}></JsonLayout>
 	</div>
 </div>
