@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	export let text: string | undefined;
-	export let icon: string | undefined;
+	export let text = '';
+	export let icon = '';
 	export let link: string;
 	export let newTab: boolean | undefined;
-	export let variant: string | undefined;
+	export let variant = '';
 
 	const openPage = () => {
 		if (newTab) {

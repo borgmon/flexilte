@@ -14,7 +14,7 @@
 			"component": "TextBox",
 			"props": {
 				"text": "json generator for svelte pages",
-				"type": "subtitle"
+				"type": "h3"
 			},
 			"centerX": "middle",
 			"centerY": "middle",

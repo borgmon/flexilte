@@ -1,13 +1,8 @@
-<script lang="ts" context="module">
-	export interface ImageBoxProp {
-		url: string;
-	}
-</script>
-
 <script lang="ts">
-	export let data: ImageBoxProp | undefined;
+	export let url = '';
+	export let alt = '';
 </script>
 
-<div class="h-full debug w-full justify-center items-center flex">
-	<img src={data?.url} alt="" srcset="" />
+<div class="max-w-full max-h-full mx-auto">
+	<img src={url} {alt} class="w-full h-auto" />
 </div>

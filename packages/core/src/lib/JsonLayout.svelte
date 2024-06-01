@@ -1,11 +1,11 @@
 <script lang="ts" generics="C extends Record<string, ComponentType>">
-	import type { LayoutConfig } from './types';
+	import type { LayoutConfig } from './types.ts';
 	import type { ComponentType } from 'svelte';
 
 	export let layoutConfig: LayoutConfig<C>;
 	export let components: Record<string, ComponentType>;
 
-	const getAlignmentClass = (): string => {
+	const getAlignmentClass = (next?: LayoutConfig<C>): string => {
 		let classList = '';
 		if (layoutConfig.centerX === 'middle') classList += ' justify-center';
 		else if (layoutConfig.centerX === 'left') classList += ' justify-start';
@@ -16,6 +16,11 @@
 		else if (layoutConfig.centerY === 'bottom') classList += ' items-end';
 
 		if (layoutConfig.alignHeight) classList += ' flex-1';
+
+		if (next && layoutConfig.debug) {
+			classList += ' debug';
+			next.debug = true;
+		}
 		return classList;
 	};
 
@@ -40,7 +45,7 @@
 {#if layoutConfig.rows}
 	{#each layoutConfig.rows as row}
 		<div
-			class={`flex flex-col md:flex-row w-full ${layoutConfig.layoutClass || ''} ${getAlignmentClass()} ${getWrapClass(row)}`}
+			class={`flex flex-col md:flex-row w-full ${layoutConfig.layoutClass || ''} ${getAlignmentClass(row)} ${getWrapClass(row)} ${row.nodeClass || ''}`}
 		>
 			<svelte:self {components} layoutConfig={row} />
 		</div>
@@ -48,7 +53,7 @@
 {:else if layoutConfig.cols}
 	{#each layoutConfig.cols as col}
 		<div
-			class={`flex flex-col w-full   ${col.width || ''} ${layoutConfig.layoutClass || ''} ${getAlignmentClass()}`}
+			class={`flex flex-col w-full ${col.width || ''} ${layoutConfig.layoutClass || ''} ${getAlignmentClass(col)} ${col.nodeClass || ''}`}
 		>
 			<svelte:self {components} layoutConfig={col} />
 		</div>
@@ -58,10 +63,18 @@
 		{#if layoutConfig.component}
 			{#if layoutConfig.wrapperClass}
 				<div class={`${layoutConfig.wrapperClass}`}>
-					<svelte:component this={components[layoutConfig.component]} {...layoutConfig.props} />
+					<svelte:component
+						this={components[layoutConfig.component]}
+						{...layoutConfig.props}
+						class={layoutConfig.nodeClass || ''}
+					/>
 				</div>
 			{:else}
-				<svelte:component this={components[layoutConfig.component]} {...layoutConfig.props} />
+				<svelte:component
+					this={components[layoutConfig.component]}
+					{...layoutConfig.props}
+					class={layoutConfig.nodeClass || ''}
+				/>
 			{/if}
 		{/if}
 	</div>

@@ -1,18 +1,25 @@
 <script lang="ts">
-	export let img: string | undefined;
-	export let title: string | undefined;
-	export let body: string | undefined;
-	export let link: string | undefined;
-	export let footer: string | undefined;
+	import Icon from '@iconify/svelte';
+	export let img = '';
+	export let icon = '';
+	export let title = '';
+	export let body = '';
+	export let link = '';
+	export let footer = '';
+	export let style = 'bg-initial';
+	export let iconColor = 'variant-filled-tertiary';
 </script>
 
 <div class="w-full">
 	<a href={link}
-		><div class="card bg-initial card-hover overflow-hidden h-full">
+		><div class={`card ${style} card-hover overflow-hidden h-full`}>
 			{#if img}
 				<div class="w-full max-h-64 overflow-hidden">
 					<img class="w-full h-full object-cover object-center" src={img} alt="" />
 				</div>
+			{/if}
+			{#if icon}
+				<div class={`flex items-center justify-center h-12 ${iconColor}`}><Icon {icon} /></div>
 			{/if}
 			{#if title}
 				<header class="card-header">
