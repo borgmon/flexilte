@@ -11,7 +11,7 @@
 		"test": "vitest",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"deploy": "npx gh-pages -d build"
+		"deploy": "npx gh-pages -d build -t true"
 	},
 	"devDependencies": {
 		"@skeletonlabs/skeleton": "2.10.0",
