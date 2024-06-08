@@ -4,24 +4,25 @@
 
 	export let layoutConfig: LayoutConfig<C>;
 	export let components: Record<string, ComponentType>;
+	export let debug: boolean | undefined;
 
 	const getAlignmentClass = (next?: LayoutConfig<C>): string => {
 		let classList = '';
-		if (layoutConfig.centerX === 'middle') classList += ' justify-center';
-		else if (layoutConfig.centerX === 'left') classList += ' justify-start';
-		else if (layoutConfig.centerX === 'right') classList += ' justify-end';
+		if (layoutConfig.posX === 'middle') classList += ' justify-center';
+		else if (layoutConfig.posX === 'left') classList += ' justify-start';
+		else if (layoutConfig.posX === 'right') classList += ' justify-end';
 
-		if (layoutConfig.centerY === 'middle') classList += ' items-center';
-		else if (layoutConfig.centerY === 'top') classList += ' items-start';
-		else if (layoutConfig.centerY === 'bottom') classList += ' items-end';
+		if (layoutConfig.posY === 'middle') classList += ' items-center';
+		else if (layoutConfig.posY === 'top') classList += ' items-start';
+		else if (layoutConfig.posY === 'bottom') classList += ' items-end';
 
 		if (layoutConfig.alignHeight) classList += ' flex-1';
 
 		if (classList) classList += ' flex';
-		if (next && layoutConfig.debug) {
-			classList += ' debug';
-			next.debug = true;
+		if (debug) {
+			classList += ' flexilte-debug';
 		}
+
 		return classList;
 	};
 
@@ -51,7 +52,7 @@
 			id={idToElId()}
 			class={`flex flex-col md:flex-row flexilte flexilte-row w-full ${layoutConfig.layoutClass || ''} ${getAlignmentClass(row)} ${getWrapClass(row)} ${row.nodeClass || ''}`}
 		>
-			<svelte:self {components} layoutConfig={row} />
+			<svelte:self {components} layoutConfig={row} {debug} />
 		</div>
 	{/each}
 {:else if layoutConfig.cols}
@@ -60,7 +61,7 @@
 			id={idToElId()}
 			class={`flex flex-col w-full flexilte flexilte-col ${col.width || ''} ${layoutConfig.layoutClass || ''} ${getAlignmentClass(col)} ${col.nodeClass || ''}`}
 		>
-			<svelte:self {components} layoutConfig={col} />
+			<svelte:self {components} layoutConfig={col} {debug} />
 		</div>
 	{/each}
 {:else}
@@ -71,18 +72,10 @@
 		{#if layoutConfig.component}
 			{#if layoutConfig.wrapperClass}
 				<div class={`${layoutConfig.wrapperClass}`}>
-					<svelte:component
-						this={components[layoutConfig.component]}
-						{...layoutConfig.props}
-						class={layoutConfig.nodeClass || ''}
-					/>
+					<svelte:component this={components[layoutConfig.component]} {...layoutConfig.props} />
 				</div>
 			{:else}
-				<svelte:component
-					this={components[layoutConfig.component]}
-					{...layoutConfig.props}
-					class={layoutConfig.nodeClass || ''}
-				/>
+				<svelte:component this={components[layoutConfig.component]} {...layoutConfig.props} />
 			{/if}
 		{/if}
 	</div>

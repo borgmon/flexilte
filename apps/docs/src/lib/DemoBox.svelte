@@ -14,8 +14,8 @@
 		props: {
 			value: '33'
 		},
-		centerX: 'middle',
-		centerY: 'middle',
+		posX: 'middle',
+		posY: 'middle',
 		layoutClass: 'h-full my-12'
 	};
 
@@ -26,15 +26,15 @@
 			width: 'w-32',
 			rounded: 'rounded-full'
 		},
-		centerX: 'middle',
-		centerY: 'middle',
+		posX: 'middle',
+		posY: 'middle',
 		layoutClass: 'h-full my-12'
 	};
 
 	const loadingBarData: LayoutConfig<typeof components> = {
 		component: 'ProgressBar',
-		centerX: 'middle',
-		centerY: 'middle',
+		posX: 'middle',
+		posY: 'middle',
 		wrapperClass: 'w-48',
 		layoutClass: 'md:h-full my-12'
 	};

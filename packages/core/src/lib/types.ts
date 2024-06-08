@@ -11,9 +11,8 @@ export interface LayoutConfig<C extends Record<string, ComponentType>> {
 	nodeClass?: string; // apply to individual element
 	cols?: LayoutConfig<C>[];
 	rows?: LayoutConfig<C>[];
-	centerX?: 'left' | 'right' | 'middle';
-	centerY?: 'top' | 'bottom' | 'middle';
+	posX?: 'left' | 'right' | 'middle';
+	posY?: 'top' | 'bottom' | 'middle';
 	alignHeight?: boolean | number;
 	wrap?: 'wrap' | 'nowrap';
-	debug?: boolean;
 }

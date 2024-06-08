@@ -6,8 +6,8 @@
 				"text": "Flexilte",
 				"type": "title"
 			},
-			"centerX": "middle",
-			"centerY": "middle",
+			"posX": "middle",
+			"posY": "middle",
 			"layoutClass": "h-32"
 		},
 		{
@@ -16,8 +16,8 @@
 				"text": "json generator for svelte pages",
 				"type": "h3"
 			},
-			"centerX": "middle",
-			"centerY": "middle",
+			"posX": "middle",
+			"posY": "middle",
 			"layoutClass": "h-12"
 		},
 		{

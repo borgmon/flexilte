@@ -7,13 +7,13 @@
 
 	const getAlignmentClass = (): string => {
 		let classList = '';
-		if (layoutConfig.centerX === 'middle') classList += ' justify-center';
-		else if (layoutConfig.centerX === 'left') classList += ' justify-start';
-		else if (layoutConfig.centerX === 'right') classList += ' justify-end';
+		if (layoutConfig.posX === 'middle') classList += ' justify-center';
+		else if (layoutConfig.posX === 'left') classList += ' justify-start';
+		else if (layoutConfig.posX === 'right') classList += ' justify-end';
 
-		if (layoutConfig.centerY === 'middle') classList += ' items-center';
-		else if (layoutConfig.centerY === 'top') classList += ' items-start';
-		else if (layoutConfig.centerY === 'bottom') classList += ' items-end';
+		if (layoutConfig.posY === 'middle') classList += ' items-center';
+		else if (layoutConfig.posY === 'top') classList += ' items-start';
+		else if (layoutConfig.posY === 'bottom') classList += ' items-end';
 
 		if (layoutConfig.alignHeight) classList += ' flex-1';
 		return classList;

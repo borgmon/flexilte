@@ -19,14 +19,50 @@ export const components = {
 
 export const selectedComponentStore = writable<string>();
 export const componentStore = writable<LayoutConfig<typeof components>>({
-	debug: true,
 	rows: [
 		{
-			rows: [
+			alignHeight: true,
+			cols: [
 				{
-					cols: [{ component: 'AddBox' }, { component: 'AddBox' }]
+					component: "TextBox",
+					posX: "middle",
+					posY: "middle",
+					props: {
+						text: 'A'
+					}
+				},
+				{
+					rows: [
+						{
+							component: "TextBox",
+							posX: "middle",
+							posY: "middle",
+							props: {
+								text: 'B'
+							}
+
+						},
+						{
+							component: "TextBox",
+							posX: "middle",
+							posY: "middle",
+							props: {
+								text: 'C'
+							}
+
+						}
+					]
 				}
 			]
+		},
+		{
+			component: "TextBox",
+			posX: "middle",
+			posY: "middle",
+			props: {
+				text: 'D'
+			}
+
 		}
 	]
 });

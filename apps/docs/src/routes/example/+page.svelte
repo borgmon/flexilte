@@ -7,7 +7,7 @@
 
 	const components = { Text, ProgressRadial, ProgressBar };
 
-	const layoutConfig: LayoutConfigT<typeof components> = {
+	const layoutConfig: LayoutConfig<typeof components> = {
 		layoutClass: 'my-2',
 		rows: [
 			{
@@ -22,57 +22,57 @@
 				props: {
 					text: 'left'
 				},
-				centerX: 'left',
-				layoutClass: 'debug h-16'
+				posX: 'left',
+				layoutClass: 'h-16'
 			},
 			{
 				component: 'Text',
 				props: {
 					text: 'right'
 				},
-				centerX: 'right',
-				layoutClass: 'debug h-16'
+				posX: 'right',
+				layoutClass: 'h-16'
 			},
 			{
 				component: 'Text',
 				props: {
 					text: 'middle'
 				},
-				centerX: 'middle',
-				layoutClass: 'debug h-16'
+				posX: 'middle',
+				layoutClass: 'h-16'
 			},
 			{
 				component: 'Text',
 				props: {
 					text: 'top'
 				},
-				centerY: 'top',
-				layoutClass: 'debug h-16'
+				posY: 'top',
+				layoutClass: 'h-16'
 			},
 			{
 				component: 'Text',
 				props: {
 					text: 'bottom'
 				},
-				centerY: 'bottom',
-				layoutClass: 'debug h-16'
+				posY: 'bottom',
+				layoutClass: 'h-16'
 			},
 			{
 				component: 'Text',
 				props: {
 					text: 'middle'
 				},
-				centerY: 'middle',
-				layoutClass: 'debug h-16'
+				posY: 'middle',
+				layoutClass: 'h-16'
 			},
 			{
 				component: 'Text',
 				props: {
 					text: 'very middle'
 				},
-				centerX: 'middle',
-				centerY: 'middle',
-				layoutClass: 'debug h-16'
+				posX: 'middle',
+				posY: 'middle',
+				layoutClass: 'h-16'
 			},
 			{
 				component: 'Text',
@@ -91,9 +91,9 @@
 						props: {
 							text: 'test'
 						},
-						centerX: 'middle',
-						centerY: 'middle',
-						layoutClass: 'debug h-16'
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: 'h-16'
 					},
 					{
 						width: 'md:w-1/3',
@@ -101,16 +101,16 @@
 						props: {
 							value: 33
 						},
-						centerX: 'middle',
-						centerY: 'middle',
-						layoutClass: 'debug '
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: ''
 					},
 					{
 						width: 'md:w-1/3',
 						component: 'ProgressBar',
-						centerX: 'middle',
-						centerY: 'middle',
-						layoutClass: 'debug h-16'
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: 'h-16'
 					}
 				]
 			},
@@ -124,9 +124,9 @@
 						props: {
 							text: 'test'
 						},
-						centerX: 'middle',
-						centerY: 'middle',
-						layoutClass: 'debug h-16'
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: 'h-16'
 					},
 					{
 						width: 'md:w-1/3',
@@ -134,9 +134,9 @@
 						props: {
 							value: 33
 						},
-						centerX: 'middle',
-						centerY: 'middle',
-						layoutClass: 'debug p-4'
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: 'p-4'
 					},
 					{
 						width: 'md:w-1/3',
@@ -152,9 +152,9 @@
 										props: {
 											text: 'test'
 										},
-										centerX: 'middle',
-										centerY: 'middle',
-										layoutClass: 'debug h-16'
+										posX: 'middle',
+										posY: 'middle',
+										layoutClass: 'h-16'
 									},
 									{
 										width: 'md:w-1/3',
@@ -162,16 +162,16 @@
 										props: {
 											value: 33
 										},
-										centerX: 'middle',
-										centerY: 'middle',
-										layoutClass: 'debug p-4'
+										posX: 'middle',
+										posY: 'middle',
+										layoutClass: 'p-4'
 									},
 									{
 										width: 'md:w-1/3',
 										component: 'ProgressBar',
-										centerX: 'middle',
-										centerY: 'middle',
-										layoutClass: 'debug h-16'
+										posX: 'middle',
+										posY: 'middle',
+										layoutClass: 'h-16'
 									}
 								]
 							}
@@ -196,27 +196,27 @@
 						props: {
 							text: 'test'
 						},
-						centerX: 'middle',
-						centerY: 'middle',
-						layoutClass: 'debug h-16 w-72'
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: 'h-16 w-72'
 					},
 					{
 						component: 'Text',
 						props: {
 							text: 'test'
 						},
-						centerX: 'middle',
-						centerY: 'middle',
-						layoutClass: 'debug h-16 w-72'
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: 'h-16 w-72'
 					},
 					{
 						component: 'Text',
 						props: {
 							text: 'test'
 						},
-						centerX: 'middle',
-						centerY: 'middle',
-						layoutClass: 'debug h-16 w-72'
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: 'h-16 w-72'
 					}
 				]
 			},
@@ -229,27 +229,27 @@
 						props: {
 							text: 'test'
 						},
-						centerX: 'middle',
-						centerY: 'middle',
-						layoutClass: 'debug h-16 w-96'
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: 'h-16 w-96'
 					},
 					{
 						component: 'Text',
 						props: {
 							text: 'test'
 						},
-						centerX: 'middle',
-						centerY: 'middle',
-						layoutClass: 'debug h-16 w-96'
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: 'h-16 w-96'
 					},
 					{
 						component: 'Text',
 						props: {
 							text: 'test'
 						},
-						centerX: 'middle',
-						centerY: 'middle',
-						layoutClass: 'debug h-16 w-96'
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: 'h-16 w-96'
 					}
 				]
 			}
@@ -258,5 +258,5 @@
 </script>
 
 <div class="px-4 container mx-auto">
-	<JsonLayoutT {layoutConfig} {components}></JsonLayoutT>
+	<JsonLayout {layoutConfig} {components} debug={true}></JsonLayout>
 </div>

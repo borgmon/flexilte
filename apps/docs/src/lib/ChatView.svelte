@@ -12,8 +12,8 @@
 						props: {
 							text: 'Waiting for response'
 						},
-						centerX: 'middle',
-						centerY: 'middle',
+						posX: 'middle',
+						posY: 'middle',
 						layoutClass: 'h-96'
 					}
 				]

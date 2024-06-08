@@ -8,8 +8,8 @@ export interface LayoutConfigT<C extends Record<string, ComponentType>> {
 	layoutClass?: string;
 	cols?: LayoutConfigT<C>[];
 	rows?: LayoutConfigT<C>[];
-	centerX?: 'left' | 'right' | 'middle';
-	centerY?: 'top' | 'bottom' | 'middle';
+	posX?: 'left' | 'right' | 'middle';
+	posY?: 'top' | 'bottom' | 'middle';
 	alignHeight?: boolean;
 	wrap?: 'wrap' | 'nowrap';
 }

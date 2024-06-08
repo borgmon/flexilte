@@ -30,7 +30,7 @@
 					type: 'h2',
 					text: 'Flexilte Drag And Drop Editor'
 				},
-				centerX: 'middle'
+				posX: 'middle'
 			},
 			{
 				cols: [
@@ -39,8 +39,8 @@
 						props: {
 							text: 'Export'
 						},
-						centerX: 'right',
-						centerY: 'middle'
+						posX: 'right',
+						posY: 'middle'
 					}
 				]
 			},
@@ -80,7 +80,7 @@
 								}
 							},
 							{
-								component: 'DNDPreview',
+								component: 'DNDBuilder',
 								nodeClass: 'flex-1'
 							}
 						]
