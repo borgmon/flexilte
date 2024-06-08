@@ -22,19 +22,22 @@ export const componentStore = writable<LayoutConfig<typeof components>>({
 	rows: [
 		{
 			alignHeight: true,
+			layoutClass:"mx-4",
 			cols: [
 				{
 					component: "TextBox",
 					posX: "middle",
-					posY: "middle",
+					posY: "middle", 
 					props: {
 						text: 'A'
 					}
 				},
 				{
+					alignHeight: true,
+					layoutClass:"my-4",
 					rows: [
 						{
-							component: "TextBox",
+							component: "TextBox", 
 							posX: "middle",
 							posY: "middle",
 							props: {
@@ -43,7 +46,7 @@ export const componentStore = writable<LayoutConfig<typeof components>>({
 
 						},
 						{
-							component: "TextBox",
+							component: "TextBox",  
 							posX: "middle",
 							posY: "middle",
 							props: {
