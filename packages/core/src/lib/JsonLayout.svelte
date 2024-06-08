@@ -42,14 +42,12 @@
 			col.alignHeight = true;
 		});
 	}
-
-	const idToElId = () => layoutConfig.id;
 </script>
 
 {#if layoutConfig.rows}
 	{#each layoutConfig.rows as row}
 		<div
-			id={idToElId()}
+			id={layoutConfig.id}
 			class={`flex flex-col md:flex-row flexilte flexilte-row w-full ${layoutConfig.layoutClass || ''} ${getAlignmentClass(row)} ${getWrapClass(row)} ${row.nodeClass || ''}`}
 		>
 			<svelte:self {components} layoutConfig={row} {debug} />
@@ -58,7 +56,7 @@
 {:else if layoutConfig.cols}
 	{#each layoutConfig.cols as col}
 		<div
-			id={idToElId()}
+			id={layoutConfig.id}
 			class={`flex flex-col w-full flexilte flexilte-col ${col.width || ''} ${layoutConfig.layoutClass || ''} ${getAlignmentClass(col)} ${col.nodeClass || ''}`}
 		>
 			<svelte:self {components} layoutConfig={col} {debug} />
@@ -66,7 +64,7 @@
 	{/each}
 {:else}
 	<div
-		id={idToElId()}
+		id={layoutConfig.id}
 		class={`flexilte flexilte-item w-full ${getAlignmentClass()} ${layoutConfig.layoutClass || ''}`}
 	>
 		{#if layoutConfig.component}

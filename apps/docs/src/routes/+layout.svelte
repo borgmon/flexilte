@@ -5,7 +5,8 @@
 		AppBar,
 		Drawer,
 		initializeStores,
-		getDrawerStore
+		getDrawerStore,
+		Modal
 	} from '@skeletonlabs/skeleton';
 
 	// Highlight JS
@@ -17,6 +18,7 @@
 	import javascript from 'highlight.js/lib/languages/javascript';
 	import typescript from 'highlight.js/lib/languages/typescript';
 	import Icon from '@iconify/svelte';
+	import { getModalStore } from '@skeletonlabs/skeleton';
 
 	hljs.registerLanguage('xml', xml); // for HTML
 	hljs.registerLanguage('css', css);
@@ -25,8 +27,10 @@
 	storeHighlightJs.set(hljs);
 	initializeStores();
 	const drawerStore = getDrawerStore();
+	const modalStore = getModalStore();
 </script>
 
+<Modal />
 <!-- App Shell -->
 <AppShell>
 	<svelte:fragment slot="header">

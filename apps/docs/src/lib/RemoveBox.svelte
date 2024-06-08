@@ -2,18 +2,20 @@
 	import Icon from '@iconify/svelte';
 	import { SortableList } from '@sonderbase/svelte-sortablejs';
 	import type { SortableEvent } from 'sortablejs';
+	import { triggerRefresh } from './editorStore';
 	let sortableList: HTMLDivElement;
 
 	const onDelete = (event: SortableEvent) => {
-		if (event.item.id === 'placeholder') {
-			event.from.appendChild(event.item);
-			return;
-		}
+		// if (event.item.id === 'placeholder') {
+		// 	event.from.appendChild(event.item);
+		// 	return;
+		// }
 		try {
-			sortableList.children[0].removeChild(event.item);
+			event.item.remove();
 		} catch (e) {
 			console.error(e);
 		}
+		triggerRefresh.update((a) => !a);
 	};
 </script>
 

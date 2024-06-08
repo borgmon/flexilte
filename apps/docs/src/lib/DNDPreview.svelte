@@ -294,6 +294,79 @@
 			return { ...layoutConfig };
 		});
 	});
+
+	function UpdateTree(
+		root: HTMLElement,
+		el: HTMLElement,
+		currentTree: LayoutConfig<typeof components>
+	): LayoutConfig<typeof components> {
+		// Helper function to find the path from el to root
+		function findPathToRoot(node: HTMLElement, target: HTMLElement): (number | string)[] | null {
+			let path: (number | string)[] = [];
+			let current = node;
+
+			while (current !== target) {
+				let parent = current.parentElement;
+				if (parent === null) return null; // Just in case there's no parent
+
+				let children = Array.from(parent.children);
+				let isRow = children.some((a) => a.classList.contains('flexilte-row'));
+				let isCol = children.some((a) => a.classList.contains('flexilte-col'));
+				let isItem = children.some((a) => a.classList.contains('flexilte-item'));
+
+				let index = children.indexOf(current);
+				if (index === -1) return null; // Current element should always be in its parent's children
+
+				if (isRow) path.unshift('rows', index);
+				else if (isCol) path.unshift('cols', index);
+				else if (isItem)
+					path.unshift(parent.classList.contains('flexilte-row') ? 'cols' : 'rows', index);
+				current = parent;
+			}
+			return path;
+		}
+
+		// Helper function to update tree immutably
+		function updateTree(
+			path: (number | string)[],
+			tree: LayoutConfig<typeof components>
+		): LayoutConfig<typeof components> {
+			let [key, index, ...rest] = path as [string, number, ...(string | number)[]];
+			let newTree = { ...tree } as LayoutConfig<typeof components>;
+
+			if (key === 'rows' || key === 'cols') {
+				// newTree[key] = newTree[key] ? [...newTree[key]!] : [];
+				if (!newTree[key]) {
+					newTree = {
+						alignHeight: true,
+						layoutClass: key === 'cols' ? 'mx-4' : 'my-4'
+					};
+					newTree[key] = [{ ...tree }];
+				}
+				if (rest.length === 0) {
+					newTree[key]!.splice(index, 0, {
+						component: el.innerText as unknown as undefined,
+						posX: 'middle',
+						posY: 'middle',
+						props: {
+							text: '123'
+						}
+					});
+				} else {
+					newTree[key]![index] = updateTree(rest, newTree[key]![index] || {});
+				}
+			}
+
+			return newTree;
+		}
+
+		let path = findPathToRoot(el, root);
+		if (path === null) throw new Error('Element is not a descendant of root');
+
+		let updatedTree = updateTree(path, currentTree);
+
+		return updatedTree;
+	}
 </script>
 
 <div id="preview" bind:this={el} class="flexilte-row">

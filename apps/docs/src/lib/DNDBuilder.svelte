@@ -1,24 +1,44 @@
 <script lang="ts">
 	import { CardBox } from '@flexilte/skeleton';
 
-	import { componentStore, components } from '$lib/editorStore';
+	import {
+		componentValueStore,
+		componentStore,
+		components,
+		triggerRefresh,
+		selectedComponentStore
+	} from '$lib/editorStore';
 	import { onMount } from 'svelte';
 	import Sortable from 'sortablejs';
 	import { JsonLayout, type LayoutConfig } from '@flexilte/core';
 
 	let builderEl: HTMLElement;
+	let componentKey = 0;
+
+	export const reRender = () => {
+		const newConfig = parseHTMLTree(builderEl);
+		console.log('newConfig', newConfig);
+
+		setTimeout(() => {
+			componentStore.set({ ...newConfig });
+			componentKey += 1;
+		}, 100);
+	};
 
 	const onAdd = (event: Sortable.SortableEvent) => {
 		console.log('onAdd', event.item);
-		// console.log(2, $componentStore);
-		const newConfig = UpdateTree(builderEl, event.item, $componentStore);
-		console.log('newConfig', newConfig);
-		componentStore.set({ ...newConfig });
+		reRender();
 		event.item.remove();
 		addSortable(builderEl);
 	};
-	const onRemove = (event: Sortable.SortableEvent) => {
-		console.log('onRemove', event.item);
+
+	const onChoose = (event: Sortable.SortableEvent) => {
+		console.log('onChoose', event.item);
+		if (event.item.id) {
+			selectedComponentStore.set(event.item.id);
+		} else if (event.item.children[0].id) {
+			selectedComponentStore.set(event.item.children[0].id);
+		}
 	};
 
 	const addSortable = (e: HTMLElement) => {
@@ -28,9 +48,9 @@
 				animation: 150,
 				invertSwap: true,
 				fallbackOnBody: true,
-				invertedSwapThreshold:.65,
+				invertedSwapThreshold: 1,
 				onAdd,
-				onRemove
+				onChoose
 			});
 			Array.from(e.children).forEach((c) => {
 				addSortable(c as HTMLElement);
@@ -42,87 +62,112 @@
 		}
 	};
 
-	function UpdateTree(
-		root: HTMLElement,
-		el: HTMLElement,
-		currentTree: LayoutConfig<typeof components>
-	): LayoutConfig<typeof components> {
-		// Helper function to find the path from el to root
-		function findPathToRoot(node: HTMLElement, target: HTMLElement): (number | string)[] | null {
-			let path: (number | string)[] = [];
-			let current = node;
-
-			while (current !== target) {
-				let parent = current.parentElement;
-				if (parent === null) return null; // Just in case there's no parent
-
-				let children = Array.from(parent.children);
-				let isRow = children.some((a) => a.classList.contains('flexilte-row'));
-				let isCol = children.some((a) => a.classList.contains('flexilte-col'));
-				let isItem = children.some((a) => a.classList.contains('flexilte-item'));
-
-				let index = children.indexOf(current);
-				if (index === -1) return null; // Current element should always be in its parent's children
-
-				if (isRow) path.unshift('rows', index);
-				else if (isCol) path.unshift('cols', index);
-				else if (isItem)
-					path.unshift(parent.classList.contains('flexilte-row') ? 'cols' : 'rows', index);
-				current = parent;
-			}
-			return path;
+	const convertItemToArray = (data: LayoutConfig<typeof components>, root: HTMLElement) => {
+		if (root.classList.contains('flexilte-row')) {
+			return {
+				cols: [{ ...data }]
+			};
+		} else {
+			return {
+				rows: [{ ...data }]
+			};
 		}
+	};
 
-		// Helper function to update tree immutably
-		function updateTree(
-			path: (number | string)[],
-			tree: LayoutConfig<typeof components>
-		): LayoutConfig<typeof components> {
-			let [key, index, ...rest] = path as [string, number, ...(string | number)[]];
-			console.log(key, index);
-			let newTree = { ...tree } as LayoutConfig<typeof components>;
-
-			if (key === 'rows' || key === 'cols') {
-				// newTree[key] = newTree[key] ? [...newTree[key]!] : [];
-				if (!newTree[key]) {
-					newTree = {
-						alignHeight: true,
-						layoutClass: key === 'cols' ? 'mx-4' : 'my-4'
-					};
-					newTree[key] = [{ ...tree }];
-				}
-				if (rest.length === 0) {
-					newTree[key]!.splice(index, 0, {
-						component: el.innerText as unknown as undefined,
-						posX: 'middle',
-						posY: 'middle',
-						props: {
-							text: '123'
-						}
-					});
-				} else {
-					newTree[key]![index] = updateTree(rest, newTree[key]![index] || {});
-				}
+	const prepNewComp = (root: HTMLElement) => {
+		const key = Date.now().toString();
+		const newComp: LayoutConfig<typeof components> = {
+			id: key,
+			component: root.innerText as unknown as undefined,
+			posX: 'middle',
+			posY: 'middle',
+			props: {
+				text: '123'
 			}
+		};
+		componentValueStore.update((store) => {
+			store[key] = newComp;
+			return store;
+		});
+		return newComp;
+	};
 
-			return newTree;
+	const parseHTMLTree = (root: HTMLElement): LayoutConfig<typeof components> => {
+		let data = {} as LayoutConfig<typeof components>;
+		const children = Array.from(root.children);
+
+		const isRow = children.some((a) => a.classList.contains('flexilte-row'));
+		const isCol = children.some((a) => a.classList.contains('flexilte-col'));
+		const itemIdx = children.findIndex((a) => a.classList.contains('flexilte-item'));
+		const compIdx = children.findIndex((a) => a.id.startsWith('clone-'));
+		const newComp = compIdx !== -1 ? prepNewComp(children[compIdx] as HTMLElement) : undefined;
+
+		if (isRow) {
+			data.rows = [];
+			data.rows = children
+				.map((child) => parseHTMLTree(child as HTMLElement))
+				.filter((a) => Object.keys(a).length > 0);
+			if (newComp) {
+				data.rows?.splice(compIdx, 0, newComp);
+			}
+			data = { ...data, ...{ layoutClass: 'my-4', alignHeight: true } };
+		} else if (isCol) {
+			data.cols = [];
+			data.cols = children
+				.map((child) => parseHTMLTree(child as HTMLElement))
+				.filter((a) => Object.keys(a).length > 0);
+			if (newComp) {
+				data.cols?.splice(compIdx, 0, newComp);
+			}
+			data = { ...data, ...{ layoutClass: 'mx-4', alignHeight: true } };
+		} else if (newComp) {
+			if (itemIdx !== -1) {
+				const storedData = $componentValueStore[children[itemIdx].id];
+				if (storedData) data = storedData;
+				data = convertItemToArray(data, root);
+				if (data.cols) {
+					// data = { ...data, ...{ layoutClass: 'my-4', alignHeight: true } };
+					data.cols!.splice(compIdx, 0, newComp);
+				}
+				if (data.rows) {
+					// data = { ...data, ...{ layoutClass: 'mx-4', alignHeight: true } };
+					data.rows!.splice(compIdx, 0, newComp);
+				}
+			} else {
+				console.log('woop1', data, root);
+			}
+		} else if (itemIdx !== -1) {
+			const items = children.filter((c) => c.classList.contains('flexilte-item'));
+			if (items.length > 1) {
+				const [head, ...rest] = items.map((i) => $componentValueStore[i.id]);
+				if (head) data = head;
+				data = convertItemToArray(data, root);
+				if (data.cols) {
+					data.cols = [...data.cols, ...rest];
+				}
+				if (data.rows) {
+					data.rows = [...data.rows, ...rest];
+				}
+			} else {
+				const storedData = $componentValueStore[children[itemIdx].id];
+				if (storedData) data = storedData;
+			}
+		} else {
+			console.log('woop2', root);
 		}
-
-		let path = findPathToRoot(el, root);
-		if (path === null) throw new Error('Element is not a descendant of root');
-
-		console.log('path', path);
-		let updatedTree = updateTree(path, currentTree);
-
-		return updatedTree;
-	}
+		if (data.rows?.length === 0) delete data.rows;
+		if (data.cols?.length === 0) delete data.cols;
+		return data;
+	};
 
 	onMount(() => {
 		addSortable(builderEl);
-		// console.log(1,$componentStore)
+		triggerRefresh.subscribe(() => {
+			reRender();
+		});
 	});
 </script>
 
-<div class="flexilte-row" bind:this={builderEl} id="builder">
+<div class="flexilte-row" bind:this={builderEl} id="builder" data-id={componentKey}>
 	<JsonLayout layoutConfig={$componentStore} {components} debug={true} />
 </div>
