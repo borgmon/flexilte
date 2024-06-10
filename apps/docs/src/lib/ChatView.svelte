@@ -10,7 +10,7 @@
 					{
 						component: 'TextBox',
 						props: {
-							text: 'Waiting for response'
+							text: 'Waiting for input'
 						},
 						posX: 'middle',
 						posY: 'middle',
@@ -30,6 +30,6 @@
 	});
 </script>
 
-<div class="px-4 container mx-auto h-[48rem] w-full">
+<div class="px-4 container mx-auto h-[30rem] w-full">
 	<JsonLayout {layoutConfig} {components}></JsonLayout>
 </div>
