@@ -11,163 +11,172 @@
 	import { onMount } from 'svelte';
 	import Sortable from 'sortablejs';
 	import { JsonLayout, type LayoutConfig } from '@flexilte/core';
+	import 'gridstack/dist/gridstack.min.css';
+	import 'gridstack/dist/gridstack-extra.min.css';
+	import {
+		GridStack,
+		type GridItemHTMLElement,
+		type GridStackNode,
+		type GridStackOptions,
+		type GridStackWidget
+	} from 'gridstack/dist/es5/gridstack';
+	import Icon from '@iconify/svelte';
 
+	let previewEl: HTMLElement;
 	let builderEl: HTMLElement;
-	let componentKey = 0;
-
-	export const reRender = () => {
-		const newConfig = parseHTMLTree(builderEl);
-		console.log('newConfig', newConfig);
-
-		setTimeout(() => {
-			componentStore.set({ ...newConfig });
-			componentKey += 1;
-		}, 100);
+	let box1: HTMLElement;
+	let box2: HTMLElement;
+	let grid: GridStack;
+	const subConfig: GridStackOptions = {
+		acceptWidgets: true,
+		removable: '#trash',
+		column: 'auto',
+		cellHeight: '2rem',
+		cellHeightThrottle: 500,
+		animate: false,
+		subGridDynamic: true,
+		// disableResize:true,
+		sizeToContent: true
+	};
+	let customlayout: LayoutConfig<typeof components> = {};
+	const c: GridStackWidget[] = [
+		{ w: 3, h: 3, content: 'item 2' },
+		{ w: 3, h: 3, content: 'item 2' }
+	];
+	const gridConfig: GridStackOptions = {
+		acceptWidgets: true,
+		// margin:1,
+		removable: '#trash',
+		minRow: 2,
+		// column:6,
+		cellHeight: '2rem',
+		cellHeightThrottle: 500,
+		animate: false,
+		subGridOpts: subConfig,
+		subGridDynamic: true,
+		// disableResize:true,
+		sizeToContent: true
 	};
 
-	const onAdd = (event: Sortable.SortableEvent) => {
-		console.log('onAdd', event.item);
-		reRender();
-		event.item.remove();
-		addSortable(builderEl);
-	};
+	const fillRow = (newWidget: GridStackNode) => {
+		const rowNodes = newWidget.grid?.engine.nodes.filter((e) => e.y === newWidget.y);
+		// console.log(rowNodes);
 
-	const onChoose = (event: Sortable.SortableEvent) => {
-		console.log('onChoose', event.item);
-		if (event.item.id) {
-			selectedComponentStore.set(event.item.id);
-		} else if (event.item.children[0].id) {
-			selectedComponentStore.set(event.item.children[0].id);
-		}
-	};
+		const totalColumns = newWidget.grid!.getColumn();
+		const usedColumns = rowNodes!.reduce((sum, currentNode) => sum + currentNode.w, 0);
+		const remainingColumns = totalColumns - usedColumns + newWidget.w!;
 
-	const addSortable = (e: HTMLElement) => {
-		if (e.classList.contains('flexilte-col') || e.classList.contains('flexilte-row')) {
-			Sortable.create(e, {
-				group: { name: 'toolbox' },
-				animation: 150,
-				invertSwap: true,
-				fallbackOnBody: true,
-				invertedSwapThreshold: 1,
-				onAdd,
-				onChoose
+		// Calculate current x position
+		const currentX = rowNodes!.reduce(
+			(maxX, currentNode) => Math.max(maxX, currentNode.x + currentNode.w),
+			0
+		);
+
+		grid.update(newWidget.el!, { w: remainingColumns, x: currentX });
+	};
+	function extractComponentFromHTML(html: string): string | undefined {
+		const match = html.match(/data-comp="([^"]*)"/);
+		return match ? match[1] : undefined;
+	}
+	function convert(grid: GridStackOptions): LayoutConfig<typeof components> {
+		const layout = {} as LayoutConfig<typeof components>;
+		const rows: Record<string, LayoutConfig<typeof components>[]> = {}; // as [row#]:[values]
+		const children = grid.subGridOpts?.children || grid.children || [];
+		if (children) {
+			children.forEach((child) => {
+				const rowNum = child.y || 0;
+				// debugger
+				if (!rows[rowNum]) rows[rowNum] = [];
+
+				if (child.subGridOpts?.children) {
+					rows[rowNum].push(convert(child.subGridOpts));
+				} else {
+					if (child.content) {
+						rows[rowNum].push({
+							component: extractComponentFromHTML(child.content) as unknown as undefined,
+							props: {
+								text: '123'
+							}
+						});
+					} else {
+						console.warn('no content?', child);
+					}
+				}
 			});
-			Array.from(e.children).forEach((c) => {
-				addSortable(c as HTMLElement);
-			});
-		} else if (e.classList.contains('flexilte-row')) {
-			Array.from(e.children).forEach((c) => {
-				addSortable(c as HTMLElement);
-			});
 		}
-	};
 
-	const convertItemToArray = (data: LayoutConfig<typeof components>, root: HTMLElement) => {
-		if (root.classList.contains('flexilte-row')) {
-			return {
-				cols: [{ ...data }]
-			};
-		} else {
-			return {
-				rows: [{ ...data }]
-			};
+		if (Object.keys(rows).length !== 0) {
+			layout.rows = Object.keys(rows).map((k) => ({
+				cols: rows[k]
+			}));
 		}
-	};
 
-	const prepNewComp = (root: HTMLElement) => {
-		const key = Date.now().toString();
-		const newComp: LayoutConfig<typeof components> = {
-			id: key,
-			component: root.innerText as unknown as undefined,
-			posX: 'middle',
-			posY: 'middle',
-			props: {
-				text: '123'
-			}
+		return layout;
+	}
+
+	const cloneHelper =
+		(eventType: string, listener: (injectedEvent: Event) => void) => (event: Event) => {
+			const el = event.target as HTMLElement;
+			const newEl = GridStack.Utils.cloneNode(el);
+			newEl.addEventListener(eventType, listener);
+			// el.addEventListener(eventType, listener);
+			console.log(newEl);
+			return newEl;
 		};
-		componentValueStore.update((store) => {
-			store[key] = newComp;
-			return store;
-		});
-		return newComp;
+
+	const testHelper = (event: Event) => {
+		console.log(event);
+		return GridStack.Utils.cloneNode(event.target);
 	};
 
-	const parseHTMLTree = (root: HTMLElement): LayoutConfig<typeof components> => {
-		let data = {} as LayoutConfig<typeof components>;
-		const children = Array.from(root.children);
-
-		const isRow = children.some((a) => a.classList.contains('flexilte-row'));
-		const isCol = children.some((a) => a.classList.contains('flexilte-col'));
-		const itemIdx = children.findIndex((a) => a.classList.contains('flexilte-item'));
-		const compIdx = children.findIndex((a) => a.id.startsWith('clone-'));
-		const newComp = compIdx !== -1 ? prepNewComp(children[compIdx] as HTMLElement) : undefined;
-
-		if (isRow) {
-			data.rows = [];
-			data.rows = children
-				.map((child) => parseHTMLTree(child as HTMLElement))
-				.filter((a) => Object.keys(a).length > 0);
-			if (newComp) {
-				data.rows?.splice(compIdx, 0, newComp);
-			}
-			data = { ...data, ...{ layoutClass: 'my-4', alignHeight: true } };
-		} else if (isCol) {
-			data.cols = [];
-			data.cols = children
-				.map((child) => parseHTMLTree(child as HTMLElement))
-				.filter((a) => Object.keys(a).length > 0);
-			if (newComp) {
-				data.cols?.splice(compIdx, 0, newComp);
-			}
-			data = { ...data, ...{ layoutClass: 'mx-4', alignHeight: true } };
-		} else if (newComp) {
-			if (itemIdx !== -1) {
-				const storedData = $componentValueStore[children[itemIdx].id];
-				if (storedData) data = storedData;
-				data = convertItemToArray(data, root);
-				if (data.cols) {
-					// data = { ...data, ...{ layoutClass: 'my-4', alignHeight: true } };
-					data.cols!.splice(compIdx, 0, newComp);
-				}
-				if (data.rows) {
-					// data = { ...data, ...{ layoutClass: 'mx-4', alignHeight: true } };
-					data.rows!.splice(compIdx, 0, newComp);
-				}
-			} else {
-				console.log('woop1', data, root);
-			}
-		} else if (itemIdx !== -1) {
-			const items = children.filter((c) => c.classList.contains('flexilte-item'));
-			if (items.length > 1) {
-				const [head, ...rest] = items.map((i) => $componentValueStore[i.id]);
-				if (head) data = head;
-				data = convertItemToArray(data, root);
-				if (data.cols) {
-					data.cols = [...data.cols, ...rest];
-				}
-				if (data.rows) {
-					data.rows = [...data.rows, ...rest];
-				}
-			} else {
-				const storedData = $componentValueStore[children[itemIdx].id];
-				if (storedData) data = storedData;
-			}
-		} else {
-			console.log('woop2', root);
-		}
-		if (data.rows?.length === 0) delete data.rows;
-		if (data.cols?.length === 0) delete data.cols;
-		return data;
+	const testHelper2 = (event: Event) => {
+		Array.from(builderEl.querySelectorAll('.grid-stack-item')).forEach((x) =>
+			x.addEventListener('mouseout', saveLayout)
+		);
 	};
 
+	let tmpW: string;
 	onMount(() => {
-		addSortable(builderEl);
-		triggerRefresh.subscribe(() => {
-			reRender();
+		console.log(typeof cloneHelper('mouseout', saveLayout));
+		GridStack.setupDragIn('.sidebar .grid-stack-item', {
+			helper: 'clone'
 		});
+		grid = GridStack.init(gridConfig, builderEl);
+		// grid.addWidget({ w: 3, h: 3, content: 'item 1' });
+		// grid.load(c);
+		// grid.on('dropped', (event: Event, previousWidget: GridStackNode, newWidget: GridStackNode) => {
+		// 	// saveLayout()
+		// 	console.log('dropped')
+		// });
+		// grid.on('change', (event: Event, el: GridItemHTMLElement) => {
+		// 	console.log('change');
+		// });
+		// grid.on('added', function (event: Event, items: GridStackNode[]) {
+		// 	console.log(items)
+		// });
+		// grid.on('dragstart', (event: Event, el: GridItemHTMLElement) => {
+		// 	console.log('dragstart')
+		// });
 	});
+
+	const saveLayout = () => {
+		if (!grid) return;
+		const save = grid.save(true, true) as GridStackOptions;
+		console.log(save);
+		customlayout = convert({ subGridOpts: { children: save.children } });
+		// console.log(customlayout);
+	};
+	triggerRefresh.subscribe(() => saveLayout());
 </script>
 
-<div class="flexilte-row" bind:this={builderEl} id="builder" data-id={componentKey}>
-	<JsonLayout layoutConfig={$componentStore} {components} debug={true} />
+<div class="flexilte-row" bind:this={previewEl} id="preview">
+	<JsonLayout layoutConfig={customlayout} {components} debug={true} />
 </div>
+
+<div
+	bind:this={builderEl}
+	id="builder"
+	class=" grid-stack-item-content"
+	on:mouseenter={testHelper2}
+></div>
+<button on:click={saveLayout}>save</button>
