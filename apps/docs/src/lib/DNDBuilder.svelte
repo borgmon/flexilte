@@ -1,15 +1,6 @@
 <script lang="ts">
-	import { CardBox } from '@flexilte/skeleton';
-
-	import {
-		componentValueStore,
-		componentStore,
-		components,
-		triggerRefresh,
-		selectedComponentStore
-	} from '$lib/editorStore';
+	import { components, triggerRefresh } from '$lib/editorStore';
 	import { onMount } from 'svelte';
-	import Sortable from 'sortablejs';
 	import { JsonLayout, type LayoutConfig } from '@flexilte/core';
 	import 'gridstack/dist/gridstack.min.css';
 	import 'gridstack/dist/gridstack-extra.min.css';
@@ -20,8 +11,6 @@
 		type GridStackOptions,
 		type GridStackWidget
 	} from 'gridstack/dist/es5/gridstack';
-	import Icon from '@iconify/svelte';
-
 	let previewEl: HTMLElement;
 	let builderEl: HTMLElement;
 	let box1: HTMLElement;
@@ -48,6 +37,7 @@
 		// margin:1,
 		removable: '#trash',
 		minRow: 2,
+		float: true,
 		// column:6,
 		cellHeight: '2rem',
 		cellHeightThrottle: 500,
@@ -58,22 +48,49 @@
 		sizeToContent: true
 	};
 
-	const fillRow = (newWidget: GridStackNode) => {
-		const rowNodes = newWidget.grid?.engine.nodes.filter((e) => e.y === newWidget.y);
-		// console.log(rowNodes);
+	const toggleFill = (newWidget: GridStackNode) => {
+		const rowNodes = grid.engine.nodes.filter((e) => e.y === newWidget.y);
+		if (!rowNodes) return;
 
-		const totalColumns = newWidget.grid!.getColumn();
-		const usedColumns = rowNodes!.reduce((sum, currentNode) => sum + currentNode.w, 0);
-		const remainingColumns = totalColumns - usedColumns + newWidget.w!;
+		const totalColumns = grid.getColumn();
+		const occupied = Array(totalColumns).fill(false);
 
-		// Calculate current x position
-		const currentX = rowNodes!.reduce(
-			(maxX, currentNode) => Math.max(maxX, currentNode.x + currentNode.w),
-			0
-		);
+		// Mark the occupied columns
+		rowNodes.forEach((node) => {
+			for (let i = node.x; i < node.x + node.w; i++) {
+				occupied[i] = true;
+			}
+		});
 
-		grid.update(newWidget.el!, { w: remainingColumns, x: currentX });
+		// Find the left and right expansion limits
+		let leftLimit = newWidget.x;
+		while (leftLimit > 0 && !occupied[leftLimit - 1]) {
+			leftLimit--;
+		}
+
+		let rightLimit = newWidget.x + newWidget.w!;
+		while (rightLimit < totalColumns && !occupied[rightLimit]) {
+			rightLimit++;
+		}
+
+		const newWidth = rightLimit - leftLimit;
+		console.log(occupied, leftLimit, rightLimit, newWidth);
+		// Check if the newWidget is already fully expanded
+		if (newWidth === newWidget.w) {
+			// Shrink the widget if it's fully expanded
+			const smallW = 2;
+			const left = newWidget.x;
+			const right = newWidget.x + newWidget.w;
+			const thing = Math.round((left + right) / 2) - smallW;
+			console.log(thing);
+
+			grid.update(newWidget.el!, { w: smallW, x: thing, y: newWidget.y });
+		} else {
+			// Expand the widget to the calculated width
+			grid.update(newWidget.el!, { w: newWidth, x: leftLimit, y: newWidget.y });
+		}
 	};
+
 	function extractComponentFromHTML(html: string): string | undefined {
 		const match = html.match(/data-comp="([^"]*)"/);
 		return match ? match[1] : undefined;
@@ -114,58 +131,36 @@
 		return layout;
 	}
 
-	const cloneHelper =
-		(eventType: string, listener: (injectedEvent: Event) => void) => (event: Event) => {
-			const el = event.target as HTMLElement;
-			const newEl = GridStack.Utils.cloneNode(el);
-			newEl.addEventListener(eventType, listener);
-			// el.addEventListener(eventType, listener);
-			console.log(newEl);
-			return newEl;
-		};
-
-	const testHelper = (event: Event) => {
-		console.log(event);
-		return GridStack.Utils.cloneNode(event.target);
+	const injectEvent = (event: Event) => {
+		Array.from(builderEl.querySelectorAll('.grid-stack-item')).forEach((x) => {
+			if (!x.hasAttribute('patched')) {
+				x.addEventListener('mouseout', saveLayout);
+				x.addEventListener('dblclick', (e: Event) => {
+					let cur = e.target as GridItemHTMLElement;
+					while (cur && !cur.gridstackNode) {
+						cur = cur.parentElement as GridItemHTMLElement;
+					}
+					if (cur.gridstackNode) {
+						toggleFill(cur.gridstackNode);
+					}
+				});
+				x.setAttribute('patched', '');
+			}
+		});
 	};
-
-	const testHelper2 = (event: Event) => {
-		Array.from(builderEl.querySelectorAll('.grid-stack-item')).forEach((x) =>
-			x.addEventListener('mouseout', saveLayout)
-		);
+	const saveLayout = () => {
+		if (!grid) return;
+		const save = grid.save(true, true) as GridStackOptions;
+		customlayout = convert({ subGridOpts: { children: save.children } });
 	};
-
 	let tmpW: string;
 	onMount(() => {
-		console.log(typeof cloneHelper('mouseout', saveLayout));
 		GridStack.setupDragIn('.sidebar .grid-stack-item', {
 			helper: 'clone'
 		});
 		grid = GridStack.init(gridConfig, builderEl);
-		// grid.addWidget({ w: 3, h: 3, content: 'item 1' });
-		// grid.load(c);
-		// grid.on('dropped', (event: Event, previousWidget: GridStackNode, newWidget: GridStackNode) => {
-		// 	// saveLayout()
-		// 	console.log('dropped')
-		// });
-		// grid.on('change', (event: Event, el: GridItemHTMLElement) => {
-		// 	console.log('change');
-		// });
-		// grid.on('added', function (event: Event, items: GridStackNode[]) {
-		// 	console.log(items)
-		// });
-		// grid.on('dragstart', (event: Event, el: GridItemHTMLElement) => {
-		// 	console.log('dragstart')
-		// });
 	});
 
-	const saveLayout = () => {
-		if (!grid) return;
-		const save = grid.save(true, true) as GridStackOptions;
-		console.log(save);
-		customlayout = convert({ subGridOpts: { children: save.children } });
-		// console.log(customlayout);
-	};
 	triggerRefresh.subscribe(() => saveLayout());
 </script>
 
@@ -177,6 +172,6 @@
 	bind:this={builderEl}
 	id="builder"
 	class=" grid-stack-item-content"
-	on:mouseenter={testHelper2}
+	on:mouseenter={injectEvent}
 ></div>
 <button on:click={saveLayout}>save</button>

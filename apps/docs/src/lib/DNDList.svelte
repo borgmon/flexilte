@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { CardBox } from '@flexilte/skeleton';
-	import { SortableList } from '@sonderbase/svelte-sortablejs';
 	import type { SortableEvent } from 'sortablejs';
 	import { triggerRefresh } from './editorStore';
 
@@ -31,15 +30,6 @@
 		}
 	];
 
-	// const onDragEnd = (event: SortableEvent) => {
-	// if (e.item.)
-	// console.log(event)
-	// if (document.getElementById("delete-zone")!.contains(event.to) && ) {
-	//   console.log(`Item dragged to delete: ${list[event.oldIndex]}`);
-	//   list = list.filter((_, index) => index !== event.oldIndex);
-	// }
-	// };
-
 	const onClone = (event: SortableEvent) => {
 		event.item.id = 'clone-' + Date.now().toString();
 	};
@@ -57,10 +47,5 @@
 				</div>
 			</div>
 		</div>
-		<!-- <div class="grid-stack-item">
-				<div class="grid-stack-item-content">
-					{item.name}
-				</div>
-			</div> -->
 	{/each}
 </div>
