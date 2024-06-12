@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {
+		componentStore,
 		componentValueStore,
 		components,
 		selectedComponentStore,
@@ -26,7 +27,7 @@
 	const subConfig: GridStackOptions = {
 		acceptWidgets: true,
 		removable: '#trash',
-		column: 'auto',
+		// column: 'auto',
 		cellHeight: '2rem',
 		cellHeightThrottle: 500,
 		animate: false,
@@ -54,12 +55,11 @@
 		// disableResize:true,
 		sizeToContent: true
 	};
-
-	const rowFill = (newWidget: GridStackNode) => {
-		const rowNodes = grid.engine.nodes.filter((e) => e.y === newWidget.y);
+	const calculateLimits = (newWidget: GridStackNode) => {
+		const rowNodes = newWidget.grid.engine.nodes.filter((e) => e.y === newWidget.y);
 		if (!rowNodes) return;
 
-		const totalColumns = grid.getColumn();
+		const totalColumns = newWidget.grid.getColumn();
 		const occupied = Array(totalColumns).fill(false);
 
 		// Mark the occupied columns
@@ -81,39 +81,30 @@
 		}
 
 		const newWidth = rightLimit - leftLimit;
-		// Check if the newWidget is already fully expanded
-		// Expand the widget to the calculated width
-		grid.update(newWidget.el!, { w: newWidth, x: leftLimit, y: newWidget.y });
+
+		return {
+			newWidth,
+			leftLimit,
+			totalColumns,
+			occupied
+		};
+	};
+
+	const rowFill = (newWidget: GridStackNode) => {
+		const limits = calculateLimits(newWidget);
+		if (!limits) return;
+		newWidget.grid.update(newWidget.el!, {
+			w: limits.newWidth,
+			x: limits.leftLimit,
+			y: newWidget.y
+		});
 	};
 
 	const toggleFill = (newWidget: GridStackNode) => {
-		const rowNodes = grid.engine.nodes.filter((e) => e.y === newWidget.y);
-		if (!rowNodes) return;
-
-		const totalColumns = grid.getColumn();
-		const occupied = Array(totalColumns).fill(false);
-
-		// Mark the occupied columns
-		rowNodes.forEach((node) => {
-			for (let i = node.x; i < node.x + node.w; i++) {
-				occupied[i] = true;
-			}
-		});
-
-		// Find the left and right expansion limits
-		let leftLimit = newWidget.x;
-		while (leftLimit > 0 && !occupied[leftLimit - 1]) {
-			leftLimit--;
-		}
-
-		let rightLimit = newWidget.x + newWidget.w!;
-		while (rightLimit < totalColumns && !occupied[rightLimit]) {
-			rightLimit++;
-		}
-
-		const newWidth = rightLimit - leftLimit;
+		const limits = calculateLimits(newWidget);
+		if (!limits) return;
 		// Check if the newWidget is already fully expanded
-		if (newWidth === newWidget.w) {
+		if (limits.newWidth === newWidget.w) {
 			// Shrink the widget if it's fully expanded
 			const smallW = 2;
 			const left = newWidget.x;
@@ -121,10 +112,14 @@
 			const thing = Math.round((left + right) / 2) - smallW;
 			console.log(thing);
 
-			grid.update(newWidget.el!, { w: smallW, x: thing, y: newWidget.y });
+			newWidget.grid.update(newWidget.el!, { w: smallW, x: thing, y: newWidget.y });
 		} else {
 			// Expand the widget to the calculated width
-			grid.update(newWidget.el!, { w: newWidth, x: leftLimit, y: newWidget.y });
+			newWidget.grid.update(newWidget.el!, {
+				w: limits.newWidth,
+				x: limits.leftLimit,
+				y: newWidget.y
+			});
 		}
 	};
 
@@ -143,9 +138,11 @@
 				if (!rows[rowNum]) rows[rowNum] = [];
 
 				if (child.subGridOpts?.children) {
-					rows[rowNum].push(convert(child.subGridOpts));
+					const tmp = convert(child.subGridOpts);
+					rows[rowNum].push({ ...tmp, width: `w-${child.w || 1}/${12}` });
 				} else {
 					if (child.content) {
+						// console.log(111, child);
 						const comp = $componentValueStore[child.id!];
 						comp.width = `w-${child.w || 1}/${12}`;
 						rows[rowNum].push(comp);
@@ -166,12 +163,14 @@
 	}
 
 	const initComp = (node: GridStackNode) => {
+		if (!node.id) node.id = Date.now().toString();
 		const comp = {
 			id: node.id,
 			component: node!.el?.innerText,
-			props: JSON.parse(JSON.stringify(defaultMap[node!.el?.innerText!]))
+			props: JSON.parse(JSON.stringify(defaultMap[node!.el?.innerText!])),
+			posX: 'middle',
+			posY: 'middle'
 		};
-		if (!node.id) node.id = Date.now().toString();
 		const tryComp = $componentValueStore[node.id];
 		if (!tryComp) {
 			componentValueStore.update((store) => {
@@ -184,27 +183,47 @@
 		}
 	};
 
-	const cropTopGrid = () => {
+	const cropTopGrid = (grid: GridStack) => {
 		const items = grid.getGridItems();
-		const getMin = items.reduce((prev, curr) => Math.min(prev, curr.gridstackNode?.y), 99999);
-		items.forEach((i) => {
-			grid.update(i, { y: i.gridstackNode.y - getMin });
-			// i.gridstackNode.y -= getMin
-		});
-		// grid.batchUpdate()
+		let sortedItems = items.sort((a, b) => a.gridstackNode.y - b.gridstackNode.y);
+		let shift = 0;
+
+		for (let i = 0; i < sortedItems.length; i++) {
+			let item = sortedItems[i];
+			let currentY = item.gridstackNode.y;
+
+			if (i > 0) {
+				let prevItem = sortedItems[i - 1];
+				let prevBottom = prevItem.gridstackNode.y + prevItem.gridstackNode.h;
+				if (currentY > prevBottom) {
+					shift += currentY - prevBottom;
+				}
+			}
+
+			grid.update(item, { y: currentY - shift });
+
+			if (item.gridstackNode?.subGrid) {
+				cropTopGrid(item.gridstackNode?.subGrid);
+			}
+		}
 	};
 
-	const formatGrid = () => {
+	const formatGrid = (grid: GridStack | undefined) => {
 		if (!grid) return;
-		cropTopGrid();
-		grid.getGridItems().forEach((x) => rowFill(x.gridstackNode!));
+		cropTopGrid(grid);
+		grid.getGridItems().forEach((x) => {
+			rowFill(x.gridstackNode!);
+			formatGrid(x.gridstackNode?.subGrid);
+		});
 	};
-	const saveLayout = () => {
+	const saveLayout = (grid: GridStack) => {
 		if (!grid) return;
-		formatGrid();
+		formatGrid(grid);
 		const save = grid.save(true, true) as GridStackOptions;
-		customlayout = convert({ subGridOpts: { children: save.children } });
-		console.log(customlayout);
+		console.log('save', save);
+		customlayout = convert(save);
+		componentStore.set(customlayout);
+		console.log('customlayout', customlayout);
 	};
 	let tmpW: string;
 	onMount(() => {
@@ -227,6 +246,7 @@
 		grid.on(
 			'dropped',
 			function (event: Event, previousWidget: GridStackNode, newWidget: GridStackNode) {
+				// console.log('dr', newWidget);
 				initComp(newWidget);
 				newWidget.el?.addEventListener('dblclick', (e) => {
 					toggleFill(newWidget);
@@ -236,10 +256,14 @@
 				});
 			}
 		);
+		grid.on('removed', function (event: Event, items: GridStackNode[]) {
+			selectedComponentStore.set('');
+			// saveLayout(grid)
+		});
 	});
 
-	triggerRefresh.subscribe(() => saveLayout());
-	triggerFormat.subscribe(() => formatGrid());
+	triggerRefresh.subscribe(() => saveLayout(grid));
+	triggerFormat.subscribe(() => formatGrid(grid));
 </script>
 
 <div class="flexilte-row" bind:this={previewEl} id="preview">

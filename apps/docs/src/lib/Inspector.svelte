@@ -17,14 +17,17 @@
 		elId = id;
 		if ($componentValueStore[id]) {
 			comp = $componentValueStore[id];
-			console.log('here', comp);
 			props = Object.keys(comp.props);
-			console.log(1, props);
+		} else {
+			comp = {};
+			props = [];
 		}
 	});
+
+	// componentValueStore.subscribe(console.log);
 </script>
 
-{#if comp}
+{#if props.length > 0}
 	<div class="form-group">
 		<h6 class="h6">Props</h6>
 		{#each props as prop}
@@ -39,6 +42,7 @@
 						componentValueStore.update((store) => {
 							comp.props[prop] = e.target.value;
 							store[elId].props[prop] = e.target.value;
+							triggerRefresh.update((e) => !e);
 							return { ...store };
 						});
 					}}
@@ -55,6 +59,7 @@
 					componentValueStore.update((store) => {
 						comp.posX = e.target.value;
 						store[elId].posX = e.target.value;
+						triggerRefresh.update((e) => !e);
 						return { ...store };
 					});
 				}}
@@ -73,6 +78,7 @@
 					componentValueStore.update((store) => {
 						comp.posY = e.target.value;
 						store[elId].posY = e.target.value;
+						triggerRefresh.update((e) => !e);
 						return { ...store };
 					});
 				}}
@@ -92,6 +98,7 @@
 					componentValueStore.update((store) => {
 						comp.layoutClass = e.target.value;
 						store[elId].layoutClass = e.target.value;
+						triggerRefresh.update((e) => !e);
 						return { ...store };
 					});
 				}}
@@ -107,6 +114,7 @@
 					componentValueStore.update((store) => {
 						comp.wrapperClass = e.target.value;
 						store[elId].wrapperClass = e.target.value;
+						triggerRefresh.update((e) => !e);
 						return { ...store };
 					});
 				}}

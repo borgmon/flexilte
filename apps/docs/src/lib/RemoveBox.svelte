@@ -4,19 +4,6 @@
 	import type { SortableEvent } from 'sortablejs';
 	import { triggerRefresh } from './editorStore';
 	let sortableList: HTMLDivElement;
-
-	const onDelete = (event: SortableEvent) => {
-		// if (event.item.id === 'placeholder') {
-		// 	event.from.appendChild(event.item);
-		// 	return;
-		// }
-		try {
-			event.item.remove();
-		} catch (e) {
-			console.error(e);
-		}
-		triggerRefresh.update((a) => !a);
-	};
 </script>
 
 <div class="relative h-32 w-full" bind:this={sortableList}>
