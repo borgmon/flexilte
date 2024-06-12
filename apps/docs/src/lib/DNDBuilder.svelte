@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { components, triggerRefresh } from '$lib/editorStore';
+	import { components, selectedComponentStore, triggerRefresh } from '$lib/editorStore';
 	import { onMount } from 'svelte';
 	import { JsonLayout, type LayoutConfig } from '@flexilte/core';
 	import 'gridstack/dist/gridstack.min.css';
@@ -144,6 +144,19 @@
 						toggleFill(cur.gridstackNode);
 					}
 				});
+				x.addEventListener('click', (e: Event) => {
+					let cur = e.target as GridItemHTMLElement;
+					while (cur && !cur.gridstackNode) {
+						cur = cur.parentElement as GridItemHTMLElement;
+					}
+					if (cur.gridstackNode) {
+						if (!cur.gridstackNode.id) cur.gridstackNode.id = Date.now().toString();
+						selectedComponentStore.set({
+							id: cur.gridstackNode.id!,
+							type: cur.gridstackNode.el?.innerText!
+						});
+					}
+				});
 				x.setAttribute('patched', '');
 			}
 		});
@@ -159,6 +172,7 @@
 			helper: 'clone'
 		});
 		grid = GridStack.init(gridConfig, builderEl);
+		// grid.addWidget(previewEl);
 	});
 
 	triggerRefresh.subscribe(() => saveLayout());
@@ -174,4 +188,3 @@
 	class=" grid-stack-item-content"
 	on:mouseenter={injectEvent}
 ></div>
-<button on:click={saveLayout}>save</button>

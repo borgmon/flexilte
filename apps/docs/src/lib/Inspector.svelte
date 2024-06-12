@@ -9,33 +9,42 @@
 	import type { ComponentProps } from 'svelte';
 	import { TextBox, ImageBox, CardBox, ButtonBox } from '@flexilte/skeleton';
 
-	let comp: LayoutConfig<typeof components>;
-	let props = [];
-	selectedComponentStore.subscribe((id) => {
-		if ($componentValueStore[id]) {
-			comp = $componentValueStore[id];
-			console.log('here', comp);
-			props = Object.keys(comp.props).map((p) => ({ name: p, value: comp.props[p] }));
+	const compPropMap: Record<string, any> = {
+		TextBox: {
+			text: 'text'
 		}
+	};
+
+	let props: Record<string, any> = {};
+	let fields: string[] = [];
+	let elId: string;
+	selectedComponentStore.subscribe((comp) => {
+		if (!comp) return;
+		const { id, type } = comp;
+		elId = id;
+		props = JSON.parse(JSON.stringify(compPropMap[type]));
+		if ($componentValueStore[id]) {
+			props = $componentValueStore[id];
+		}
+		fields = Object.keys(props);
 	});
 </script>
 
 <div class="form-group">
-	{#each props as prop}
+	{#each fields as prop}
 		<label class="label">
-			<span>{prop.name}</span>
+			<span>{prop}</span>
 			<input
-				class="input"
+				class="input pl-1"
 				type="text"
 				placeholder="Input"
-				value={prop.value}
+				value={props[prop]}
 				on:change={(e) => {
-					console.log(e);
 					componentValueStore.update((store) => {
-						store[comp.id].props[prop.name] = e.target.value;
+						props[prop] = e.target.value;
+						store[elId] = props;
 						return { ...store };
 					});
-					triggerRefresh.update((e) => !e);
 				}}
 			/>
 		</label>

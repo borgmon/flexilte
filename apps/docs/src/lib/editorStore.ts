@@ -17,45 +17,8 @@ export const components = {
 	ButtonBox
 };
 
-export const selectedComponentStore = writable<string>();
-export const componentValueStore = writable<Record<string, LayoutConfig<typeof components>>>({
-	'1': {
-		id: '1',
-		component: 'TextBox',
-		posX: 'middle',
-		posY: 'middle',
-		props: {
-			text: 'A'
-		}
-	},
-	'2': {
-		id: '2',
-		component: 'TextBox',
-		posX: 'middle',
-		posY: 'middle',
-		props: {
-			text: 'B'
-		}
-	},
-	'3': {
-		id: '3',
-		component: 'TextBox',
-		posX: 'middle',
-		posY: 'middle',
-		props: {
-			text: 'C'
-		}
-	},
-	'4': {
-		id: '4',
-		component: 'TextBox',
-		posX: 'middle',
-		posY: 'middle',
-		props: {
-			text: 'D'
-		}
-	}
-});
+export const selectedComponentStore = writable<{ id: string, type: string }>();
+export const componentValueStore = writable<Record<string, Record<string, any>>>({});
 export const componentStore = writable<LayoutConfig<typeof components>>({
 	rows: [
 		{
