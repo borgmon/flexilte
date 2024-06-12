@@ -252,6 +252,48 @@
 						layoutClass: 'h-16 w-96'
 					}
 				]
+			},
+			{
+				component: 'Text',
+				props: {
+					text: 'width'
+				},
+				layoutClass: 'h-8'
+			},
+			{
+				layoutClass: 'md:mx-2',
+				cols: [
+					{
+						width: 'w-2/12',
+						component: 'Text',
+						props: {
+							text: 'w-2/12'
+						},
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: 'h-16 w-72'
+					},
+					{
+						width: 'w-5/12',
+						component: 'Text',
+						props: {
+							text: 'w-5/12'
+						},
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: 'h-16 w-72'
+					},
+					{
+						width: 'w-7/12',
+						component: 'Text',
+						props: {
+							text: 'w-7/12'
+						},
+						posX: 'middle',
+						posY: 'middle',
+						layoutClass: 'h-16 w-72'
+					}
+				]
 			}
 		]
 	};

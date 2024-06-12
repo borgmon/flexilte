@@ -37,6 +37,30 @@
 		return classList;
 	};
 
+	const width1Classes = [
+		'w-1/1',
+		'w-2/2',
+		'w-3/3',
+		'w-4/4',
+		'w-5/5',
+		'w-6/6',
+		'w-7/7',
+		'w-8/8',
+		'w-9/9',
+		'w-10/10',
+		'w-11/11',
+		'w-12/12'
+	];
+
+	const getWidthClass = (col: LayoutConfig<C>) => {
+		if (col.width) {
+			if (!width1Classes.includes(col.width)) {
+				return col.width;
+			}
+		}
+		return 'w-full';
+	};
+
 	if (layoutConfig.alignHeight) {
 		layoutConfig.cols?.forEach((col: LayoutConfig<C>) => {
 			col.alignHeight = true;
@@ -57,7 +81,7 @@
 	{#each layoutConfig.cols as col}
 		<div
 			id={layoutConfig.id}
-			class={`flex flex-col w-full flexilte flexilte-col ${col.width || ''} ${layoutConfig.layoutClass || ''} ${getAlignmentClass(col)} ${col.nodeClass || ''}`}
+			class={`flex flex-col flexilte flexilte-col ${getWidthClass(col)} ${layoutConfig.layoutClass || ''} ${getAlignmentClass(col)} ${col.nodeClass || ''}`}
 		>
 			<svelte:self {components} layoutConfig={col} {debug} />
 		</div>

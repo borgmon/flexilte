@@ -5,13 +5,13 @@
 	import DNDList from '$lib/DNDList.svelte';
 	import DNDBuilder from '$lib/DNDBuilder.svelte';
 	import Inspector from '$lib/Inspector.svelte';
-	import ExportButton from '$lib/ExportButton.svelte';
+	import ActionButton from '$lib/ActionButton.svelte';
 	import RemoveBox from '$lib/RemoveBox.svelte';
 	import DNDPreview from '$lib/DNDPreview.svelte';
 	import { componentStore } from '$lib/editorStore';
 	import AddBox from '$lib/AddBox.svelte';
 	const components = {
-		ExportButton,
+		ActionButton,
 		TextBox,
 		DNDList,
 		DNDBuilder,
@@ -35,9 +35,9 @@
 			{
 				cols: [
 					{
-						component: 'ExportButton',
+						component: 'ActionButton',
 						props: {
-							text: 'Export'
+							type: 'export'
 						},
 						posX: 'right',
 						posY: 'middle'
@@ -48,7 +48,7 @@
 				layoutClass: 'mt-4',
 				cols: [
 					{
-						width: 'md:w-2/6',
+						width: 'w-2/6',
 						layoutClass: 'variant-ghost p-4',
 						rows: [
 							{
@@ -68,17 +68,38 @@
 						]
 					},
 					{
-						width: 'md:w-5/6',
+						width: 'w-5/6',
 						layoutClass: 'variant-ghost p-4',
 
 						rows: [
 							{
-								component: 'TextBox',
-								props: {
-									type: 'h4',
-									text: 'Preview'
-								}
+								cols: [
+									{
+										component: 'TextBox',
+										props: {
+											type: 'h4',
+											text: 'Builder'
+										}
+									},
+									{
+										component: 'ActionButton',
+										props: {
+											type: 'format'
+										},
+										posX: 'right',
+										posY: 'middle'
+									},
+									{
+										component: 'ActionButton',
+										props: {
+											type: 'render'
+										},
+										posX: 'right',
+										posY: 'middle'
+									}
+								]
 							},
+
 							{
 								component: 'DNDBuilder',
 								nodeClass: 'flex-1'
@@ -87,7 +108,7 @@
 					},
 					{
 						// inspector
-						width: 'md:w-1/6',
+						width: 'w-1/6',
 						layoutClass: 'variant-ghost p-4',
 						rows: [
 							{

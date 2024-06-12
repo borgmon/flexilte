@@ -5,7 +5,6 @@ export interface LayoutConfig<C extends Record<string, ComponentType>> {
 	width?: string;
 	component?: keyof C & string;
 	props?: Record<string, any>;
-	isLoading?: boolean;
 	layoutClass?: string; // apply to all cols or rows
 	wrapperClass?: string; // create and wrap element with a wrapper
 	nodeClass?: string; // apply to individual element

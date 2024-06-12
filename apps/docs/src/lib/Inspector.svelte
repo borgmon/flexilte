@@ -8,45 +8,109 @@
 	} from './editorStore';
 	import type { ComponentProps } from 'svelte';
 	import { TextBox, ImageBox, CardBox, ButtonBox } from '@flexilte/skeleton';
+	import defaultMap from './defaultMap';
 
-	const compPropMap: Record<string, any> = {
-		TextBox: {
-			text: 'text'
-		}
-	};
-
-	let props: Record<string, any> = {};
-	let fields: string[] = [];
 	let elId: string;
-	selectedComponentStore.subscribe((comp) => {
-		if (!comp) return;
-		const { id, type } = comp;
+	let comp: LayoutConfig<typeof components>;
+	let props: string[] = [];
+	selectedComponentStore.subscribe((id) => {
 		elId = id;
-		props = JSON.parse(JSON.stringify(compPropMap[type]));
 		if ($componentValueStore[id]) {
-			props = $componentValueStore[id];
+			comp = $componentValueStore[id];
+			console.log('here', comp);
+			props = Object.keys(comp.props);
+			console.log(1, props);
 		}
-		fields = Object.keys(props);
 	});
 </script>
 
-<div class="form-group">
-	{#each fields as prop}
+{#if comp}
+	<div class="form-group">
+		<h6 class="h6">Props</h6>
+		{#each props as prop}
+			<label class="label">
+				<span>{prop}</span>
+				<input
+					class="input pl-1"
+					type="text"
+					placeholder="Input"
+					value={comp.props[prop]}
+					on:change={(e) => {
+						componentValueStore.update((store) => {
+							comp.props[prop] = e.target.value;
+							store[elId].props[prop] = e.target.value;
+							return { ...store };
+						});
+					}}
+				/>
+			</label>
+		{/each}
+		<h6 class="h6 mt-4">Layout</h6>
 		<label class="label">
-			<span>{prop}</span>
+			<span>posX</span>
+			<select
+				class="select"
+				value={comp.posX || ''}
+				on:change={(e) => {
+					componentValueStore.update((store) => {
+						comp.posX = e.target.value;
+						store[elId].posX = e.target.value;
+						return { ...store };
+					});
+				}}
+			>
+				<option value="left">left</option>
+				<option value="middle">middle</option>
+				<option value="right">right</option>
+			</select>
+		</label>
+		<label class="label">
+			<span>posY</span>
+			<select
+				class="select"
+				value={comp.posY || ''}
+				on:change={(e) => {
+					componentValueStore.update((store) => {
+						comp.posY = e.target.value;
+						store[elId].posY = e.target.value;
+						return { ...store };
+					});
+				}}
+			>
+				<option value="top">top</option>
+				<option value="middle">middle</option>
+				<option value="bottom">bottom</option>
+			</select>
+		</label>
+		<label class="label">
+			<span>layoutClass</span>
 			<input
 				class="input pl-1"
 				type="text"
-				placeholder="Input"
-				value={props[prop]}
+				value={comp.layoutClass || ''}
 				on:change={(e) => {
 					componentValueStore.update((store) => {
-						props[prop] = e.target.value;
-						store[elId] = props;
+						comp.layoutClass = e.target.value;
+						store[elId].layoutClass = e.target.value;
 						return { ...store };
 					});
 				}}
 			/>
 		</label>
-	{/each}
-</div>
+		<label class="label">
+			<span>wrapperClass</span>
+			<input
+				class="input pl-1"
+				type="text"
+				value={comp.wrapperClass || ''}
+				on:change={(e) => {
+					componentValueStore.update((store) => {
+						comp.wrapperClass = e.target.value;
+						store[elId].wrapperClass = e.target.value;
+						return { ...store };
+					});
+				}}
+			/>
+		</label>
+	</div>
+{/if}

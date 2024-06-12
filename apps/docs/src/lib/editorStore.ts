@@ -17,58 +17,8 @@ export const components = {
 	ButtonBox
 };
 
-export const selectedComponentStore = writable<{ id: string, type: string }>();
-export const componentValueStore = writable<Record<string, Record<string, any>>>({});
-export const componentStore = writable<LayoutConfig<typeof components>>({
-	rows: [
-		{
-			alignHeight: true,
-			layoutClass: 'mx-4',
-			cols: [
-				{
-					id: '1',
-					component: 'TextBox',
-					posX: 'middle',
-					posY: 'middle',
-					props: {
-						text: 'A'
-					}
-				},
-				{
-					alignHeight: true,
-					layoutClass: 'my-4',
-					rows: [
-						{
-							id: '2',
-							component: 'TextBox',
-							posX: 'middle',
-							posY: 'middle',
-							props: {
-								text: 'B'
-							}
-						},
-						{
-							id: '3',
-							component: 'TextBox',
-							posX: 'middle',
-							posY: 'middle',
-							props: {
-								text: 'C'
-							}
-						}
-					]
-				}
-			]
-		},
-		{
-			id: '4',
-			component: 'TextBox',
-			posX: 'middle',
-			posY: 'middle',
-			props: {
-				text: 'D'
-			}
-		}
-	]
-});
+export const selectedComponentStore = writable<string>();
+export const componentValueStore = writable<Record<string, LayoutConfig<typeof components>>>({});
+export const componentStore = writable<LayoutConfig<typeof components>>({});
 export const triggerRefresh = writable<boolean>();
+export const triggerFormat = writable<boolean>();

@@ -1,15 +1,15 @@
 export default {
 	TextBox: {
-		text: 'Change me'
+		text: 'text'
 	},
 	CodeBlock: {
 		language: 'ts',
-		code: '// Change me'
+		code: '// code'
 	},
 	ImageBox: {
 		url: 'https://placedog.net/200/200'
 	},
 	CardBox: {
-		title: 'Change me'
+		title: 'text'
 	}
 } as Record<string, Record<string, any>>;
