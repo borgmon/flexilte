@@ -10,6 +10,7 @@
 	import DNDPreview from '$lib/DNDPreview.svelte';
 	import { componentStore } from '$lib/editorStore';
 	import AddBox from '$lib/AddBox.svelte';
+	import { Avatar, CodeBlock } from '@skeletonlabs/skeleton';
 	const components = {
 		ActionButton,
 		TextBox,
@@ -19,33 +20,14 @@
 		ImageBox,
 		RemoveBox,
 		DNDPreview,
-		AddBox
+		AddBox,
+		Avatar,
+		CodeBlock
 	};
 
 	const editorLayout: LayoutConfig<typeof components> = {
 		rows: [
 			{
-				component: 'TextBox',
-				props: {
-					type: 'h2',
-					text: 'Flexilte Drag And Drop Editor'
-				},
-				posX: 'middle'
-			},
-			{
-				cols: [
-					{
-						component: 'ActionButton',
-						props: {
-							type: 'export'
-						},
-						posX: 'right',
-						posY: 'middle'
-					}
-				]
-			},
-			{
-				layoutClass: 'mt-4',
 				cols: [
 					{
 						width: 'w-2/6',
@@ -70,11 +52,12 @@
 					{
 						width: 'w-5/6',
 						layoutClass: 'variant-ghost p-4',
-
 						rows: [
 							{
+								alignHeight: true,
 								cols: [
 									{
+										posY: 'middle',
 										component: 'TextBox',
 										props: {
 											type: 'h4',
@@ -82,20 +65,35 @@
 										}
 									},
 									{
-										component: 'ActionButton',
-										props: {
-											type: 'format'
-										},
+										width: 'w-1/6',
 										posX: 'right',
-										posY: 'middle'
-									},
-									{
-										component: 'ActionButton',
-										props: {
-											type: 'render'
-										},
-										posX: 'right',
-										posY: 'middle'
+										rows: [
+											{
+												cols: [
+													{
+														component: 'ActionButton',
+														props: {
+															type: 'format'
+														},
+														posX: 'right'
+													},
+													{
+														component: 'ActionButton',
+														props: {
+															type: 'render'
+														},
+														posX: 'right'
+													},
+													{
+														component: 'ActionButton',
+														props: {
+															type: 'export'
+														},
+														posX: 'right'
+													}
+												]
+											}
+										]
 									}
 								]
 							},
@@ -128,9 +126,74 @@
 			}
 		]
 	};
+
+	const defaultLayout = {
+		rows: [
+			{
+				cols: [
+					{
+						id: '1718176210843',
+						component: 'TextBox',
+						props: {
+							text: 'Flexilte Editor',
+							type: 'h1'
+						},
+						posX: 'middle',
+						posY: 'middle',
+						width: 'w-12/12'
+					}
+				]
+			},
+			{
+				cols: [
+					{
+						id: '1718176285682',
+						component: 'TextBox',
+						props: {
+							text: 'Try this awsome editor',
+							type: 'h5'
+						},
+						posX: 'middle',
+						posY: 'middle',
+						width: 'w-12/12'
+					}
+				]
+			},
+			{
+				cols: [
+					{
+						id: '1718176212709',
+						component: 'ImageBox',
+						props: {
+							url: 'https://placedog.net/200/200'
+						},
+						posX: 'middle',
+						posY: 'middle',
+						width: 'w-5/12'
+					},
+					{
+						id: '1718176473646',
+						component: 'TextBox',
+						props: {
+							text: 'Different Layout',
+							type: 'h2'
+						},
+						posX: 'middle',
+						posY: 'middle',
+						width: 'w-7/12'
+					}
+				]
+			}
+		]
+	};
 </script>
 
-<div class="container mx-auto mt-6">
+<div class="container mx-auto mt-12 mb-[26rem]">
+	<JsonLayout
+		layoutConfig={$componentStore.component ? $componentStore : defaultLayout}
+		{components}
+	></JsonLayout>
+</div>
+<div class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4">
 	<JsonLayout layoutConfig={editorLayout} {components}></JsonLayout>
-	<!-- <JsonLayout layoutConfig={$componentStore} {components} /> -->
 </div>

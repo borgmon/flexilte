@@ -44,7 +44,7 @@
 		acceptWidgets: true,
 		// margin:1,
 		removable: '#trash',
-		minRow: 2,
+		minRow: 9,
 		float: true,
 		// column:6,
 		cellHeight: '2rem',
@@ -266,8 +266,9 @@
 	triggerFormat.subscribe(() => formatGrid(grid));
 </script>
 
-<div class="flexilte-row" bind:this={previewEl} id="preview">
+<!-- <div class="flexilte-row" bind:this={previewEl} id="preview">
 	<JsonLayout layoutConfig={customlayout} {components} debug={true} />
+</div> -->
+<div class="overflow-auto h-72">
+	<div bind:this={builderEl} id="builder" class=" grid-stack-item-content"></div>
 </div>
-
-<div bind:this={builderEl} id="builder" class=" grid-stack-item-content"></div>

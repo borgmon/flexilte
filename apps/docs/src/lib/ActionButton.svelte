@@ -11,12 +11,13 @@
 </script>
 
 {#if type === 'format'}
-	<button class="btn variant-filled" on:click={() => triggerFormat.update((e) => !e)}>Format</button
+	<button class="btn variant-filled-primary" on:click={() => triggerFormat.update((e) => !e)}
+		>Format</button
 	>
 {:else if type === 'render'}
-	<button class="btn variant-filled" on:click={() => triggerRefresh.update((e) => !e)}
+	<button class="btn variant-filled-secondary" on:click={() => triggerRefresh.update((e) => !e)}
 		>Render</button
 	>
 {:else if type === 'export'}
-	<button class="btn variant-filled" on:click={exportJson}>Export</button>
+	<button class="btn variant-filled-tertiary" on:click={exportJson}>Export</button>
 {/if}

@@ -21,12 +21,8 @@
 			name: 'CodeBlock'
 		},
 		{
-			icon: 'mdi:table-row-plus-after',
-			name: 'Add Row'
-		},
-		{
-			icon: 'mdi:table-column-plus-after',
-			name: 'Add Col'
+			icon: 'mdi:people',
+			name: 'Avatar'
 		}
 	];
 
@@ -38,7 +34,7 @@
 	};
 </script>
 
-<div id="toolbox" class="sidebar flex flex-wrap gap-4">
+<div id="toolbox" class="sidebar flex flex-wrap gap-4 overflow-auto h-32">
 	{#each items as item, index}
 		<div class="grid-stack-item w-32 cursor-grab select-none">
 			<div class="grid-stack-item-content">
