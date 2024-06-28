@@ -4,4 +4,6 @@
 	const { language, code } = $modalStore[0].meta;
 </script>
 
-<CodeBlock {language} {code}></CodeBlock>
+<div class="max-h-[32em] overflow-auto">
+	<CodeBlock {language} {code}></CodeBlock>
+</div>

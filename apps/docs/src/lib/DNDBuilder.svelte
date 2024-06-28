@@ -3,6 +3,7 @@
 		componentStore,
 		componentValueStore,
 		components,
+		gridStore,
 		selectedComponentStore,
 		triggerFormat,
 		triggerRefresh
@@ -223,26 +224,36 @@
 		console.log('save', save);
 		customlayout = convert(save);
 		componentStore.set(customlayout);
+		gridStore.set(save);
 		console.log('customlayout', customlayout);
 	};
 	let tmpW: string;
 	onMount(() => {
+		const gridStoreStr = sessionStorage.getItem('gridStore');
+		const valueStoreStr = sessionStorage.getItem('valueStore');
+		if (gridStoreStr) {
+			gridStore.set(JSON.parse(gridStoreStr));
+		}
+		gridStore.subscribe((x) => {
+			if (x) {
+				sessionStorage.setItem('gridStore', JSON.stringify(x));
+			}
+		});
+		if (valueStoreStr) {
+			componentValueStore.set(JSON.parse(valueStoreStr));
+		}
+		componentValueStore.subscribe((x) => {
+			if (x) {
+				sessionStorage.setItem('valueStore', JSON.stringify(x));
+			}
+		});
+
 		GridStack.setupDragIn('.sidebar .grid-stack-item', {
 			helper: 'clone'
 		});
-		grid = GridStack.init(gridConfig, builderEl);
-		// grid.on('added', function (event: Event, items: GridStackNode[]) {
-		// 	console.log('added');
-		// });
-		// grid.on('change', function (event: Event, items: GridStackNode[]) {
-		// 	console.log('change');
-		// });
-		// grid.on('dragstart', function(event: Event, el: GridItemHTMLElement) {
-		// 	console.log('dragstart');
-		// });
-		// grid.on('dragstop', function(event: Event, el: GridItemHTMLElement) {
-		// 	console.log('dragstop');
-		// });
+		grid = $gridStore
+			? GridStack.init($gridStore, builderEl)
+			: GridStack.init(gridConfig, builderEl);
 		grid.on(
 			'dropped',
 			function (event: Event, previousWidget: GridStackNode, newWidget: GridStackNode) {
@@ -254,6 +265,7 @@
 				newWidget.el?.addEventListener('click', (e) => {
 					selectedComponentStore.set(newWidget.id);
 				});
+				selectedComponentStore.set(newWidget.id);
 			}
 		);
 		grid.on('removed', function (event: Event, items: GridStackNode[]) {

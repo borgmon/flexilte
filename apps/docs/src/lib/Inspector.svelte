@@ -89,6 +89,7 @@
 					<option value="bottom">bottom</option>
 				</select>
 			</label>
+			<h6 class="h6 mt-4">Classes</h6>
 			<label class="label">
 				<span>layoutClass</span>
 				<input
