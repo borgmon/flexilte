@@ -8,7 +8,7 @@
 			},
 			"posX": "middle",
 			"posY": "middle",
-			"layoutClass": "h-32"
+			"nodeClass": "h-32"
 		},
 		{
 			"component": "TextBox",
@@ -18,12 +18,12 @@
 			},
 			"posX": "middle",
 			"posY": "middle",
-			"layoutClass": "h-12"
+			"nodeClass": "h-12"
 		},
 		{
 			"cols": [
 				{
-					"layoutClass": "my-1",
+					"gap": "gap-2",
 					"rows": [
 						{
 							"component": "ButtonBox",
@@ -36,7 +36,7 @@
 						{
 							"component": "ButtonBox",
 							"props": {
-								"text": "Generate using drag and drop editor",
+								"text": "Drag and drop editor",
 								"code": "npm install @flexilte/core @flexilte/skeleton",
 								"link": "./editor",
 								"variant": "variant-filled-secondary"
@@ -55,7 +55,7 @@
 			]
 		},
 		{
-			"layoutClass": "md:m-3 my-3",
+			"nodeClass": "md:m-3 my-3",
 			"alignHeight": true,
 			"cols": [
 				{

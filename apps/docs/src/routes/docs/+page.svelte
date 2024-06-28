@@ -1,307 +1,151 @@
 <script lang="ts">
+	import { components } from '$lib/editorStore';
 	import JsonLayoutT from '$lib/tests/JsonLayoutT.svelte';
 	import Text from '$lib/tests/Text.svelte';
 	import type { LayoutConfigT } from '$lib/tests/types';
-	import { JsonLayout, type LayoutConfig } from '@flexilte/core';
+	import { Flexilte, type LayoutConfig } from '@flexilte/core';
 	import { TextBox } from '@flexilte/skeleton';
 	import { ProgressBar, ProgressRadial } from '@skeletonlabs/skeleton';
 
-	const components = { TextBox, ProgressRadial, ProgressBar };
-
 	const layoutConfig: LayoutConfig<typeof components> = {
-		layoutClass: 'my-2',
+		nodeClass: 'my-6',
 		rows: [
 			{
 				component: 'TextBox',
 				props: {
-					text: 'Alignments',
-					type: 'h4'
-				},
-				layoutClass: 'h-8'
+					text: 'Documentation',
+					type: 'h1'
+				}
 			},
 			{
 				component: 'TextBox',
 				props: {
-					text: 'left'
-				},
-				posX: 'left',
-				layoutClass: 'h-16'
+					text: 'Once you use it you will be like: WHY NOBODY HAVE DONE THIS YET UNTIL NOW?!'
+				}
 			},
 			{
 				component: 'TextBox',
 				props: {
-					text: 'right'
-				},
-				posX: 'right',
-				layoutClass: 'h-16'
+					text: "What's Flexilte",
+					type: 'h2'
+				}
 			},
 			{
 				component: 'TextBox',
 				props: {
-					text: 'middle'
-				},
-				posX: 'middle',
-				layoutClass: 'h-16'
+					text: 'Flexilte is a svelte lib that turns json/yaml into a webpage! It uses a opinionated flex box concept and dynamically construct page layout, create svelte components, and inject props. It can be done both on server side or client side.'
+				}
 			},
 			{
 				component: 'TextBox',
 				props: {
-					text: 'top'
-				},
-				posY: 'top',
-				layoutClass: 'h-16'
+					text: 'How To Install',
+					type: 'h2'
+				}
 			},
 			{
 				component: 'TextBox',
 				props: {
-					text: 'bottom'
-				},
-				posY: 'bottom',
-				layoutClass: 'h-16'
+					text: 'Flexilte works with ANY svelte UI frameworks. It comes with skeleton UI wrappers, you can get started by install'
+				}
+			},
+			{
+				component: 'CodeBlock',
+				props: {
+					code: 'pnpm i @flexilte/core @flexilte/skeleton',
+					language: 'bash'
+				}
 			},
 			{
 				component: 'TextBox',
 				props: {
-					text: 'middle'
-				},
-				posY: 'middle',
-				layoutClass: 'h-16'
+					text: 'Basic Example',
+					type: 'h2'
+				}
 			},
 			{
 				component: 'TextBox',
 				props: {
-					text: 'very middle'
-				},
-				posX: 'middle',
-				posY: 'middle',
-				layoutClass: 'h-16'
+					text: 'It is extremely simple to use Flexilte.'
+				}
+			},
+			{
+				component: 'CodeBlock',
+				props: {
+					code: `<script lang="ts">
+	import { InputChip } from '@skeletonlabs/skeleton';
+	const components = { InputChip };
+	const layoutConfig: LayoutConfig<typeof components> = {
+		component: 'InputChip',
+		props: {
+			value: ['Hello', 'World'],
+			name: "chips"
+		}
+	}
+<\/script>
+<Flexilte {layoutConfig} {components}></Flexilte>`,
+					language: 'typescript'
+				}
 			},
 			{
 				component: 'TextBox',
 				props: {
-					text: 'Columns',
-					type: 'h4'
-				},
-				layoutClass: 'h-8'
+					text: 'And the above code will render:'
+				}
 			},
 			{
-				layoutClass: 'md:mx-2',
-				cols: [
-					{
-						width: 'md:w-1/3',
-						component: 'TextBox',
-						props: {
-							text: 'test'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: 'h-16'
-					},
-					{
-						width: 'md:w-1/3',
-						component: 'ProgressRadial',
-						props: {
-							value: 33
-						},
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: ''
-					},
-					{
-						width: 'md:w-1/3',
-						component: 'ProgressBar',
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: 'h-16'
-					}
-				]
-			},
-			{
-				layoutClass: 'md:mx-2',
-				alignHeight: true,
-				cols: [
-					{
-						width: 'md:w-1/3',
-						component: 'TextBox',
-						props: {
-							text: 'test'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: 'h-16'
-					},
-					{
-						width: 'md:w-1/3',
-						component: 'ProgressRadial',
-						props: {
-							value: 33
-						},
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: 'p-4'
-					},
-					{
-						width: 'md:w-1/3',
-						alignHeight: true,
-						rows: [
-							{
-								layoutClass: 'md:mx-2',
-								alignHeight: true,
-								cols: [
-									{
-										width: 'md:w-1/3',
-										component: 'TextBox',
-										props: {
-											text: 'test'
-										},
-										posX: 'middle',
-										posY: 'middle',
-										layoutClass: 'h-16'
-									},
-									{
-										width: 'md:w-1/3',
-										component: 'ProgressRadial',
-										props: {
-											value: 33
-										},
-										posX: 'middle',
-										posY: 'middle',
-										layoutClass: 'p-4'
-									},
-									{
-										width: 'md:w-1/3',
-										component: 'ProgressBar',
-										posX: 'middle',
-										posY: 'middle',
-										layoutClass: 'h-16'
-									}
-								]
-							}
-						]
-					}
-				]
+				component: 'InputChip',
+				props: {
+					value: ['Hello', 'World'],
+					name: 'chips'
+				}
 			},
 			{
 				component: 'TextBox',
 				props: {
-					text: 'Overflows/Wrap',
-					type: 'h4'
-				},
-				layoutClass: 'h-8'
-			},
-			{
-				layoutClass: 'md:mx-2',
-				wrap: 'wrap',
-				cols: [
-					{
-						component: 'TextBox',
-						props: {
-							text: 'test'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: 'h-16 w-72'
-					},
-					{
-						component: 'TextBox',
-						props: {
-							text: 'test'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: 'h-16 w-72'
-					},
-					{
-						component: 'TextBox',
-						props: {
-							text: 'test'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: 'h-16 w-72'
-					}
-				]
-			},
-			{
-				layoutClass: 'md:mx-2',
-				wrap: 'nowrap',
-				cols: [
-					{
-						component: 'TextBox',
-						props: {
-							text: 'test'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: 'h-16 w-96'
-					},
-					{
-						component: 'TextBox',
-						props: {
-							text: 'test'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: 'h-16 w-96'
-					},
-					{
-						component: 'TextBox',
-						props: {
-							text: 'test'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: 'h-16 w-96'
-					}
-				]
+					text: '(Yes the above example is Flexilte generated. In fact, this entire website is powered with Flexilte!)'
+				}
 			},
 			{
 				component: 'TextBox',
 				props: {
-					text: 'width',
-					type: 'h4'
-				},
-				layoutClass: 'h-8'
+					text: "JSON Schema",
+					type: 'h2'
+				}
 			},
 			{
-				layoutClass: 'md:mx-2',
-				cols: [
-					{
-						width: 'w-2/12',
-						component: 'TextBox',
-						props: {
-							text: 'w-2/12'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: 'h-16 w-72'
-					},
-					{
-						width: 'w-5/12',
-						component: 'TextBox',
-						props: {
-							text: 'w-5/12'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: 'h-16 w-72'
-					},
-					{
-						width: 'w-7/12',
-						component: 'TextBox',
-						props: {
-							text: 'w-7/12'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						layoutClass: 'h-16 w-72'
-					}
-				]
-			}
+				component: 'TextBox',
+				props: {
+					text: 'Flexilte json is a recursive tree. It can be a row, a col, or an component.'
+				}
+			},
+			{
+				component: 'CodeBlock',
+				props: {
+					code: `{
+	id?: string; // will be added to the element
+	width?: string; // tailwind class for the width (w-1/6)
+	component?: keyof C & string; // component name
+	props?: Record<string, any>; // component props
+	nodeClass?: string; // classes apply to cols/rows/elements
+	wrapperClass?: string; // wrap element with a div, this is for components that doesn't like flex box
+	layoutClass?: string; // classes apply to cols/rows
+	cols?: LayoutConfig<C>[]; // array of itself
+	rows?: LayoutConfig<C>[]; // array of itself
+	posX?: 'left' | 'right' | 'middle'; // we solved css! choose how to position your element horizontally
+	posY?: 'top' | 'bottom' | 'middle'; // we solved css! choose how to position your element vertically
+	alignHeight?: boolean; // if true then all element in the same row/col will align at the bottom
+	wrap?: 'wrap' | 'nowrap'; // choose if element wrap around flex way
+	gap?: string, // tailwind class for the gap (gap-4)
+}`,
+					language: 'typescript'
+				}
+			},
+
 		]
 	};
 </script>
 
 <div class="px-4 container mx-auto">
-	<JsonLayout {layoutConfig} {components} debug={true}></JsonLayout>
+	<Flexilte {layoutConfig} {components}></Flexilte>
 </div>

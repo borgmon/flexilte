@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { JsonLayout, type LayoutConfig } from '@flexilte/core';
+	import { Flexilte,   type LayoutConfig } from '@flexilte/core';
 	import { components } from './editorStore';
 	import { aiResultStore } from '$lib/AIStore';
 
@@ -14,7 +14,7 @@
 						},
 						posX: 'middle',
 						posY: 'middle',
-						layoutClass: 'h-96'
+						nodeClass: 'h-96'
 					}
 				]
 			}
@@ -31,5 +31,5 @@
 </script>
 
 <div class="px-4 container mx-auto h-[30rem] w-full">
-	<JsonLayout {layoutConfig} {components}></JsonLayout>
+	<Flexilte {layoutConfig} {components}></Flexilte>
 </div>

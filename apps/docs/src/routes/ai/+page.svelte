@@ -1,6 +1,6 @@
 <script lang="ts">
 	import JsonLayoutT from '$lib/tests/JsonLayoutT.svelte';
-	import { JsonLayout, type LayoutConfig } from '@flexilte/core';
+	import { Flexilte, type LayoutConfig } from '@flexilte/core';
 	import { TextBox, ImageBox } from '@flexilte/skeleton';
 	import ChatView from '$lib/ChatView.svelte';
 	import InputView from '$lib/InputView.svelte';
@@ -25,5 +25,5 @@
 </script>
 
 <div class="px-4 container mx-auto">
-	<JsonLayout {layoutConfig} {components}></JsonLayout>
+	<Flexilte {layoutConfig} {components}></Flexilte>
 </div>

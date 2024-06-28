@@ -1,15 +1,13 @@
-import { JsonLayout, type LayoutConfig } from '@flexilte/core';
-import { ButtonBox, CardBox, ImageBox, TextBox } from '@flexilte/skeleton';
-import { SortableList } from '@sonderbase/svelte-sortablejs';
+import { type LayoutConfig } from '@flexilte/core';
+import { ImageBox, TextBox } from '@flexilte/skeleton';
 import DNDList from '$lib/DNDList.svelte';
 import DNDBuilder from '$lib/DNDBuilder.svelte';
 import Inspector from '$lib/Inspector.svelte';
 import ActionButton from '$lib/ActionButton.svelte';
 import RemoveBox from '$lib/RemoveBox.svelte';
 import DNDPreview from '$lib/DNDPreview.svelte';
-import { componentStore } from '$lib/editorStore';
 import AddBox from '$lib/AddBox.svelte';
-import { Avatar, CodeBlock, getDrawerStore } from '@skeletonlabs/skeleton';
+import { Avatar, CodeBlock } from '@skeletonlabs/skeleton';
 export const components = {
 	ActionButton,
 	TextBox,

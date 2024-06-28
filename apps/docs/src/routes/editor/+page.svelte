@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { JsonLayout, type LayoutConfig } from '@flexilte/core';
+	import { Flexilte, type LayoutConfig } from '@flexilte/core';
 	import { ButtonBox, CardBox, ImageBox, TextBox } from '@flexilte/skeleton';
 	import { SortableList } from '@sonderbase/svelte-sortablejs';
 	import DNDList from '$lib/DNDList.svelte';
@@ -69,12 +69,9 @@
 </script>
 
 <div class="p-4 bg-surface-50-900-token">
-	<JsonLayout layoutConfig={config} {components}></JsonLayout>
+	<Flexilte layoutConfig={config} {components}></Flexilte>
 </div>
 
 <div class="container mx-auto mt-12">
-	<JsonLayout layoutConfig={$componentStore} {components}></JsonLayout>
-</div>
-<div class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4">
-	<!-- <JsonLayout layoutConfig={editorLayout} {components}></JsonLayout> -->
+	<Flexilte layoutConfig={$componentStore} {components}></Flexilte>
 </div>

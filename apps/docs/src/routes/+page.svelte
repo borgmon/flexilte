@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { JsonLayout } from '@flexilte/core';
+	import { Flexilte } from '@flexilte/core';
 	import { ButtonBox, CardBox, TextBox } from '@flexilte/skeleton';
 	import type { LayoutConfig } from '@flexilte/core';
 	import { onMount } from 'svelte';
@@ -23,5 +23,5 @@
 </script>
 
 <div class="px-4 container mx-auto">
-	<JsonLayout {layoutConfig} {components}></JsonLayout>
+	<Flexilte {layoutConfig} {components}></Flexilte>
 </div>

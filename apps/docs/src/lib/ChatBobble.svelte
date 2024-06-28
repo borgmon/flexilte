@@ -1,8 +1,5 @@
 <script lang="ts">
-	import JsonLayoutT from '$lib/tests/JsonLayoutT.svelte';
-	import { JsonLayout, type LayoutConfig } from '@flexilte/core';
-	import { TextBox, ImageBox } from '@flexilte/skeleton';
-	export let role: 'host' | 'guest';
+		export let role: 'host' | 'guest';
 	export let message = '';
 </script>
 

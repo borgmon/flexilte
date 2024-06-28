@@ -1,6 +1,6 @@
 import type { LayoutConfig } from '@flexilte/core';
 import { TextBox, ImageBox, CardBox, ButtonBox } from '@flexilte/skeleton';
-import { Avatar, CodeBlock, ProgressBar, ProgressRadial } from '@skeletonlabs/skeleton';
+import { Avatar, CodeBlock, InputChip, ProgressBar, ProgressRadial } from '@skeletonlabs/skeleton';
 import { writable } from 'svelte/store';
 import AddBox from './AddBox.svelte';
 import { SortableList } from '@sonderbase/svelte-sortablejs';
@@ -16,7 +16,8 @@ export const components = {
 	ProgressRadial,
 	ProgressBar,
 	Avatar,
-	ButtonBox
+	ButtonBox,
+	InputChip,
 };
 
 export const selectedComponentStore = writable<string>();

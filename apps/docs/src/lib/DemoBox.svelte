@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { JsonLayout, type LayoutConfig } from '@flexilte/core';
+	import { Flexilte, type LayoutConfig } from '@flexilte/core';
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
@@ -16,7 +16,7 @@
 		},
 		posX: 'middle',
 		posY: 'middle',
-		layoutClass: 'h-full my-12'
+		nodeClass: 'h-full my-12'
 	};
 
 	const avatarData: LayoutConfig<typeof components> = {
@@ -28,7 +28,7 @@
 		},
 		posX: 'middle',
 		posY: 'middle',
-		layoutClass: 'h-full my-12'
+		nodeClass: 'h-full my-12'
 	};
 
 	const loadingBarData: LayoutConfig<typeof components> = {
@@ -36,7 +36,7 @@
 		posX: 'middle',
 		posY: 'middle',
 		wrapperClass: 'w-48',
-		layoutClass: 'md:h-full my-12'
+		nodeClass: 'md:h-full my-12'
 	};
 	let demoJson: LayoutConfig<typeof components> = {
 		rows: [
@@ -49,7 +49,6 @@
 							language: 'ts',
 							code: '// Select a json to render'
 						}
-						// wrapperClass: 'w-full flex justify-center'
 					},
 					{
 						component: 'CodeBlock',
@@ -57,7 +56,6 @@
 							language: 'ts',
 							code: '// Select a json to render'
 						}
-						// wrapperClass: 'w-full flex justify-center'
 					}
 				]
 			}
@@ -66,10 +64,10 @@
 
 	const buildExample = () => {
 		const copy = JSON.parse(JSON.stringify(demoJson));
-		copy.rows![0].cols = copy.rows![0].cols.slice(0);
-		return `const components = { ProgressRadial, Avatar, ProgressBar };
+		copy.rows![0].cols = copy.rows![0].cols[0]
+ 		return `const components = { ProgressRadial, Avatar, ProgressBar };
 const layoutConfig: LayoutConfig<typeof components> = ${JSON.stringify(copy, null, 2)}
-<JsonLayout {layoutConfig} {components}></JsonLayout>`;
+<Flexilte {layoutConfig} {components}></Flexilte>`;
 	};
 
 	const onDemoClick = (demo: string) => {
@@ -103,6 +101,6 @@ const layoutConfig: LayoutConfig<typeof components> = ${JSON.stringify(copy, nul
 	</div>
 
 	<div class="md:h-[56rem] h-[74rem] mt-6">
-		<JsonLayout layoutConfig={demoJson} {components}></JsonLayout>
+		<Flexilte layoutConfig={demoJson} {components}></Flexilte>
 	</div>
 </div>

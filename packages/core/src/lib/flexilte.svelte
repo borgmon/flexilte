@@ -1,12 +1,12 @@
 <script lang="ts" generics="C extends Record<string, ComponentType>">
-	import type { LayoutConfig } from './types.ts';
+	import type { LayoutConfig } from './types.js';
 	import type { ComponentType } from 'svelte';
 
 	export let layoutConfig: LayoutConfig<C>;
 	export let components: Record<string, ComponentType>;
-	export let debug: boolean | undefined;
+	export let debug: boolean = false;
 
-	const getAlignmentClass = (next?: LayoutConfig<C>): string => {
+	const getAlignmentClass = (addFlex = false): string => {
 		let classList = '';
 		if (layoutConfig.posX === 'middle') classList += ' justify-center';
 		else if (layoutConfig.posX === 'left') classList += ' justify-start';
@@ -18,7 +18,7 @@
 
 		if (layoutConfig.alignHeight) classList += ' flex-1';
 
-		if (classList) classList += ' flex';
+		if (classList && addFlex) classList += ' flex';
 		if (debug) {
 			classList += ' flexilte-debug';
 		}
@@ -36,6 +36,12 @@
 
 		return classList;
 	};
+
+	const getGapClass = (row: LayoutConfig<C>)=>{
+		let classList = '';
+		if (row.gap) classList += ` ${row.gap}`;
+		return classList
+	}
 
 	const width1Classes = [
 		'w-1/1',
@@ -72,7 +78,7 @@
 	{#each layoutConfig.rows as row}
 		<div
 			id={layoutConfig.id}
-			class={`flex flex-col md:flex-row flexilte flexilte-row w-full ${layoutConfig.layoutClass || ''} ${getAlignmentClass(row)} ${getWrapClass(row)} ${row.nodeClass || ''}`}
+			class={`flex flex-col md:flex-row flexilte flexilte-row w-full ${layoutConfig.nodeClass || ''} ${getAlignmentClass()}  ${getGapClass(row)} ${getWrapClass(row)} ${row.layoutClass || ''}`}
 		>
 			<svelte:self {components} layoutConfig={row} {debug} />
 		</div>
@@ -81,7 +87,7 @@
 	{#each layoutConfig.cols as col}
 		<div
 			id={layoutConfig.id}
-			class={`flex flex-col flexilte flexilte-col ${getWidthClass(col)} ${layoutConfig.layoutClass || ''} ${getAlignmentClass(col)} ${col.nodeClass || ''}`}
+			class={`flex flex-col flexilte flexilte-col ${getWidthClass(col)} ${layoutConfig.nodeClass || ''} ${getAlignmentClass()} ${getGapClass(col)} ${col.layoutClass || ''}`}
 		>
 			<svelte:self {components} layoutConfig={col} {debug} />
 		</div>
@@ -89,7 +95,7 @@
 {:else}
 	<div
 		id={layoutConfig.id}
-		class={`flexilte flexilte-item w-full ${getAlignmentClass()} ${layoutConfig.layoutClass || ''}`}
+		class={`flexilte flexilte-item w-full ${getAlignmentClass(true)} ${layoutConfig.nodeClass || ''}`}
 	>
 		{#if layoutConfig.component}
 			{#if layoutConfig.wrapperClass}

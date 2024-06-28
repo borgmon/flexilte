@@ -4,7 +4,7 @@
 	import { SortableList } from '@sonderbase/svelte-sortablejs';
 	import type { SortableEvent } from 'sortablejs';
 	import { componentStore, components, selectedComponentStore } from './editorStore';
-	import { JsonLayout, type LayoutConfig } from '@flexilte/core';
+	import { Flexilte, type LayoutConfig } from '@flexilte/core';
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import defaultMap from './defaultMap';
 	import { get } from 'svelte/store';
@@ -371,6 +371,6 @@
 
 <div id="preview" bind:this={el} class="flexilte-row">
 	<!-- <DNDTest layoutConfig={$componentStore} {components} {onAdd} {onRemove} /> -->
-	<JsonLayout layoutConfig={$componentStore} {components} />
+	<Flexilte layoutConfig={$componentStore} {components} />
 </div>
 <button on:click={() => addSortable(el)}>init</button>

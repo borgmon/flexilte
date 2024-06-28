@@ -18,11 +18,13 @@
 	import css from 'highlight.js/lib/languages/css';
 	import javascript from 'highlight.js/lib/languages/javascript';
 	import typescript from 'highlight.js/lib/languages/typescript';
+	import bash from 'highlight.js/lib/languages/bash';
+	import yaml from 'highlight.js/lib/languages/yaml';
 	import json from 'highlight.js/lib/languages/json';
 	import Icon from '@iconify/svelte';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import DndBuilder from '$lib/DNDBuilder.svelte';
-	import { JsonLayout } from '@flexilte/core';
+	import { Flexilte } from '@flexilte/core';
 	import { components, editorLayout } from '$lib/editorJson';
 	import ExportBox from '$lib/ExportBox.svelte';
 
@@ -30,6 +32,8 @@
 	hljs.registerLanguage('css', css);
 	hljs.registerLanguage('javascript', javascript);
 	hljs.registerLanguage('typescript', typescript);
+	hljs.registerLanguage('yaml', yaml);
+	hljs.registerLanguage('bash', bash);
 	hljs.registerLanguage('json', json);
 	storeHighlightJs.set(hljs);
 	initializeStores();
@@ -110,7 +114,7 @@
 		</div>
 	{:else if $drawerStore.id === 'dnd-builder'}
 		<div class="h-full">
-			<JsonLayout layoutConfig={editorLayout} {components}></JsonLayout>
+			<Flexilte layoutConfig={editorLayout} {components}></Flexilte>
 		</div>
 	{/if}
 </Drawer>

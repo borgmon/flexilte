@@ -9,7 +9,7 @@
 		triggerRefresh
 	} from '$lib/editorStore';
 	import { onMount } from 'svelte';
-	import { JsonLayout, type LayoutConfig } from '@flexilte/core';
+	import {   type LayoutConfig } from '@flexilte/core';
 	import 'gridstack/dist/gridstack.min.css';
 	import 'gridstack/dist/gridstack-extra.min.css';
 	import {
@@ -278,9 +278,6 @@
 	triggerFormat.subscribe(() => formatGrid(grid));
 </script>
 
-<!-- <div class="flexilte-row" bind:this={previewEl} id="preview">
-	<JsonLayout layoutConfig={customlayout} {components} debug={true} />
-</div> -->
 <div class="overflow-auto h-full">
 	<div bind:this={builderEl} id="builder" class=" grid-stack-item-content"></div>
 </div>
