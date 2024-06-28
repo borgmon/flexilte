@@ -3,22 +3,24 @@
 	import Text from '$lib/tests/Text.svelte';
 	import type { LayoutConfigT } from '$lib/tests/types';
 	import { JsonLayout, type LayoutConfig } from '@flexilte/core';
+	import { TextBox } from '@flexilte/skeleton';
 	import { ProgressBar, ProgressRadial } from '@skeletonlabs/skeleton';
 
-	const components = { Text, ProgressRadial, ProgressBar };
+	const components = { TextBox, ProgressRadial, ProgressBar };
 
 	const layoutConfig: LayoutConfig<typeof components> = {
 		layoutClass: 'my-2',
 		rows: [
 			{
-				component: 'Text',
+				component: 'TextBox',
 				props: {
-					text: 'Alignments'
+					text: 'Alignments',
+					type: 'h4'
 				},
 				layoutClass: 'h-8'
 			},
 			{
-				component: 'Text',
+				component: 'TextBox',
 				props: {
 					text: 'left'
 				},
@@ -26,7 +28,7 @@
 				layoutClass: 'h-16'
 			},
 			{
-				component: 'Text',
+				component: 'TextBox',
 				props: {
 					text: 'right'
 				},
@@ -34,7 +36,7 @@
 				layoutClass: 'h-16'
 			},
 			{
-				component: 'Text',
+				component: 'TextBox',
 				props: {
 					text: 'middle'
 				},
@@ -42,7 +44,7 @@
 				layoutClass: 'h-16'
 			},
 			{
-				component: 'Text',
+				component: 'TextBox',
 				props: {
 					text: 'top'
 				},
@@ -50,7 +52,7 @@
 				layoutClass: 'h-16'
 			},
 			{
-				component: 'Text',
+				component: 'TextBox',
 				props: {
 					text: 'bottom'
 				},
@@ -58,7 +60,7 @@
 				layoutClass: 'h-16'
 			},
 			{
-				component: 'Text',
+				component: 'TextBox',
 				props: {
 					text: 'middle'
 				},
@@ -66,7 +68,7 @@
 				layoutClass: 'h-16'
 			},
 			{
-				component: 'Text',
+				component: 'TextBox',
 				props: {
 					text: 'very middle'
 				},
@@ -75,19 +77,19 @@
 				layoutClass: 'h-16'
 			},
 			{
-				component: 'Text',
+				component: 'TextBox',
 				props: {
-					text: 'Columns'
+					text: 'Columns',
+					type: 'h4'
 				},
 				layoutClass: 'h-8'
 			},
-
 			{
 				layoutClass: 'md:mx-2',
 				cols: [
 					{
 						width: 'md:w-1/3',
-						component: 'Text',
+						component: 'TextBox',
 						props: {
 							text: 'test'
 						},
@@ -120,7 +122,7 @@
 				cols: [
 					{
 						width: 'md:w-1/3',
-						component: 'Text',
+						component: 'TextBox',
 						props: {
 							text: 'test'
 						},
@@ -148,7 +150,7 @@
 								cols: [
 									{
 										width: 'md:w-1/3',
-										component: 'Text',
+										component: 'TextBox',
 										props: {
 											text: 'test'
 										},
@@ -180,19 +182,19 @@
 				]
 			},
 			{
-				component: 'Text',
+				component: 'TextBox',
 				props: {
-					text: 'Overflows/Wrap'
+					text: 'Overflows/Wrap',
+					type: 'h4'
 				},
 				layoutClass: 'h-8'
 			},
-
 			{
 				layoutClass: 'md:mx-2',
 				wrap: 'wrap',
 				cols: [
 					{
-						component: 'Text',
+						component: 'TextBox',
 						props: {
 							text: 'test'
 						},
@@ -201,7 +203,7 @@
 						layoutClass: 'h-16 w-72'
 					},
 					{
-						component: 'Text',
+						component: 'TextBox',
 						props: {
 							text: 'test'
 						},
@@ -210,7 +212,7 @@
 						layoutClass: 'h-16 w-72'
 					},
 					{
-						component: 'Text',
+						component: 'TextBox',
 						props: {
 							text: 'test'
 						},
@@ -225,7 +227,7 @@
 				wrap: 'nowrap',
 				cols: [
 					{
-						component: 'Text',
+						component: 'TextBox',
 						props: {
 							text: 'test'
 						},
@@ -234,7 +236,7 @@
 						layoutClass: 'h-16 w-96'
 					},
 					{
-						component: 'Text',
+						component: 'TextBox',
 						props: {
 							text: 'test'
 						},
@@ -243,7 +245,7 @@
 						layoutClass: 'h-16 w-96'
 					},
 					{
-						component: 'Text',
+						component: 'TextBox',
 						props: {
 							text: 'test'
 						},
@@ -254,9 +256,10 @@
 				]
 			},
 			{
-				component: 'Text',
+				component: 'TextBox',
 				props: {
-					text: 'width'
+					text: 'width',
+					type: 'h4'
 				},
 				layoutClass: 'h-8'
 			},
@@ -265,7 +268,7 @@
 				cols: [
 					{
 						width: 'w-2/12',
-						component: 'Text',
+						component: 'TextBox',
 						props: {
 							text: 'w-2/12'
 						},
@@ -275,7 +278,7 @@
 					},
 					{
 						width: 'w-5/12',
-						component: 'Text',
+						component: 'TextBox',
 						props: {
 							text: 'w-5/12'
 						},
@@ -285,7 +288,7 @@
 					},
 					{
 						width: 'w-7/12',
-						component: 'Text',
+						component: 'TextBox',
 						props: {
 							text: 'w-7/12'
 						},

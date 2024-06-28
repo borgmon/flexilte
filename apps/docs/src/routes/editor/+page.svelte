@@ -10,7 +10,7 @@
 	import DNDPreview from '$lib/DNDPreview.svelte';
 	import { componentStore } from '$lib/editorStore';
 	import AddBox from '$lib/AddBox.svelte';
-	import { Avatar, CodeBlock } from '@skeletonlabs/skeleton';
+	import { Avatar, CodeBlock, getDrawerStore } from '@skeletonlabs/skeleton';
 	const components = {
 		ActionButton,
 		TextBox,
@@ -25,100 +25,37 @@
 		CodeBlock
 	};
 
-	const editorLayout: LayoutConfig<typeof components> = {
+	const config: LayoutConfig<typeof components> = {
 		rows: [
 			{
 				cols: [
 					{
-						width: 'w-2/6',
-						layoutClass: 'variant-ghost p-4',
-						rows: [
-							{
-								component: 'TextBox',
-								props: {
-									type: 'h4',
-									text: 'UI Components'
-								}
-							},
-							{
-								component: 'DNDList',
-								nodeClass: 'flex-1'
-							},
-							{
-								component: 'RemoveBox'
-							}
-						]
+						posY: 'middle',
+						component: 'TextBox',
+						props: {
+							type: 'h2',
+							text: 'Preview'
+						}
 					},
 					{
-						width: 'w-5/6',
-						layoutClass: 'variant-ghost p-4',
+						width: 'w-1/6',
+						posX: 'right',
 						rows: [
 							{
-								alignHeight: true,
 								cols: [
 									{
-										posY: 'middle',
-										component: 'TextBox',
+										component: 'ActionButton',
 										props: {
-											type: 'h4',
-											text: 'Builder'
+											type: 'edit'
 										}
 									},
 									{
-										width: 'w-1/6',
-										posX: 'right',
-										rows: [
-											{
-												cols: [
-													{
-														component: 'ActionButton',
-														props: {
-															type: 'format'
-														},
-														posX: 'right'
-													},
-													{
-														component: 'ActionButton',
-														props: {
-															type: 'render'
-														},
-														posX: 'right'
-													},
-													{
-														component: 'ActionButton',
-														props: {
-															type: 'export'
-														},
-														posX: 'right'
-													}
-												]
-											}
-										]
+										component: 'ActionButton',
+										props: {
+											type: 'export'
+										}
 									}
 								]
-							},
-
-							{
-								component: 'DNDBuilder',
-								nodeClass: 'flex-1'
-							}
-						]
-					},
-					{
-						// inspector
-						width: 'w-1/6',
-						layoutClass: 'variant-ghost p-4',
-						rows: [
-							{
-								component: 'TextBox',
-								props: {
-									type: 'h4',
-									text: 'Inspector'
-								}
-							},
-							{
-								component: 'Inspector',
-								nodeClass: 'flex-1'
 							}
 						]
 					}
@@ -127,73 +64,17 @@
 		]
 	};
 
-	const defaultLayout = {
-		rows: [
-			{
-				cols: [
-					{
-						id: '1718176210843',
-						component: 'TextBox',
-						props: {
-							text: 'Flexilte Editor',
-							type: 'h1'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						width: 'w-12/12'
-					}
-				]
-			},
-			{
-				cols: [
-					{
-						id: '1718176285682',
-						component: 'TextBox',
-						props: {
-							text: 'Try this awsome editor',
-							type: 'h5'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						width: 'w-12/12'
-					}
-				]
-			},
-			{
-				cols: [
-					{
-						id: '1718176212709',
-						component: 'ImageBox',
-						props: {
-							url: 'https://placedog.net/200/200'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						width: 'w-5/12'
-					},
-					{
-						id: '1718176473646',
-						component: 'TextBox',
-						props: {
-							text: 'Different Layout',
-							type: 'h2'
-						},
-						posX: 'middle',
-						posY: 'middle',
-						width: 'w-7/12'
-					}
-				]
-			}
-		]
-	};
+	const drawerStore = getDrawerStore();
+	drawerStore.open({ id: 'dnd-builder', position: 'bottom', height: 'h-5/6' });
 </script>
 
-<div class="container mx-auto mt-12 mb-[26rem]">
-	<JsonLayout
-		layoutConfig={$componentStore.component ? $componentStore : defaultLayout}
-		{components}
-	></JsonLayout>
+<div class="p-4 bg-surface-50-900-token">
+	<JsonLayout layoutConfig={config} {components}></JsonLayout>
+</div>
+
+<div class="container mx-auto mt-12">
+	<JsonLayout layoutConfig={$componentStore} {components}></JsonLayout>
 </div>
 <div class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4">
-	<JsonLayout layoutConfig={editorLayout} {components}></JsonLayout>
+	<!-- <JsonLayout layoutConfig={editorLayout} {components}></JsonLayout> -->
 </div>

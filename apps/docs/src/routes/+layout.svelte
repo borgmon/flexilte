@@ -6,7 +6,8 @@
 		Drawer,
 		initializeStores,
 		getDrawerStore,
-		Modal
+		Modal,
+		type ModalComponent
 	} from '@skeletonlabs/skeleton';
 
 	// Highlight JS
@@ -17,20 +18,30 @@
 	import css from 'highlight.js/lib/languages/css';
 	import javascript from 'highlight.js/lib/languages/javascript';
 	import typescript from 'highlight.js/lib/languages/typescript';
+	import json from 'highlight.js/lib/languages/json';
 	import Icon from '@iconify/svelte';
 	import { getModalStore } from '@skeletonlabs/skeleton';
+	import DndBuilder from '$lib/DNDBuilder.svelte';
+	import { JsonLayout } from '@flexilte/core';
+	import { components, editorLayout } from '$lib/editorJson';
+	import ExportBox from '$lib/ExportBox.svelte';
 
 	hljs.registerLanguage('xml', xml); // for HTML
 	hljs.registerLanguage('css', css);
 	hljs.registerLanguage('javascript', javascript);
 	hljs.registerLanguage('typescript', typescript);
+	hljs.registerLanguage('json', json);
 	storeHighlightJs.set(hljs);
 	initializeStores();
 	const drawerStore = getDrawerStore();
 	const modalStore = getModalStore();
+
+	const modalRegistry: Record<string, ModalComponent> = {
+		ExportBox: { ref: ExportBox }
+	};
 </script>
 
-<Modal />
+<Modal components={modalRegistry} />
 <!-- App Shell -->
 <AppShell>
 	<svelte:fragment slot="header">
@@ -54,7 +65,10 @@
 					</a>
 				</div>
 				<div class="block md:hidden">
-					<button type="button" class="btn-icon bg-initial" on:click={() => drawerStore.open()}
+					<button
+						type="button"
+						class="btn-icon bg-initial"
+						on:click={() => drawerStore.open({ id: 'menu', position: 'right' })}
 						><Icon icon="mdi:hamburger-menu" /></button
 					>
 				</div>
@@ -64,33 +78,39 @@
 	<!-- Page Route Content -->
 	<slot />
 </AppShell>
-<Drawer position="right">
-	<div class="flex flex-col item-center justify-center mt-10">
-		<a
-			href="./docs"
-			class="btn variant-filled flex my-2 mx-10"
-			data-sveltekit-preload-data="hover"
-			on:click={() => drawerStore.close()}><span></span><span>Documentation</span></a
-		>
-		<a
-			href="./example"
-			class="btn variant-filled flex my-2 mx-10"
-			data-sveltekit-preload-data="hover"
-			on:click={() => drawerStore.close()}><span></span><span>Example</span></a
-		>
+<Drawer>
+	{#if $drawerStore.id === 'menu'}
+		<div class="flex flex-col item-center justify-center mt-10">
+			<a
+				href="./docs"
+				class="btn variant-filled flex my-2 mx-10"
+				data-sveltekit-preload-data="hover"
+				on:click={() => drawerStore.close()}><span></span><span>Documentation</span></a
+			>
+			<a
+				href="./example"
+				class="btn variant-filled flex my-2 mx-10"
+				data-sveltekit-preload-data="hover"
+				on:click={() => drawerStore.close()}><span></span><span>Example</span></a
+			>
 
-		<a
-			href="./editor"
-			class="btn variant-filled flex my-2 mx-10"
-			data-sveltekit-preload-data="hover"
-			on:click={() => drawerStore.close()}><span></span><span>Editor</span></a
-		>
+			<a
+				href="./editor"
+				class="btn variant-filled flex my-2 mx-10"
+				data-sveltekit-preload-data="hover"
+				on:click={() => drawerStore.close()}><span></span><span>Editor</span></a
+			>
 
-		<a
-			href="./ai"
-			class="btn variant-filled flex my-2 mx-10"
-			data-sveltekit-preload-data="hover"
-			on:click={() => drawerStore.close()}><span></span><span>AI</span></a
-		>
-	</div>
+			<a
+				href="./ai"
+				class="btn variant-filled flex my-2 mx-10"
+				data-sveltekit-preload-data="hover"
+				on:click={() => drawerStore.close()}><span></span><span>AI</span></a
+			>
+		</div>
+	{:else if $drawerStore.id === 'dnd-builder'}
+		<div class="h-full">
+			<JsonLayout layoutConfig={editorLayout} {components}></JsonLayout>
+		</div>
+	{/if}
 </Drawer>

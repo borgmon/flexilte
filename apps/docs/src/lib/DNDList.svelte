@@ -34,7 +34,7 @@
 	};
 </script>
 
-<div id="toolbox" class="sidebar flex flex-wrap gap-4 overflow-auto h-32">
+<div id="toolbox" class="sidebar flex flex-wrap gap-4 overflow-auto">
 	{#each items as item, index}
 		<div class="grid-stack-item w-32 cursor-grab select-none">
 			<div class="grid-stack-item-content">

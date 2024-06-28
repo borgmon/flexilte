@@ -186,7 +186,7 @@
 	const cropTopGrid = (grid: GridStack) => {
 		const items = grid.getGridItems();
 		let sortedItems = items.sort((a, b) => a.gridstackNode.y - b.gridstackNode.y);
-		let shift = 0;
+		let shift = sortedItems[0]?.gridstackNode?.y || 0;
 
 		for (let i = 0; i < sortedItems.length; i++) {
 			let item = sortedItems[i];
@@ -203,7 +203,7 @@
 			grid.update(item, { y: currentY - shift });
 
 			if (item.gridstackNode?.subGrid) {
-				cropTopGrid(item.gridstackNode?.subGrid);
+				cropTopGrid(item.gridstackNode.subGrid);
 			}
 		}
 	};
@@ -269,6 +269,6 @@
 <!-- <div class="flexilte-row" bind:this={previewEl} id="preview">
 	<JsonLayout layoutConfig={customlayout} {components} debug={true} />
 </div> -->
-<div class="overflow-auto h-72">
+<div class="overflow-auto h-full">
 	<div bind:this={builderEl} id="builder" class=" grid-stack-item-content"></div>
 </div>

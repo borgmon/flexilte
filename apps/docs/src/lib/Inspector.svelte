@@ -27,7 +27,7 @@
 	// componentValueStore.subscribe(console.log);
 </script>
 
-<div class="overflow-auto h-72">
+<div class="overflow-auto h-full">
 	{#if props.length > 0}
 		<div class="form-group">
 			<h6 class="h6">Props</h6>
@@ -35,7 +35,7 @@
 				<label class="label">
 					<span>{prop}</span>
 					<input
-						class="input pl-1"
+						class="input"
 						type="text"
 						placeholder="Input"
 						value={comp.props[prop]}
@@ -92,7 +92,7 @@
 			<label class="label">
 				<span>layoutClass</span>
 				<input
-					class="input pl-1"
+					class="input"
 					type="text"
 					value={comp.layoutClass || ''}
 					on:change={(e) => {
@@ -108,7 +108,7 @@
 			<label class="label">
 				<span>wrapperClass</span>
 				<input
-					class="input pl-1"
+					class="input"
 					type="text"
 					value={comp.wrapperClass || ''}
 					on:change={(e) => {
