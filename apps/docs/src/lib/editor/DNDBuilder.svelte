@@ -6,7 +6,7 @@
 		gridStore,
 		selectedComponentStore,
 		triggerRefresh
-	} from '$lib/dnd/editorStore';
+	} from './editorStore';
 	import { onMount } from 'svelte';
 	import { type LayoutConfig } from '@flexilte/core';
 	import 'gridstack/dist/gridstack.min.css';

@@ -24,8 +24,8 @@
 	import Icon from '@iconify/svelte';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import { Flexilte } from '@flexilte/core';
-	import ExportBox from '$lib/dnd/ExportBox.svelte';
-	import { components } from '$lib/dnd/editorStore';
+	import ExportBox from '$lib/editor/ExportBox.svelte';
+	import { components } from '$lib/editor/editorStore';
 	import { onMount } from 'svelte';
 
 	hljs.registerLanguage('xml', xml); // for HTML

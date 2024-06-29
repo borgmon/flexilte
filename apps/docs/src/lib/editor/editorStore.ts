@@ -2,11 +2,11 @@ import type { LayoutConfig } from '@flexilte/core';
 import { TextBox, ImageBox, CardBox } from '@flexilte/skeleton';
 import { writable } from 'svelte/store';
 import type { GridStackOptions } from 'gridstack/dist/es5/gridstack';
-import DNDList from '$lib/dnd/DNDList.svelte';
-import RemoveBox from '$lib/dnd/RemoveBox.svelte';
-import ActionButton from '$lib/dnd/ActionButton.svelte';
-import DNDBuilder from '$lib/dnd/DNDBuilder.svelte';
-import Inspector from '$lib/dnd/Inspector.svelte';
+import DNDList from './DNDList.svelte';
+import RemoveBox from './RemoveBox.svelte';
+import ActionButton from './ActionButton.svelte';
+import DNDBuilder from './DNDBuilder.svelte';
+import Inspector from './Inspector.svelte';
 export const components = {
 	TextBox,
 	ImageBox,
