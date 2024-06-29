@@ -8,22 +8,32 @@
 			},
 			"posX": "middle",
 			"posY": "middle",
-			"layoutClass": "h-32"
+			"nodeClass": "mt-6 bg-gradient-to-br from-blue-500 to-cyan-300 bg-clip-text text-transparent box-decoration-clone"
 		},
 		{
 			"component": "TextBox",
 			"props": {
-				"text": "json generator for svelte pages",
+				"text": "Create dynamic and flexible layouts effortlessly with our JSON-powered Svelte framework.",
 				"type": "h3"
 			},
 			"posX": "middle",
 			"posY": "middle",
-			"layoutClass": "h-12"
+			"nodeClass": "mt-12 text-center"
 		},
 		{
+			"component": "TextBox",
+			"props": {
+				"text": "Framework that makes you think: WHY NOBODY HAVE DONE THIS UNTIL NOW!"
+			},
+			"posX": "middle",
+			"posY": "middle",
+			"nodeClass": "mt-12 text-center"
+		},
+		{
+			"nodeClass": "mt-12",
 			"cols": [
 				{
-					"layoutClass": "my-1",
+					"gap": "gap-2",
 					"rows": [
 						{
 							"component": "ButtonBox",
@@ -36,8 +46,7 @@
 						{
 							"component": "ButtonBox",
 							"props": {
-								"text": "Generate using drag and drop editor",
-								"code": "npm install @flexilte/core @flexilte/skeleton",
+								"text": "Drag and drop editor",
 								"link": "./editor",
 								"variant": "variant-filled-secondary"
 							}
@@ -55,34 +64,35 @@
 			]
 		},
 		{
-			"layoutClass": "md:m-3 my-3",
+			"nodeClass": "mt-12",
+			"gap": "gap-4",
 			"alignHeight": true,
 			"cols": [
 				{
 					"component": "CardBox",
 					"props": {
-						"img": "https://placedog.net/480/360",
-						"title": "Drag And Drop",
-						"body": "You can create pages with a drag and drop editor! Just like those heavy wordpress apps but without the heavy part!",
+						"img": "dnd.jpeg",
+						"title": "Drag and Drop Editor",
+						"body": "Build your UI with ease using our simple drag-and-drop editor, perfectly designed for quick prototyping and adjustments.",
 						"link": "./editor"
 					}
 				},
 				{
 					"component": "CardBox",
 					"props": {
-						"img": "https://placedog.net/480/360",
-						"title": "AI Powered",
-						"body": "You can create a page with any LLM! No custom markup langrage. Just copy our standard prompt and you are good to go! OpenAI(ChatGPT) compatible apis are supported! Support offline LLMs like Ollama.",
+						"img": "ai.jpeg",
+						"title": "AI/LLM Page Generation",
+						"body": "Unlock the full potential of AI by generating custom pages in seconds. Simplify your workflow with AI-driven page creation. Support offline LLMs like Ollama.",
 						"link": "./ai"
 					}
 				},
 				{
 					"component": "CardBox",
 					"props": {
-						"img": "https://placedog.net/480/360",
-						"title": "Battery included",
-						"body": "We have skeleton adaptor included, but you can create a page with any graphic frame work you want!",
-						"link": "./docs"
+						"img": "dynamic.jpeg",
+						"title": "Dynamic Page Loading",
+						"body": "Experience ultimate flexibility with dynamic page loading. Easily update and modify content without any hassle. Click here to see the original json!",
+						"link": "/frontpage.json"
 					}
 				}
 			]

@@ -1,0 +1,110 @@
+{
+	"nodeClass": "my-6",
+	"rows": [
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "Documentation",
+				"type": "h1"
+			}
+		},
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "Once you use it you will be like: WHY NOBODY HAVE DONE THIS YET UNTIL NOW?!"
+			}
+		},
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "What's Flexilte",
+				"type": "h2"
+			}
+		},
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "Flexilte is a svelte lib that turns json/yaml into a webpage! It uses a opinionated flex box concept and dynamically construct page layout, create svelte components, and inject props. It can be done both on server side or client side."
+			}
+		},
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "How To Install",
+				"type": "h2"
+			}
+		},
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "Flexilte works with ANY svelte UI frameworks. It comes with skeleton UI wrappers, you can get started by install"
+			}
+		},
+		{
+			"component": "CodeBlock",
+			"props": {
+				"code": "pnpm i @flexilte/core @flexilte/skeleton",
+				"language": "bash"
+			}
+		},
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "Basic Example",
+				"type": "h2"
+			}
+		},
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "It is extremely simple to use Flexilte."
+			}
+		},
+		{
+			"component": "CodeBlock",
+			"props": {
+				"code": "<script lang=\"ts\">\n\timport { InputChip } from '@skeletonlabs/skeleton';\n\tconst components = { InputChip };\n\tconst layoutConfig: LayoutConfig<typeof components> = {\n\t\tcomponent: 'InputChip',\n\t\tprops: {\n\t\t\tvalue: ['Hello', 'World'],\n\t\t\tname: \"chips\"\n\t\t}\n\t}\n</script>\n<Flexilte {layoutConfig} {components}></Flexilte>",
+				"language": "typescript"
+			}
+		},
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "And the above code will render:"
+			}
+		},
+		{
+			"component": "InputChip",
+			"props": {
+				"value": ["Hello", "World"],
+				"name": "chips"
+			}
+		},
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "(Yes the above example is Flexilte generated. In fact, this entire website is powered with Flexilte!)"
+			}
+		},
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "JSON Schema",
+				"type": "h2"
+			}
+		},
+		{
+			"component": "TextBox",
+			"props": {
+				"text": "Flexilte json is a recursive tree. It can be a row, a col, or an component."
+			}
+		},
+		{
+			"component": "CodeBlock",
+			"props": {
+				"code": "{\n\tid?: string; // will be added to the element\n\twidth?: string; // tailwind class for the width (w-1/6)\n\tcomponent?: keyof C & string; // component name\n\tprops?: Record<string, any>; // component props\n\tnodeClass?: string; // classes apply to cols/rows/elements\n\twrapperClass?: string; // wrap element with a div, this is for components that doesn't like flex box\n\tlayoutClass?: string; // classes apply to cols/rows\n\tcols?: LayoutConfig<C>[]; // array of itself\n\trows?: LayoutConfig<C>[]; // array of itself\n\tposX?: 'left' | 'right' | 'middle'; // we solved css! choose how to position your element horizontally\n\tposY?: 'top' | 'bottom' | 'middle'; // we solved css! choose how to position your element vertically\n\talignHeight?: boolean; // if true then all element in the same row/col will align at the bottom\n\twrap?: 'wrap' | 'nowrap'; // choose if element wrap around flex way\n\tgap?: string, // tailwind class for the gap (gap-4)\n}",
+				"language": "typescript"
+			}
+		}
+	]
+}
