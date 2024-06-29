@@ -15,8 +15,8 @@
 		<a href={link}
 			><div class={`card ${style} card-hover overflow-hidden h-full`}>
 				{#if img}
-					<div class="w-full max-h-64 overflow-hidden">
-						<img class="w-full h-full object-cover object-center" src={img} alt="" />
+					<div class="w-full max-h-64 overflow-hidden flex justify-center items-center">
+						<img class="object-cover object-center" src={img} alt="" />
 					</div>
 				{/if}
 				{#if icon}

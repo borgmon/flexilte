@@ -71,7 +71,7 @@
 				{
 					"component": "CardBox",
 					"props": {
-						"img": "https://placedog.net/480/360",
+						"img": "dnd.jpeg",
 						"title": "Drag and Drop Editor",
 						"body": "Build your UI with ease using our simple drag-and-drop editor, perfectly designed for quick prototyping and adjustments.",
 						"link": "./editor"
@@ -80,7 +80,7 @@
 				{
 					"component": "CardBox",
 					"props": {
-						"img": "https://placedog.net/480/360",
+						"img": "ai.jpeg",
 						"title": "AI/LLM Page Generation",
 						"body": "Unlock the full potential of AI by generating custom pages in seconds. Simplify your workflow with AI-driven page creation. Support offline LLMs like Ollama.",
 						"link": "./ai"
@@ -89,7 +89,7 @@
 				{
 					"component": "CardBox",
 					"props": {
-						"img": "https://placedog.net/480/360",
+						"img": "dynamic.jpeg",
 						"title": "Dynamic Page Loading",
 						"body": "Experience ultimate flexibility with dynamic page loading. Easily update and modify content without any hassle. Click here to see the original json!",
 						"link": "/frontpage.json"
