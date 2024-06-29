@@ -13,6 +13,7 @@
 	import 'gridstack/dist/gridstack-extra.min.css';
 	import {
 		GridStack,
+		type GridItemHTMLElement,
 		type GridStackNode,
 		type GridStackOptions
 	} from 'gridstack/dist/es5/gridstack';
@@ -211,6 +212,25 @@
 		gridStore.set(save);
 		console.log('customlayout', customlayout);
 	};
+
+	const initEvents = (newWidget: GridStackNode) => {
+		newWidget.el?.addEventListener('dblclick', () => {
+			toggleFill(newWidget);
+		});
+		newWidget.el?.addEventListener('click', () => {
+			selectedComponentStore.set(newWidget.id);
+		});
+	};
+
+	const initEventOnOldGrid = (grid: GridStack) => {
+		if (!grid) return;
+		const items = grid.getGridItems();
+		items.forEach((e) => {
+			initEvents(e.gridstackNode!);
+			initEventOnOldGrid(e.gridstackNode?.subGrid!);
+		});
+	};
+
 	onMount(() => {
 		const gridStoreStr = sessionStorage.getItem('gridStore');
 		const valueStoreStr = sessionStorage.getItem('valueStore');
@@ -234,20 +254,20 @@
 		GridStack.setupDragIn('.sidebar .grid-stack-item', {
 			helper: 'clone'
 		});
-		grid = $gridStore
-			? GridStack.init($gridStore, builderEl)
-			: GridStack.init(gridConfig, builderEl);
+
+		if ($gridStore) {
+			grid = GridStack.init($gridStore, builderEl);
+			initEventOnOldGrid(grid);
+		} else {
+			grid = GridStack.init(gridConfig, builderEl);
+		}
+
 		grid.on(
 			'dropped',
 			function (event: Event, previousWidget: GridStackNode, newWidget: GridStackNode) {
 				// console.log('dr', newWidget);
 				initComp(newWidget);
-				newWidget.el?.addEventListener('dblclick', () => {
-					toggleFill(newWidget);
-				});
-				newWidget.el?.addEventListener('click', () => {
-					selectedComponentStore.set(newWidget.id);
-				});
+				initEvents(newWidget);
 				selectedComponentStore.set(newWidget.id);
 			}
 		);

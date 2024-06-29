@@ -27,6 +27,7 @@
 	import ExportBox from '$lib/editor/ExportBox.svelte';
 	import { components } from '$lib/editor/editorStore';
 	import { onMount } from 'svelte';
+	import { docStore, editorStore, exampleStore, frontPageStore } from '$lib/common';
 
 	hljs.registerLanguage('xml', xml); // for HTML
 	hljs.registerLanguage('css', css);
@@ -38,17 +39,39 @@
 	storeHighlightJs.set(hljs);
 	initializeStores();
 	const drawerStore = getDrawerStore();
-	const modalStore = getModalStore();
 
 	const modalRegistry: Record<string, ModalComponent> = {
 		ExportBox: { ref: ExportBox }
 	};
-	let editorLayout = {};
 	onMount(() => {
+		fetch('frontpage.json')
+			.then((r) => r.json())
+			.then((j) => {
+				frontPageStore.set(j);
+			})
+			.catch((e) => {
+				console.error(e);
+			});
+		fetch('doc.json')
+			.then((r) => r.json())
+			.then((j) => {
+				docStore.set(j);
+			})
+			.catch((e) => {
+				console.error(e);
+			});
 		fetch('editor.json')
 			.then((r) => r.json())
 			.then((j) => {
-				editorLayout = j;
+				editorStore.set(j);
+			})
+			.catch((e) => {
+				console.error(e);
+			});
+		fetch('example.json')
+			.then((r) => r.json())
+			.then((j) => {
+				exampleStore.set(j);
 			})
 			.catch((e) => {
 				console.error(e);
@@ -75,7 +98,11 @@
 					</a>
 					<a class="btn btn-sm variant-ghost-surface" href="./editor" rel="noreferrer"> Editor </a>
 					<a class="btn btn-sm variant-ghost-surface" href="./ai" rel="noreferrer"> AI </a>
-					<a class="btn btn-sm variant-ghost-surface" href="https://github.com/" rel="noreferrer">
+					<a
+						class="btn btn-sm variant-ghost-surface"
+						href="https://github.com/AlienCatTech/flexilte"
+						rel="noreferrer"
+					>
 						GitHub
 					</a>
 				</div>
@@ -125,7 +152,7 @@
 		</div>
 	{:else if $drawerStore.id === 'dnd-builder'}
 		<div class="h-full">
-			<Flexilte layoutConfig={editorLayout} {components}></Flexilte>
+			<Flexilte layoutConfig={$editorStore} {components}></Flexilte>
 		</div>
 	{/if}
 </Drawer>

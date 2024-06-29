@@ -1,5 +1,4 @@
 <script lang="ts">
-	import JsonLayoutT from '$lib/tests/JsonLayoutT.svelte';
 	import { Flexilte, type LayoutConfig } from '@flexilte/core';
 	import { TextBox, ImageBox } from '@flexilte/skeleton';
 	import ChatView from '$lib/ai/ChatView.svelte';

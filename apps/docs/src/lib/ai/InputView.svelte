@@ -1,14 +1,19 @@
 <script lang="ts">
 	import { aiResultStore } from '$lib/ai/AIStore';
-	let currentMessage =
-		'You are a AI chatbot that only response JSON. You are required to generate a json based on this example:`{"rows":[{"component":"TextBox","props":{"text":"My Website!","type":"h1"},"posX":"middle"},{"layoutClass":"md:my-12","cols":[{"component":"TextBox","props":{"text":"Hi! This is AI generated!","type":"h1"},"posX":"middle","posY":"middle"},{"component":"CodeBlock","props":{"language":"ts","code":"console.log(123)"},"posX":"middle","posY":"middle"},{"component":"ImageBox","props":{"url":"https://placedog.net/200/200"},"posX":"middle","posY":"middle"}]}]}` You have 3 components you can use: TextBox,CodeBlock,ImageBox. User: Please generate me a personal website';
+	let currentMessage = 'Please generate me a personal website';
 	let model = 'gpt-4o';
-	let apiKey = 'sk-';
+	let apiKey = '';
 	let url = 'https://api.openai.com/v1/chat/completions';
+	let prompt =
+		'You are a AI chatbot that only response JSON. You are required to generate a json based on this example:`{"rows":[{"component":"TextBox","props":{"text":"My Website!","type":"h1"},"posX":"middle"},{"layoutClass":"md:my-12","cols":[{"component":"TextBox","props":{"text":"Hi! This is AI generated!","type":"h1"},"posX":"middle","posY":"middle"},{"component":"CodeBlock","props":{"language":"ts","code":"console.log(123)"},"posX":"middle","posY":"middle"},{"component":"ImageBox","props":{"url":"https://placedog.net/200/200"},"posX":"middle","posY":"middle"}]}]}` You have 3 components you can use: TextBox,CodeBlock,ImageBox.';
 
 	async function getChatGPTResponse() {
 		const data = {
 			messages: [
+				{
+					role: 'system',
+					content: prompt
+				},
 				{
 					role: 'user',
 					content: currentMessage
@@ -39,14 +44,19 @@
 	<div class="m-4"></div>
 	<label class="label">
 		<span>Endpoint</span>
-		<input class="input rounded-container-token" type="text" placeholder="Input" bind:value={url} />
+		<input
+			class="input rounded-container-token"
+			type="text"
+			placeholder="https://api.openai.com/v1/chat/completions"
+			bind:value={url}
+		/>
 	</label>
 	<label class="label">
 		<span>Model</span>
 		<input
 			class="input rounded-container-token"
 			type="text"
-			placeholder="Input"
+			placeholder="gpt-4o"
 			bind:value={model}
 		/>
 	</label>
@@ -55,8 +65,17 @@
 		<input
 			class="input rounded-container-token"
 			type="password"
-			placeholder="Input"
+			placeholder="sk-"
 			bind:value={apiKey}
+		/>
+	</label>
+	<label class="label">
+		<span>API key (stored in browser)</span>
+		<textarea
+			class="textarea"
+			rows="4"
+			placeholder="You are an AI assistant."
+			bind:value={prompt}
 		/>
 	</label>
 </div>
@@ -69,7 +88,6 @@
 		name="prompt"
 		id="prompt"
 		placeholder="Write a message..."
-		rows="7"
 	/>
 	<button class="variant-filled-primary" on:click={() => getChatGPTResponse()}>Send</button>
 </div>

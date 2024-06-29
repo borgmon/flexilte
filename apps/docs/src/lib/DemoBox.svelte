@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Flexilte, type LayoutConfig } from '@flexilte/core';
 	import { onMount } from 'svelte';
-	import components from './components';
+	import { components } from './common';
 
 	const radialData: LayoutConfig<typeof components> = {
 		component: 'ProgressRadial',
@@ -94,7 +94,7 @@ const layoutConfig: LayoutConfig<typeof components> = ${JSON.stringify(copy, nul
 		</div>
 	</div>
 
-	<div class="md:h-[56rem] h-[74rem] mt-6">
+	<div class="md:h-[32rem] h-[52rem] mt-6">
 		<Flexilte layoutConfig={demoJson} {components}></Flexilte>
 	</div>
 </div>
