@@ -2,28 +2,13 @@
 	import { Flexilte, type LayoutConfig } from '@flexilte/core';
 	import { ButtonBox, CardBox, ImageBox, TextBox } from '@flexilte/skeleton';
 	import { SortableList } from '@sonderbase/svelte-sortablejs';
-	import DNDList from '$lib/DNDList.svelte';
-	import DNDBuilder from '$lib/DNDBuilder.svelte';
-	import Inspector from '$lib/Inspector.svelte';
-	import ActionButton from '$lib/ActionButton.svelte';
-	import RemoveBox from '$lib/RemoveBox.svelte';
-	import DNDPreview from '$lib/DNDPreview.svelte';
-	import { componentStore } from '$lib/editorStore';
-	import AddBox from '$lib/AddBox.svelte';
+	import DNDList from '$lib/dnd/DNDList.svelte';
+	import DNDBuilder from '$lib/dnd/DNDBuilder.svelte';
+	import Inspector from '$lib/dnd/Inspector.svelte';
+	import ActionButton from '$lib/dnd/ActionButton.svelte';
+	import RemoveBox from '$lib/dnd/RemoveBox.svelte';
+	import { components, componentStore } from '$lib/dnd/editorStore';
 	import { Avatar, CodeBlock, getDrawerStore } from '@skeletonlabs/skeleton';
-	const components = {
-		ActionButton,
-		TextBox,
-		DNDList,
-		DNDBuilder,
-		Inspector,
-		ImageBox,
-		RemoveBox,
-		DNDPreview,
-		AddBox,
-		Avatar,
-		CodeBlock
-	};
 
 	const config: LayoutConfig<typeof components> = {
 		rows: [

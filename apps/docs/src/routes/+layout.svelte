@@ -23,10 +23,10 @@
 	import json from 'highlight.js/lib/languages/json';
 	import Icon from '@iconify/svelte';
 	import { getModalStore } from '@skeletonlabs/skeleton';
-	import DndBuilder from '$lib/DNDBuilder.svelte';
 	import { Flexilte } from '@flexilte/core';
-	import { components, editorLayout } from '$lib/editorJson';
-	import ExportBox from '$lib/ExportBox.svelte';
+	import ExportBox from '$lib/dnd/ExportBox.svelte';
+	import { components } from '$lib/dnd/editorStore';
+	import { onMount } from 'svelte';
 
 	hljs.registerLanguage('xml', xml); // for HTML
 	hljs.registerLanguage('css', css);
@@ -43,6 +43,17 @@
 	const modalRegistry: Record<string, ModalComponent> = {
 		ExportBox: { ref: ExportBox }
 	};
+	let editorLayout = {};
+	onMount(() => {
+		fetch('editor.json')
+			.then((r) => r.json())
+			.then((j) => {
+				editorLayout = j;
+			})
+			.catch((e) => {
+				console.error(e);
+			});
+	});
 </script>
 
 <Modal components={modalRegistry} />

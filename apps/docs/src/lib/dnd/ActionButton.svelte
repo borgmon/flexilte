@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getDrawerStore, getModalStore } from '@skeletonlabs/skeleton';
-	import { componentStore, triggerFormat, triggerRefresh } from './editorStore';
+	import { componentStore, triggerRefresh } from './editorStore';
 
 	export let type = '';
 	const modalStore = getModalStore();
@@ -17,11 +17,7 @@
 	const drawerStore = getDrawerStore();
 </script>
 
-{#if type === 'format'}
-	<button class="btn variant-filled-primary" on:click={() => triggerFormat.update((e) => !e)}
-		>Format</button
-	>
-{:else if type === 'render'}
+{#if type === 'render'}
 	<button
 		class="btn variant-filled-secondary"
 		on:click={() => {

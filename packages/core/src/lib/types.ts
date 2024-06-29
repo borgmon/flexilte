@@ -14,5 +14,5 @@ export interface LayoutConfig<C extends Record<string, ComponentType>> {
 	posY?: 'top' | 'bottom' | 'middle'; // we solved css! choose how to position your element vertically
 	alignHeight?: boolean; // if true then all element in the same row/col will align at the bottom
 	wrap?: 'wrap' | 'nowrap'; // choose if element wrap around flex way
-	gap?: string, // tailwind class for the gap (gap-4)
+	gap?: string; // tailwind class for the gap (gap-4)
 }

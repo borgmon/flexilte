@@ -4,7 +4,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev -F docs",
     "preview": "turbo run preview -F docs",
-    "lint": "turbo run lint",
+    "lint": "turbo run lint -- --fix",
     "format": "prettier --write ."
   },
   "devDependencies": {

@@ -5,25 +5,19 @@
 		components,
 		gridStore,
 		selectedComponentStore,
-		triggerFormat,
 		triggerRefresh
-	} from '$lib/editorStore';
+	} from '$lib/dnd/editorStore';
 	import { onMount } from 'svelte';
-	import {   type LayoutConfig } from '@flexilte/core';
+	import { type LayoutConfig } from '@flexilte/core';
 	import 'gridstack/dist/gridstack.min.css';
 	import 'gridstack/dist/gridstack-extra.min.css';
 	import {
 		GridStack,
-		type GridItemHTMLElement,
 		type GridStackNode,
-		type GridStackOptions,
-		type GridStackWidget
+		type GridStackOptions
 	} from 'gridstack/dist/es5/gridstack';
 	import defaultMap from './defaultMap';
-	let previewEl: HTMLElement;
 	let builderEl: HTMLElement;
-	let box1: HTMLElement;
-	let box2: HTMLElement;
 	let grid: GridStack;
 	const subConfig: GridStackOptions = {
 		acceptWidgets: true,
@@ -37,10 +31,6 @@
 		sizeToContent: true
 	};
 	let customlayout: LayoutConfig<typeof components> = {};
-	const c: GridStackWidget[] = [
-		{ w: 3, h: 3, content: 'item 2' },
-		{ w: 3, h: 3, content: 'item 2' }
-	];
 	const gridConfig: GridStackOptions = {
 		acceptWidgets: true,
 		// margin:1,
@@ -57,10 +47,10 @@
 		sizeToContent: true
 	};
 	const calculateLimits = (newWidget: GridStackNode) => {
-		const rowNodes = newWidget.grid.engine.nodes.filter((e) => e.y === newWidget.y);
+		const rowNodes = newWidget.grid?.engine.nodes.filter((e) => e.y === newWidget.y);
 		if (!rowNodes) return;
 
-		const totalColumns = newWidget.grid.getColumn();
+		const totalColumns = newWidget.grid?.getColumn();
 		const occupied = Array(totalColumns).fill(false);
 
 		// Mark the occupied columns
@@ -94,7 +84,7 @@
 	const rowFill = (newWidget: GridStackNode) => {
 		const limits = calculateLimits(newWidget);
 		if (!limits) return;
-		newWidget.grid.update(newWidget.el!, {
+		newWidget.grid?.update(newWidget.el!, {
 			w: limits.newWidth,
 			x: limits.leftLimit,
 			y: newWidget.y
@@ -113,10 +103,10 @@
 			const thing = Math.round((left + right) / 2) - smallW;
 			console.log(thing);
 
-			newWidget.grid.update(newWidget.el!, { w: smallW, x: thing, y: newWidget.y });
+			newWidget.grid?.update(newWidget.el!, { w: smallW, x: thing, y: newWidget.y });
 		} else {
 			// Expand the widget to the calculated width
-			newWidget.grid.update(newWidget.el!, {
+			newWidget.grid?.update(newWidget.el!, {
 				w: limits.newWidth,
 				x: limits.leftLimit,
 				y: newWidget.y
@@ -124,10 +114,6 @@
 		}
 	};
 
-	function extractComponentFromHTML(html: string): string | undefined {
-		const match = html.match(/data-comp="([^"]*)"/);
-		return match ? match[1] : undefined;
-	}
 	function convert(grid: GridStackOptions): LayoutConfig<typeof components> {
 		const layout = {} as LayoutConfig<typeof components>;
 		const rows: Record<string, LayoutConfig<typeof components>[]> = {}; // as [row#]:[values]
@@ -135,7 +121,6 @@
 		if (children) {
 			children.forEach((child) => {
 				const rowNum = child.y || 0;
-				// debugger
 				if (!rows[rowNum]) rows[rowNum] = [];
 
 				if (child.subGridOpts?.children) {
@@ -143,7 +128,6 @@
 					rows[rowNum].push({ ...tmp, width: `w-${child.w || 1}/${12}` });
 				} else {
 					if (child.content) {
-						// console.log(111, child);
 						const comp = $componentValueStore[child.id!];
 						comp.width = `w-${child.w || 1}/${12}`;
 						rows[rowNum].push(comp);
@@ -227,7 +211,6 @@
 		gridStore.set(save);
 		console.log('customlayout', customlayout);
 	};
-	let tmpW: string;
 	onMount(() => {
 		const gridStoreStr = sessionStorage.getItem('gridStore');
 		const valueStoreStr = sessionStorage.getItem('valueStore');
@@ -259,23 +242,22 @@
 			function (event: Event, previousWidget: GridStackNode, newWidget: GridStackNode) {
 				// console.log('dr', newWidget);
 				initComp(newWidget);
-				newWidget.el?.addEventListener('dblclick', (e) => {
+				newWidget.el?.addEventListener('dblclick', () => {
 					toggleFill(newWidget);
 				});
-				newWidget.el?.addEventListener('click', (e) => {
+				newWidget.el?.addEventListener('click', () => {
 					selectedComponentStore.set(newWidget.id);
 				});
 				selectedComponentStore.set(newWidget.id);
 			}
 		);
-		grid.on('removed', function (event: Event, items: GridStackNode[]) {
+		grid.on('removed', function () {
 			selectedComponentStore.set('');
 			// saveLayout(grid)
 		});
 	});
 
 	triggerRefresh.subscribe(() => saveLayout(grid));
-	triggerFormat.subscribe(() => formatGrid(grid));
 </script>
 
 <div class="overflow-auto h-full">

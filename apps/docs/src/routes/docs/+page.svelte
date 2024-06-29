@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { components } from '$lib/editorStore';
+	import components from '$lib/components';
 	import JsonLayoutT from '$lib/tests/JsonLayoutT.svelte';
 	import Text from '$lib/tests/Text.svelte';
 	import type { LayoutConfigT } from '$lib/tests/types';
@@ -109,7 +109,7 @@
 			{
 				component: 'TextBox',
 				props: {
-					text: "JSON Schema",
+					text: 'JSON Schema',
 					type: 'h2'
 				}
 			},
@@ -140,8 +140,7 @@
 }`,
 					language: 'typescript'
 				}
-			},
-
+			}
 		]
 	};
 </script>

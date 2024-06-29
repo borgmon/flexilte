@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { CardBox } from '@flexilte/skeleton';
-	import type { SortableEvent } from 'sortablejs';
-	import { triggerRefresh } from './editorStore';
 
 	const items = [
 		{
@@ -25,17 +23,10 @@
 			name: 'Avatar'
 		}
 	];
-
-	const onClone = (event: SortableEvent) => {
-		event.item.id = 'clone-' + Date.now().toString();
-	};
-	const onDragEnd = () => {
-		triggerRefresh.update((e) => !e);
-	};
 </script>
 
 <div id="toolbox" class="sidebar flex flex-wrap gap-4 overflow-auto">
-	{#each items as item, index}
+	{#each items as item}
 		<div class="grid-stack-item w-32 cursor-grab select-none">
 			<div class="grid-stack-item-content">
 				<div data-comp={item.name}>

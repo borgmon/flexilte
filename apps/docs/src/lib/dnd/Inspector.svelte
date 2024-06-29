@@ -1,14 +1,6 @@
 <script lang="ts">
 	import type { LayoutConfig } from '@flexilte/core';
-	import {
-		componentValueStore,
-		components,
-		selectedComponentStore,
-		triggerRefresh
-	} from './editorStore';
-	import type { ComponentProps } from 'svelte';
-	import { TextBox, ImageBox, CardBox, ButtonBox } from '@flexilte/skeleton';
-	import defaultMap from './defaultMap';
+	import { componentValueStore, components, selectedComponentStore } from './editorStore';
 
 	let elId: string;
 	let comp: LayoutConfig<typeof components>;
@@ -43,7 +35,6 @@
 							componentValueStore.update((store) => {
 								comp.props[prop] = e.target.value;
 								store[elId].props[prop] = e.target.value;
-								triggerRefresh.update((e) => !e);
 								return { ...store };
 							});
 						}}
@@ -60,7 +51,6 @@
 						componentValueStore.update((store) => {
 							comp.posX = e.target.value;
 							store[elId].posX = e.target.value;
-							triggerRefresh.update((e) => !e);
 							return { ...store };
 						});
 					}}
@@ -79,7 +69,6 @@
 						componentValueStore.update((store) => {
 							comp.posY = e.target.value;
 							store[elId].posY = e.target.value;
-							triggerRefresh.update((e) => !e);
 							return { ...store };
 						});
 					}}
@@ -100,7 +89,6 @@
 						componentValueStore.update((store) => {
 							comp.layoutClass = e.target.value;
 							store[elId].layoutClass = e.target.value;
-							triggerRefresh.update((e) => !e);
 							return { ...store };
 						});
 					}}
@@ -116,7 +104,6 @@
 						componentValueStore.update((store) => {
 							comp.wrapperClass = e.target.value;
 							store[elId].wrapperClass = e.target.value;
-							triggerRefresh.update((e) => !e);
 							return { ...store };
 						});
 					}}

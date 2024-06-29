@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Flexilte,   type LayoutConfig } from '@flexilte/core';
-	import { components } from './editorStore';
-	import { aiResultStore } from '$lib/AIStore';
+	import { Flexilte, type LayoutConfig } from '@flexilte/core';
+	import { components } from '../dnd/editorStore';
+	import { aiResultStore } from '$lib/ai/AIStore';
 
 	let layoutConfig: LayoutConfig<typeof components> = {
 		rows: [

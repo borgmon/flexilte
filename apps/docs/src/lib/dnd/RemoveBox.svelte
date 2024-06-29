@@ -1,8 +1,5 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { SortableList } from '@sonderbase/svelte-sortablejs';
-	import type { SortableEvent } from 'sortablejs';
-	import { triggerRefresh } from './editorStore';
 	let sortableList: HTMLDivElement;
 </script>
 

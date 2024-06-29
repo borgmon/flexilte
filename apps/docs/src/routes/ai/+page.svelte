@@ -2,8 +2,8 @@
 	import JsonLayoutT from '$lib/tests/JsonLayoutT.svelte';
 	import { Flexilte, type LayoutConfig } from '@flexilte/core';
 	import { TextBox, ImageBox } from '@flexilte/skeleton';
-	import ChatView from '$lib/ChatView.svelte';
-	import InputView from '$lib/InputView.svelte';
+	import ChatView from '$lib/ai/ChatView.svelte';
+	import InputView from '$lib/ai/InputView.svelte';
 
 	const components = {
 		TextBox,

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { aiResultStore } from '$lib/AIStore';
+	import { aiResultStore } from '$lib/ai/AIStore';
 	let currentMessage =
 		'You are a AI chatbot that only response JSON. You are required to generate a json based on this example:`{"rows":[{"component":"TextBox","props":{"text":"My Website!","type":"h1"},"posX":"middle"},{"layoutClass":"md:my-12","cols":[{"component":"TextBox","props":{"text":"Hi! This is AI generated!","type":"h1"},"posX":"middle","posY":"middle"},{"component":"CodeBlock","props":{"language":"ts","code":"console.log(123)"},"posX":"middle","posY":"middle"},{"component":"ImageBox","props":{"url":"https://placedog.net/200/200"},"posX":"middle","posY":"middle"}]}]}` You have 3 components you can use: TextBox,CodeBlock,ImageBox. User: Please generate me a personal website';
 	let model = 'gpt-4o';

@@ -1,13 +1,7 @@
 <script lang="ts">
 	import { Flexilte, type LayoutConfig } from '@flexilte/core';
-	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
-	import { ProgressRadial } from '@skeletonlabs/skeleton';
-	import { ProgressBar } from '@skeletonlabs/skeleton';
-	import { TextBox } from '@flexilte/skeleton';
-	import { Avatar } from '@skeletonlabs/skeleton';
-
-	const components = { CodeBlock, Avatar, ProgressRadial, ProgressBar, TextBox };
+	import components from './components';
 
 	const radialData: LayoutConfig<typeof components> = {
 		component: 'ProgressRadial',
@@ -64,8 +58,8 @@
 
 	const buildExample = () => {
 		const copy = JSON.parse(JSON.stringify(demoJson));
-		copy.rows![0].cols = copy.rows![0].cols[0]
- 		return `const components = { ProgressRadial, Avatar, ProgressBar };
+		copy.rows![0].cols = copy.rows![0].cols[0];
+		return `const components = { ProgressRadial, Avatar, ProgressBar };
 const layoutConfig: LayoutConfig<typeof components> = ${JSON.stringify(copy, null, 2)}
 <Flexilte {layoutConfig} {components}></Flexilte>`;
 	};

@@ -37,11 +37,11 @@
 		return classList;
 	};
 
-	const getGapClass = (row: LayoutConfig<C>)=>{
+	const getGapClass = (row: LayoutConfig<C>) => {
 		let classList = '';
 		if (row.gap) classList += ` ${row.gap}`;
-		return classList
-	}
+		return classList;
+	};
 
 	const width1Classes = [
 		'w-1/1',
