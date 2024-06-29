@@ -92,7 +92,7 @@
 						"img": "dynamic.jpeg",
 						"title": "Dynamic Page Loading",
 						"body": "Experience ultimate flexibility with dynamic page loading. Easily update and modify content without any hassle. Click here to see the original json!",
-						"link": "/frontpage.json"
+						"link": "./frontpage.json"
 					}
 				}
 			]
