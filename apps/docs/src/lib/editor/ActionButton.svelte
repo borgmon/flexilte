@@ -30,7 +30,7 @@
 {:else if type === 'edit'}
 	<button
 		class="btn variant-filled-primary"
-		on:click={() => drawerStore.open({ id: 'dnd-builder', position: 'bottom', height: 'h-5/6' })}
+		on:click={() => drawerStore.open({ id: 'editor', position: 'bottom', height: 'h-5/6' })}
 		>Edit</button
 	>
 {/if}

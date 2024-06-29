@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { aiResultStore } from '$lib/ai/AIStore';
+	import { onMount } from 'svelte';
 	let currentMessage = 'Please generate me a personal website';
 	let model = 'gpt-4o';
 	let apiKey = '';
 	let url = 'https://api.openai.com/v1/chat/completions';
-	let prompt =
-		'You are a AI chatbot that only response JSON. You are required to generate a json based on this example:`{"rows":[{"component":"TextBox","props":{"text":"My Website!","type":"h1"},"posX":"middle"},{"layoutClass":"md:my-12","cols":[{"component":"TextBox","props":{"text":"Hi! This is AI generated!","type":"h1"},"posX":"middle","posY":"middle"},{"component":"CodeBlock","props":{"language":"ts","code":"console.log(123)"},"posX":"middle","posY":"middle"},{"component":"ImageBox","props":{"url":"https://placedog.net/200/200"},"posX":"middle","posY":"middle"}]}]}` You have 3 components you can use: TextBox,CodeBlock,ImageBox.';
+	const example = `{"rows":[{"component":"TextBox","props":{"text":"My Website!","type":"h1"},"posX":"middle"},{"layoutClass":"md:my-12","cols":[{"component":"TextBox","props":{"text":"Hi! This is AI generated!","type":"h1"},"posX":"middle","posY":"middle"},{"component":"CodeBlock","props":{"language":"ts","code":"console.log(123)"},"posX":"middle","posY":"middle"},{"component":"ImageBox","props":{"url":"https://placedog.net/200/200"},"posX":"middle","posY":"middle"}]}]}`;
+	let prompt = `You are a AI chatbot that only response JSON object, not markdown. You are required to generate a json based on this example:\`${example}\` You have 3 components you can use: TextBox,CodeBlock,ImageBox.`;
 
 	async function getChatGPTResponse() {
 		const data = {
@@ -35,9 +36,23 @@
 			body: JSON.stringify(data)
 		});
 
-		const result = await res.text();
-		aiResultStore.set(result);
+		const j = await res.json();
+		const result = j.choices[0].message.content;
+		aiResultStore.set(JSON.parse(result));
 	}
+	aiResultStore.subscribe((x) => {
+		if (x) {
+			sessionStorage.setItem('aiStore', JSON.stringify(x));
+		}
+	});
+
+	const handleKeyChange = () => {
+		sessionStorage.setItem('keyStore', apiKey);
+	};
+
+	onMount(() => {
+		apiKey = sessionStorage.getItem('keyStore') ?? '';
+	});
 </script>
 
 <div class="input-group-divider rounded-container-token">
@@ -67,10 +82,11 @@
 			type="password"
 			placeholder="sk-"
 			bind:value={apiKey}
+			on:change={handleKeyChange}
 		/>
 	</label>
 	<label class="label">
-		<span>API key (stored in browser)</span>
+		<span>prompt</span>
 		<textarea
 			class="textarea"
 			rows="4"

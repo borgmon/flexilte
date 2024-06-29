@@ -2,6 +2,7 @@
 	import { Flexilte, type LayoutConfig } from '@flexilte/core';
 	import { aiResultStore } from '$lib/ai/AIStore';
 	import { components } from '$lib/common';
+	import { onMount } from 'svelte';
 
 	let layoutConfig: LayoutConfig<typeof components> = {
 		rows: [
@@ -21,15 +22,14 @@
 		]
 	};
 
-	aiResultStore.subscribe((s) => {
-		try {
-			const data = JSON.parse(s);
-			layoutConfig = JSON.parse(data.choices[0].message.content);
-			console.log('ai', layoutConfig);
-		} catch {}
+	onMount(() => {
+		const aiStore = sessionStorage.getItem('aiStore');
+		if (aiStore) {
+			layoutConfig = JSON.parse(aiStore);
+		}
 	});
 </script>
 
 <div class="px-4 container mx-auto h-[30rem] w-full">
-	<Flexilte {layoutConfig} {components}></Flexilte>
+	<Flexilte layoutConfig={$aiResultStore ?? layoutConfig} {components}></Flexilte>
 </div>
