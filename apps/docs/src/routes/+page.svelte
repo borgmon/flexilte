@@ -12,4 +12,7 @@
 	<div class="px-4 container mx-auto">
 		<Flexilte layoutConfig={$frontPageStore} {components}></Flexilte>
 	</div>
+	<div class="text-center m-4 underline">
+		<a href="frontpage.json">Click here to see the JSON of this page</a>
+	</div>
 {/if}

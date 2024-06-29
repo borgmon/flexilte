@@ -94,7 +94,7 @@ const layoutConfig: LayoutConfig<typeof components> = ${JSON.stringify(copy, nul
 		</div>
 	</div>
 
-	<div class="md:h-[32rem] h-[52rem] mt-6">
+	<div class="md:h-[40rem] h-[52rem] mt-6">
 		<Flexilte layoutConfig={demoJson} {components}></Flexilte>
 	</div>
 </div>

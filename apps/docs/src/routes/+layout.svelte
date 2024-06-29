@@ -150,9 +150,11 @@
 				on:click={() => drawerStore.close()}><span></span><span>AI</span></a
 			>
 		</div>
-	{:else if $drawerStore.id === 'dnd-builder'}
-		<div class="h-full">
-			<Flexilte layoutConfig={$editorStore} {components}></Flexilte>
-		</div>
+	{:else if $drawerStore.id === 'editor'}
+		{#if $editorStore}
+			<div class="h-full">
+				<Flexilte layoutConfig={$editorStore} {components}></Flexilte>
+			</div>
+		{/if}
 	{/if}
 </Drawer>
